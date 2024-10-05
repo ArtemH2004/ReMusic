@@ -48,40 +48,22 @@ export const colors = {
   whiteAccent: "rgba(245, 245, 245, 1)",
 
   //Gray
-  grayBackground: "rgba(234, 234, 234, 1)",
-  grayAccent: "rgba(210, 210, 210, 1)",
-  grayHover: "rgba(200, 200, 200, 1)",
-  grayActive: "rgba(170, 170, 170, 1)",
-  grayText: "rgba(131, 131, 131, 1)",
+  grayText: "rgba(179, 179, 179, 1)",
+  grayHover: "rgba(170, 170, 170, 1)",
+  grayActive: "rgba(160, 160, 160, 1)",
   grayScrollBar: "rgba(155, 155, 155, 1)",
   grayScrollBarHover: "rgba(140, 140, 140, 1)",
   grayScrollBarActive: "rgba(130, 130, 130, 1)",
 
   //Black
   blackTotal: "rgba(0, 0, 0, 1)",
-  blackAccent: "rgba(16, 16, 16, 1)",
+  blackBackground: "rgba(7, 7, 7, 1)",
+  blackAccent: "rgba(18, 18, 18, 1)",
   blackShadow: "rgba(0, 0, 0, .1)",
-  blackShadowHover: "rgba(0, 0, 0, .3)",
-  blackShadowActive: "rgba(0, 0, 0, .5)",
-
-  //Red
-  red: "rgba(255, 0, 0, 1)",
-
-  //Orange
-  orange: "rgba(255, 165, 66, 1)",
-  orangeAccent: "rgba(255, 206, 127, 1)",
-
-  //Green 
-  green: 'rgba(33, 160, 56, 1)',
-
-  //Blue
-  blue: 'rgba(28, 28, 39, 1)',
 };
 
 export const shadows = {
   defaultShadow: `0 0 20px 0 ${colors.blackShadow}`,
-  hoverShadow: `0 0 20px 0 ${colors.blackShadowHover}`,
-  activeShadow: `0 0 20px 0 ${colors.blackShadowActive}`,
 };
 
 export const borders = {
@@ -110,8 +92,10 @@ export const fonts = {
     titleMobile: 22,
     subtitle: 20,
     subtitleMobile: 18,
-    main: 17,
+
+    main: 18,
     mainMobile: 15,
+
     small: 15,
     smallMobile: 12,
     extraSmall: 13, 

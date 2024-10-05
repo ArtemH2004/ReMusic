@@ -106,10 +106,9 @@ export const GlobalStyles = createGlobalStyle`
 
   body {
     font-family: "Montserrat", sans-serif;
-    background-color: ${colors.grayBackground};
-    color: ${colors.blackTotal};
+    color: ${colors.grayText};
 
-    scrollbar-color: ${colors.grayAccent};
+    scrollbar-color: ${colors.grayScrollBar};
     scrollbar-width: thin;
   } 
 
