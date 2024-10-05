@@ -1,17 +1,17 @@
+import { PageWrapper } from "@/modules/user/PageWrapper";
 import {
   Route,
   createBrowserRouter,
   createRoutesFromElements,
   Navigate,
   RouterProvider,
-  Outlet,
 } from "react-router-dom";
 
 export default function RoutesProvider() {
   const routesProvider = createBrowserRouter(
     createRoutesFromElements(
       <>
-        <Route path="/" element={<Outlet />}>
+        <Route path="/" element={<PageWrapper />}>
           <Route index element={<Navigate to="/home" />} />
           <Route path="home" element={<>Home</>} />
           <Route path="search" element={<>Search</>} />

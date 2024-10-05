@@ -188,20 +188,20 @@ export const opacityHoverActive = css`
   }
 `;
 
-export const cardHoverActive = css`
-  @media (hover: hover) {
-    &:hover,
-    &:active {
-      box-shadow: ${shadows.hoverShadow};
-    }
-  }
+// export const cardHoverActive = css`
+//   @media (hover: hover) {
+//     &:hover,
+//     &:active {
+//       box-shadow: ${shadows.hoverShadow};
+//     }
+//   }
 
-  @media (hover: none) {
-    &:active {
-      box-shadow: ${shadows.hoverShadow};
-    }
-  }
-`;
+//   @media (hover: none) {
+//     &:active {
+//       box-shadow: ${shadows.hoverShadow};
+//     }
+//   }
+// `;
 
 export const styledWrapper = css`
   background-color: ${colors.whiteTotal};
@@ -212,13 +212,13 @@ export const styledWrapper = css`
 export const scrollBar = css`
   ::-webkit-scrollbar-track {
     border-radius: ${borders.smallBorderRadius};
-    background-color: ${colors.grayAccent};
+    background-color: ${colors.blackShadow};
   }
 
   ::-webkit-scrollbar {
     width: 10px;
     height: 10px;
-    background-color: ${colors.grayAccent};
+    background-color: ${colors.blackShadow};
   }
 
   ::-webkit-scrollbar-thumb {
