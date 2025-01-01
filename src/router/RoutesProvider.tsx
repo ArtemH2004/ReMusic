@@ -15,7 +15,10 @@ export default function RoutesProvider() {
           <Route index element={<Navigate to="/home" />} />
           <Route path="home" element={<>Home</>} />
           <Route path="search" element={<>Search</>} />
-          <Route path="library" element={<>Library</>} />
+          {/* TODO */}
+          <Route path="library" element={<>Library</>}>
+            <Route index element={<Navigate to="/library?foo=playlists" />} />
+          </Route>
         </Route>
         <Route path="error" element={<>Error</>} />
         <Route path="*" element={<Navigate to="/error" replace />} />
