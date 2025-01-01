@@ -1,3 +1,4 @@
+import { flexCenter } from "@/common/styles/mixins";
 import styled from "styled-components";
 
 export const HeaderWrapper = styled("header")`
@@ -15,4 +16,9 @@ export const HeaderWrapper = styled("header")`
   justify-content: space-between;
   column-gap: 50px;
   padding-inline: 40px;
+`;
+
+export const HeaderContentWrapper = styled("div")`
+  ${flexCenter}
+  column-gap: 22px;
 `;

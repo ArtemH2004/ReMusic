@@ -46,6 +46,8 @@ export const colors = {
   //White
   whiteTotal: "rgba(255, 255, 255, 1)",
   whiteAccent: "rgba(245, 245, 245, 1)",
+  whiteActive: "rgba(255, 255, 255, .3)",
+  whiteHover: "rgba(255, 255, 255, .1)",
 
   //Gray
   grayText: "rgba(179, 179, 179, 1)",
@@ -54,6 +56,7 @@ export const colors = {
   grayScrollBar: "rgba(155, 155, 155, 1)",
   grayScrollBarHover: "rgba(140, 140, 140, 1)",
   grayScrollBarActive: "rgba(130, 130, 130, 1)",
+  grayPlaceholder: "rgba(117, 117, 117, 1)",
 
   //Black
   blackTotal: "rgba(0, 0, 0, 1)",
@@ -64,6 +67,7 @@ export const colors = {
 
 export const shadows = {
   defaultShadow: `0 0 20px 0 ${colors.blackShadow}`,
+  grayShadow: `0px 0px 0px 2px ${colors.grayPlaceholder}`,
 };
 
 export const borders = {
@@ -72,6 +76,7 @@ export const borders = {
   
   smallBorderRadius: "5px",
   mediumBorderRadius: "20px",
+  searchBorderRadius: "25px",
   defaultBorderRadius: "30px",
   circleBorderRadius: "50%",
 

@@ -1,6 +1,6 @@
 import { NavPanelList, NavPanelMenu, NavPanelWrappper } from "@/common/components/navPanel/styles"
 import { Logo } from "@/common/components/Logo"
-import { NavItem } from "./NavItem"
+import { NavItem } from "@/common/components/navPanel/NavItem"
 
 export const NavPanel = () => {
   return (

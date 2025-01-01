@@ -170,6 +170,24 @@ export const linkHoverActive = css`
   }
 `;
 
+export const headerNavigationHoverActive = css`
+  @media (hover: hover) {
+    &:hover {
+      background-color: ${colors.whiteHover};
+    }
+
+    &:active {
+      background-color: ${colors.whiteActive};
+    }
+  }
+
+  @media (hover: none) {
+    &:active {
+      background-color: ${colors.whiteActive};
+    }
+  }
+`;
+
 export const opacityHoverActive = css`
   @media (hover: hover) {
     &:hover {
