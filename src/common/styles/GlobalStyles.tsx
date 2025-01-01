@@ -2,6 +2,7 @@ import styled, { createGlobalStyle } from "styled-components";
 import {
   colors,
   device,
+  fonts,
   screen,
   transitions,
 } from "@/common/styles/styleConstants";
@@ -130,5 +131,10 @@ export const GlobalStyles = createGlobalStyle`
   a {
     ${resetLink};
     color: ${colors.blackTotal};
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    font-weight: ${fonts.weights.bold};
+    color: ${colors.whiteTotal};
   }
 `;
