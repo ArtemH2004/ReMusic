@@ -3,7 +3,6 @@ import {
   borders,
   colors,
   screen,
-  shadows,
   transitions,
 } from "@/common/styles/styleConstants";
 
@@ -126,7 +125,6 @@ export const scaleHoverActive = css`
 `;
 
 export const linkHoverActive = css`
-  padding-block: 2px;
   position: relative;
 
   &::after {
@@ -137,34 +135,36 @@ export const linkHoverActive = css`
     translate: -50%;
     width: 0;
     height: 1px;
-    background-color: ${colors.blackTotal};
+    background-color: ${colors.whiteTotal};
     transition: ${transitions.fastTransition};
   }
 
   @media (hover: hover) {
     &:hover {
+      color: ${colors.whiteTotal};
+
       &::after {
         width: 100%;
       }
     }
 
     &:active {
-      color: ${colors.blackShadow};
+      color: ${colors.whiteAccent};
 
       &::after {
         width: 0;
-        background-color: ${colors.blackShadow};
+        background-color: ${colors.whiteAccent};
       }
     }
   }
 
   @media (hover: none) {
     &:active {
-      color: ${colors.blackShadow};
+      color: ${colors.whiteAccent};
 
       &::after {
         width: 0;
-        background-color: ${colors.blackShadow};
+        background-color: ${colors.whiteAccent};
       }
     }
   }
@@ -221,12 +221,6 @@ export const opacityHoverActive = css`
 //   }
 // `;
 
-export const styledWrapper = css`
-  background-color: ${colors.whiteTotal};
-  border-radius: ${borders.defaultBorderRadius};
-  box-shadow: ${shadows.defaultShadow};
-`;
-
 export const scrollBar = css`
   ::-webkit-scrollbar-track {
     border-radius: ${borders.smallBorderRadius};
@@ -236,7 +230,7 @@ export const scrollBar = css`
   ::-webkit-scrollbar {
     width: 10px;
     height: 10px;
-    background-color: ${colors.blackShadow};
+    background-color: ${colors.blackCover};
   }
 
   ::-webkit-scrollbar-thumb {
@@ -251,4 +245,9 @@ export const scrollBar = css`
       background-color: ${colors.grayScrollBarActive};
     }
   }
+`;
+
+export const linearGradient = (topColor: string, bottomColor: string) => css`
+   background: ${bottomColor};
+   background: linear-gradient(0deg, ${bottomColor} 0%, ${topColor} 100%);
 `;

@@ -51,18 +51,22 @@ export const colors = {
 
   //Gray
   grayText: "rgba(179, 179, 179, 1)",
-  grayHover: "rgba(170, 170, 170, 1)",
-  grayActive: "rgba(160, 160, 160, 1)",
-  grayScrollBar: "rgba(155, 155, 155, 1)",
-  grayScrollBarHover: "rgba(140, 140, 140, 1)",
-  grayScrollBarActive: "rgba(130, 130, 130, 1)",
+  grayHover: "rgba(170, 170, 170, .4)",
+  grayActive: "rgba(160, 160, 160, .3)",
+  grayScrollBar: "rgba(155, 155, 155, .5)",
+  grayScrollBarHover: "rgba(140, 140, 140, .5)",
+  grayScrollBarActive: "rgba(130, 130, 130, .5)",
   grayPlaceholder: "rgba(117, 117, 117, 1)",
 
   //Black
   blackTotal: "rgba(0, 0, 0, 1)",
   blackBackground: "rgba(7, 7, 7, 1)",
   blackAccent: "rgba(18, 18, 18, 1)",
+  blackCover: "rgba(27, 27, 27, 1)",
   blackShadow: "rgba(0, 0, 0, .1)",
+
+  //Red
+  red: "rgba(255, 0, 0, 1)",
 };
 
 export const shadows = {
@@ -92,11 +96,10 @@ export const transitions = {
 export const fonts = {
   // size
   sizes: {
-    title: 30,
-    titleModal: 25,
-    titleMobile: 22,
-    subtitle: 20,
-    subtitleMobile: 18,
+    title: 40,
+    titleMobile: 30,
+    subtitle: 30,
+    subtitleMobile: 25,
 
     main: 18,
     mainMobile: 15,

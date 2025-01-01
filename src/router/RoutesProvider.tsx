@@ -1,3 +1,4 @@
+import { HomePage } from "@/modules/user/home/HomePage";
 import { PageWrapper } from "@/modules/user/PageWrapper";
 import {
   Route,
@@ -13,7 +14,7 @@ export default function RoutesProvider() {
       <>
         <Route path="/" element={<PageWrapper />}>
           <Route index element={<Navigate to="/home" />} />
-          <Route path="home" element={<>Home</>} />
+          <Route path="home" element={<HomePage />} />
           <Route path="search" element={<>Search</>} />
           {/* TODO */}
           <Route path="library" element={<>Library</>}>
