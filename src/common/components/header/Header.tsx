@@ -10,9 +10,7 @@ import { HeaderLibrary } from "@/common/components/header/HeaderLibrary";
 export const Header = () => {
   const navigate = useNavigate();
   const currentUrl = window.location.pathname;
-
-  // console.log(window.location.search('/header'))
-
+  
   return (
     <HeaderWrapper>
       <HeaderContentWrapper>

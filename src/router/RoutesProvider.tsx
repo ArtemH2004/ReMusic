@@ -8,6 +8,7 @@ import {
   Navigate,
   RouterProvider,
 } from "react-router-dom";
+import { ArtistPage } from "@/modules/user/artist/ArtistPage";
 
 export default function RoutesProvider() {
   const routesProvider = createBrowserRouter(
@@ -22,6 +23,7 @@ export default function RoutesProvider() {
             <Route index element={<Navigate to="/library?foo=playlists" />} />
           </Route>
           <Route path="album" element={<AlbumPage />} />
+          <Route path="artist" element={<ArtistPage />} />
         </Route>
         <Route path="error" element={<>Error</>} />
         <Route path="*" element={<Navigate to="/error" replace />} />

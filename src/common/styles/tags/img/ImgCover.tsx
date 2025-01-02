@@ -3,6 +3,7 @@ import {
   borders,
   colors,
   fonts,
+  shadows,
   transitions,
 } from "@/common/styles/styleConstants";
 import { clampText, flexCenter, linearGradient } from "@/common/styles/mixins";
@@ -18,6 +19,7 @@ const Wrapper = styled("div")<{ $accentColor: string }>`
   aspect-ratio: 1;
   position: relative;
   user-select: none;
+  box-shadow: ${shadows.defaultShadow};
 
   &::before {
     position: absolute;

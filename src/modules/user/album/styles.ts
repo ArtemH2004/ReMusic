@@ -40,7 +40,7 @@ export const AlbumPageTitle = styled("h1")`
   overflow: hidden;
   white-space: nowrap;
   text-overflow: ellipsis;
-  line-height: 1;
+  line-height: 1.2;
 `;
 
 export const AlbumPageSubtitle = styled("span")`

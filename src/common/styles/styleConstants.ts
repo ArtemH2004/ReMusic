@@ -71,7 +71,7 @@ export const colors = {
 };
 
 export const shadows = {
-  defaultShadow: `0 0 20px 0 ${colors.blackShadow}`,
+  defaultShadow: `0 0 10px 10px ${colors.blackShadow}`,
   grayShadow: `0px 0px 0px 2px ${colors.grayPlaceholder}`,
 };
 

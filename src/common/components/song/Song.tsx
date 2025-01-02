@@ -3,7 +3,6 @@ import {
   clampWidth,
   flexCenter,
   linkHoverActive,
-  opacityHoverActive,
   resetLink,
 } from "@/common/styles/mixins";
 import { borders, colors, fonts } from "@/common/styles/styleConstants";
@@ -16,7 +15,6 @@ const Item = styled("li")`
   height: 82px;
   background-color: ${colors.whiteActive};
   border-radius: ${borders.smallBorderRadius};
-  /* ${opacityHoverActive} */
 
   display: flex;
   align-items: center;

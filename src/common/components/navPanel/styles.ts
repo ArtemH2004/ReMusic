@@ -9,7 +9,7 @@ import { colors, fonts } from "@/common/styles/styleConstants";
 import { NavLink } from "react-router-dom";
 import styled from "styled-components";
 
-export const NavPanelWrappper = styled("div")`
+export const NavPanelWrapper = styled("div")`
   display: flex;
   flex-direction: column;
   row-gap: 40px;
