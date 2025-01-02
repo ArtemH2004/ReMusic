@@ -1,4 +1,4 @@
-import { PlaylistItem } from "@/common/components/playlist/PlaylistItem";
+import { AlbumItem } from "@/common/components/album/AlbumItem";
 import { ButtonSeeAll } from "@/common/styles/tags/button/ButtonSeeAll";
 import {
   HomePageHeader,
@@ -16,11 +16,11 @@ export const HomeAlbums = () => {
       </HomePageHeader>
 
       <HomePageList>
-        <PlaylistItem />
-        <PlaylistItem />
-        <PlaylistItem />
-        <PlaylistItem />
-        <PlaylistItem />
+        <AlbumItem />
+        <AlbumItem />
+        <AlbumItem />
+        <AlbumItem />
+        <AlbumItem />
       </HomePageList>
     </HomePageSection>
   );

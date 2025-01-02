@@ -68,7 +68,7 @@ const ArtistLink = styled("a")`
   ${linkHoverActive}
 `;
 
-export const SongInPlaylist = () => {
+export const SongInAlbum = () => {
   const [isHover, setHover] = useState(false);
   return (
     <Item>

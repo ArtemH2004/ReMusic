@@ -161,7 +161,7 @@ export const ImgCover = ({
             icon={"player/play-white"}
             title="Воспроизвести"
           />
-          <Link to="/playlist">
+          <Link to="/album">
             <ButtonWithIcon size={45} icon={"player/open"} title="Перейти" />
           </Link>
         </CoverWrapper>
