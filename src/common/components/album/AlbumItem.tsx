@@ -59,7 +59,7 @@ const Span = styled("span")`
   user-select: none;
   `;
 
-export const PlaylistItem = () => {
+export const AlbumItem = () => {
   return (
     <Item>
       <ImgCover
