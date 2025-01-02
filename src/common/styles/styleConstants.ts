@@ -63,6 +63,7 @@ export const colors = {
   blackBackground: "rgba(7, 7, 7, 1)",
   blackAccent: "rgba(18, 18, 18, 1)",
   blackCover: "rgba(27, 27, 27, 1)",
+  blackPlaylist: "rgba(0, 0, 0, .5)",
   blackShadow: "rgba(0, 0, 0, .1)",
 
   //Red
@@ -96,6 +97,8 @@ export const transitions = {
 export const fonts = {
   // size
   sizes: {
+    extraTitle: 100,
+    extraTitleMobile: 60,
     title: 40,
     titleMobile: 30,
     subtitle: 30,

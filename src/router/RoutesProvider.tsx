@@ -1,5 +1,6 @@
 import { HomePage } from "@/modules/user/home/HomePage";
 import { PageWrapper } from "@/modules/user/PageWrapper";
+import { PlaylistPage } from "@/modules/user/playlist/PlaylistPage";
 import {
   Route,
   createBrowserRouter,
@@ -20,6 +21,8 @@ export default function RoutesProvider() {
           <Route path="library" element={<>Library</>}>
             <Route index element={<Navigate to="/library?foo=playlists" />} />
           </Route>
+          <Route path="playlist" element={<PlaylistPage />} />
+          <Route path="album" element={<>Album</>} />
         </Route>
         <Route path="error" element={<>Error</>} />
         <Route path="*" element={<Navigate to="/error" replace />} />

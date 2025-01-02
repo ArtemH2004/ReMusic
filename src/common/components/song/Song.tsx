@@ -113,8 +113,8 @@ export const Song = () => {
       <Wrapper $isRightPadding={true}>
         {isHover && (
           <>
-            <ButtonWithIcon size={40} icon={"player/add"} title="Добавить" />
             <ButtonWithIcon size={40} icon={"player/open"} title="Перейти" />
+            <ButtonWithIcon size={40} icon={"player/add"} title="Добавить" />
           </>
         )}
         <Time>2:12</Time>

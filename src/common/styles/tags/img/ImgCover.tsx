@@ -6,12 +6,14 @@ import {
   transitions,
 } from "@/common/styles/styleConstants";
 import { clampText, flexCenter, linearGradient } from "@/common/styles/mixins";
-import { useExtractColors } from "react-extract-colors";
 import { ButtonWithIcon } from "@/common/styles/tags/button/ButtonWithIcon";
+import { NavLink } from "react-router-dom";
+import { getImgAccentColor } from "@/common/helpers/getImgAccentColor";
 
 const logo = "public/logo.svg";
 
 const Wrapper = styled("div")<{ $accentColor: string }>`
+  max-width: 300px;
   width: 100%;
   aspect-ratio: 1;
   position: relative;
@@ -40,7 +42,7 @@ const Wrapper = styled("div")<{ $accentColor: string }>`
   }
 `;
 
-const Link = styled("div")<{ $accentColor: string }>`
+const CoverWrapper = styled("div")<{ $accentColor: string }>`
   ${flexCenter}
   column-gap: 10px;
 
@@ -61,6 +63,10 @@ const Link = styled("div")<{ $accentColor: string }>`
     background-color: ${(props) => props.$accentColor};
     opacity: 0.9;
   }
+`;
+
+const Link = styled(NavLink)`
+  ${flexCenter}
 `;
 
 const Logo = styled("img")`
@@ -114,8 +120,8 @@ const Title = styled("span")`
   font-weight: ${fonts.weights.bold};
   color: ${colors.whiteTotal};
 
-  overflow: hidden; 
-  white-space: nowrap; 
+  overflow: hidden;
+  white-space: nowrap;
   text-overflow: ellipsis;
 `;
 
@@ -124,8 +130,8 @@ const Subtitle = styled("span")`
   font-weight: ${fonts.weights.medium};
   color: ${colors.grayText};
 
-  overflow: hidden; 
-  white-space: nowrap; 
+  overflow: hidden;
+  white-space: nowrap;
   text-overflow: ellipsis;
 `;
 
@@ -134,24 +140,35 @@ interface ImgCoverProps {
   title: string;
   artist: string;
   year: number;
+  isButtonsActive: boolean;
 }
-export const ImgCover = ({ img, title, artist, year }: ImgCoverProps) => {
-  const { dominantColor } = useExtractColors(img);
+export const ImgCover = ({
+  img,
+  title,
+  artist,
+  year,
+  isButtonsActive,
+}: ImgCoverProps) => {
+  const accentColor = getImgAccentColor(img);
 
   return (
-    <Wrapper $accentColor={dominantColor || "red"}>
-      <Link $accentColor={dominantColor || "red"}>
-        <ButtonWithIcon size={45} icon={"player/add"} title="Добавить" />
-        <ButtonWithIcon
-          size={55}
-          icon={"player/play-white"}
-          title="Воспроизвести"
-        />
-        <ButtonWithIcon size={45} icon={"player/open"} title="Перейти" />
-      </Link>
+    <Wrapper $accentColor={accentColor}>
+      {isButtonsActive && (
+        <CoverWrapper $accentColor={accentColor}>
+          <ButtonWithIcon size={45} icon={"player/add"} title="Добавить" />
+          <ButtonWithIcon
+            size={55}
+            icon={"player/play-white"}
+            title="Воспроизвести"
+          />
+          <Link to="/playlist">
+            <ButtonWithIcon size={45} icon={"player/open"} title="Перейти" />
+          </Link>
+        </CoverWrapper>
+      )}
       <Img src={img} alt={title} />
       <Logo src={logo} alt="ReMusic" />
-      <TextWrapper $accentColor={dominantColor || "red"}>
+      <TextWrapper $accentColor={accentColor}>
         <Title>{title}</Title>
         <Subtitle>
           {artist} • {year}
