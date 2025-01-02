@@ -67,6 +67,7 @@ export const PlaylistItem = () => {
         title="Nevermind"
         artist="NIRVANA"
         year={2001}
+        isButtonsActive={true}
       />
 
       <Wrapper>
