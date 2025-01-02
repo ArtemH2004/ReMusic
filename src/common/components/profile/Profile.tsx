@@ -11,7 +11,7 @@ import { useState } from "react";
 import { ProfileDropdown } from "@/common/components/profile/ProfileDropdown";
 
 export const Profile = () => {
-  const [isHover, setHover] = useState(true);
+  const [isHover, setHover] = useState(false);
   return (
     <ProfileDropdownWrapper
       onMouseEnter={() => setHover(true)}

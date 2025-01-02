@@ -68,6 +68,19 @@ export const colors = {
 
   //Red
   red: "rgba(255, 0, 0, 1)",
+
+  //Statistic
+  value0: "rgba(255, 0, 0, 1)",
+  value1: "rgba(255, 50, 0, 1)",
+  value2: "rgba(255, 100, 0, 1)",
+  value3: "rgba(255, 150, 0, 1)",
+  value4: "rgba(255, 200, 0, 1)",
+  value5: "rgba(255, 255, 0, 1)",
+  value6: "rgba(200, 255, 0, 1)",
+  value7: "rgba(150, 255, 0, 1)",
+  value8: "rgba(100, 255, 0, 1)",
+  value9: "rgba(50, 255, 0, 1)",
+  value10: "rgba(0, 255, 0, 1)",
 };
 
 export const shadows = {
