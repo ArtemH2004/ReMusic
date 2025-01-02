@@ -3,22 +3,20 @@ import { borders, colors, fonts } from "@/common/styles/styleConstants";
 import { ImgCover } from "@/common/styles/tags/img/ImgCover";
 import styled from "styled-components";
 
-const Item = styled("li")`
+const Item = styled("li")<{$isAccentColor?: boolean}>`
   width: 100%;
   height: 325px;
-  /* padding: 20px; */
 
   display: flex;
   justify-content: space-between;
   flex-direction: column;
 
-  background-color: ${colors.blackCover};
+  background-color: ${(props) => props.$isAccentColor ? colors.whiteActive : colors.blackCover};
   border-radius: ${borders.smallBorderRadius};
 `;
 
 const Wrapper = styled("div")`
-  padding-inline: 20px;
-  padding-bottom: 20px;
+  padding: 20px;
   display: flex;
   flex-direction: column;
   row-gap: 5px;
@@ -59,11 +57,17 @@ const Span = styled("span")`
   user-select: none;
   `;
 
-export const AlbumItem = () => {
+  interface AlbumItemProps {
+    isAccentColor?: boolean;
+  }
+
+export const AlbumItem = ({isAccentColor}: AlbumItemProps) => {
+  const img="https://img-fotki.yandex.ru/get/765007/194398330.194/0_224238_718fa1c9_XL.jpg";
+
   return (
-    <Item>
+    <Item $isAccentColor={isAccentColor}>
       <ImgCover
-        img="https://img-fotki.yandex.ru/get/765007/194398330.194/0_224238_718fa1c9_XL.jpg"
+        img={img}
         title="Nevermind"
         artist="NIRVANA"
         year={2001}

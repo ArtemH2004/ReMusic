@@ -11,9 +11,11 @@ import styled from "styled-components";
 const Item = styled("li")`
   width: 100%;
   aspect-ratio: 1;
+  padding: 20px;
 
   ${flexCenter}
   flex-direction: column;
+  row-gap: 10px;
 
   background-color: ${colors.blackCover};
   border-radius: ${borders.smallBorderRadius};
@@ -28,7 +30,6 @@ const TitleLink = styled("a")`
   color: ${colors.whiteTotal};
   ${linkHoverActive}
 
-  margin: 10px;
   overflow: hidden;
   white-space: nowrap;
   text-overflow: ellipsis;
