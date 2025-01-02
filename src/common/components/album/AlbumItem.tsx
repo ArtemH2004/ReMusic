@@ -5,7 +5,6 @@ import styled from "styled-components";
 
 const Item = styled("li")<{$isAccentColor?: boolean}>`
   width: 100%;
-  height: 325px;
 
   display: flex;
   justify-content: space-between;

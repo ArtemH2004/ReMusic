@@ -6,6 +6,7 @@ import { ButtonWithIcon } from "@/common/styles/tags/button/ButtonWithIcon";
 import { useNavigate } from "react-router-dom";
 import { HeaderSearch } from "@/common/components/header/HeaderSearch";
 import { HeaderLibrary } from "@/common/components/header/HeaderLibrary";
+import { Profile } from "@/common/components/profile/Profile";
 
 export const Header = () => {
   const navigate = useNavigate();
@@ -35,7 +36,7 @@ export const Header = () => {
         )}
       </HeaderContentWrapper>
 
-      <>Profile</>
+      <Profile />
     </HeaderWrapper>
   );
 };

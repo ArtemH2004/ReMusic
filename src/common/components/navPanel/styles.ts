@@ -10,13 +10,22 @@ import { NavLink } from "react-router-dom";
 import styled from "styled-components";
 
 export const NavPanelWrapper = styled("div")`
+  width: 100%;
+  height: 100%;
+  background-color: ${colors.blackTotal};
+`;
+
+export const NavPanelContentWrapper = styled("div")`
   display: flex;
   flex-direction: column;
   row-gap: 40px;
   width: 100%;
-  height: 100%;
-  background-color: ${colors.blackTotal};
+  height: fit-content;
   padding: 15px 30px;
+
+  position: sticky;
+  top: 0;
+  z-index: 100;
 `;
 
 export const NavPanelMenu = styled("nav")`
