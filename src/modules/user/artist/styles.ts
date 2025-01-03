@@ -1,17 +1,26 @@
 import styled from "styled-components";
-import { borders, shadows } from "@/common/styles/styleConstants";
+import { borders, fonts, shadows } from "@/common/styles/styleConstants";
 import {
   AlbumPageButtonWrapper,
   AlbumPageContentWrapper,
   AlbumPageDescription,
+  AlbumPageInfoButtonsWrapper,
+  AlbumPageInfoWrapper,
   AlbumPageInnerWrapper,
+  AlbumPageRaitingWrapper,
   AlbumPageSection,
   AlbumPageSongsWrapper,
   AlbumPageSubtitle,
   AlbumPageTitle,
 } from "@/modules/user/album/styles";
-import { HomeNewList, HomeNewTitle, HomePageHeader, HomePageList } from "@/modules/user/home/styles";
+import {
+  HomeNewList,
+  HomeNewTitle,
+  HomePageHeader,
+  HomePageList,
+} from "@/modules/user/home/styles";
 import { Section } from "@/modules/user/PageWrapper";
+import { clampText } from "@/common/styles/mixins";
 
 export const ArtistPageSection = styled(AlbumPageSection)``;
 
@@ -37,17 +46,25 @@ export const ArtistPageImg = styled("img")`
 
 export const ArtistPageSongsWrapper = styled(AlbumPageSongsWrapper)``;
 
+export const ArtistPageInfoWrapper = styled(AlbumPageInfoWrapper)`
+  border-bottom: ${borders.grayBorder};
+`;
+
+export const ArtistPageInfoButtonsWrapper = styled(
+  AlbumPageInfoButtonsWrapper
+)``;
+
+export const ArtistPageRaitingWrapper = styled(AlbumPageRaitingWrapper)``;
+
 export const ArtistPageButtonWrapper = styled(AlbumPageButtonWrapper)``;
 
-export const ArtistPageContentSection = styled(Section)`
-  &:not(:last-child) {
-    border-top: ${borders.grayBorder}
-  }
-`;
+export const ArtistPageContentSection = styled(Section)``;
 
 export const ArtistPageHeader = styled(HomePageHeader)``;
 
-export const ArtistPageListTitle = styled(HomeNewTitle)``;
+export const ArtistPageListTitle = styled(HomeNewTitle)`
+  ${clampText(fonts.sizes.subtitleMobile, fonts.sizes.subtitle)}
+`;
 
 export const ArtistPageList = styled(HomeNewList)``;
 

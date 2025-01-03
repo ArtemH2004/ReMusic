@@ -11,6 +11,7 @@ import { colors, fonts } from "@/common/styles/styleConstants";
 import { ButtonWithIcon } from "@/common/styles/tags/button/ButtonWithIcon";
 import { useState } from "react";
 import styled from "styled-components";
+import { ReviewRaiting } from "@/common/components/review/ReviewRaiting";
 
 const Item = styled("li")``;
 
@@ -89,12 +90,12 @@ export const SongInAlbum = () => {
           </ColumnWrapper>
         </Wrapper>
         <Wrapper>
-          {isHover && (
+          {isHover ? (
             <>
               <ButtonWithIcon size={40} icon={"player/open"} title="Перейти" />
               <ButtonWithIcon size={40} icon={"player/add"} title="Добавить" />
             </>
-          )}
+          ) : (<ReviewRaiting value={100} />)}
           <Time>2:12</Time>
         </Wrapper>
       </Button>

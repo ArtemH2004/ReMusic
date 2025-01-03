@@ -7,8 +7,10 @@ import {
 import { borders, colors, fonts } from "@/common/styles/styleConstants";
 import { ImgArtist } from "@/common/styles/tags/img/ImgArtist";
 import styled from "styled-components";
+import { ReviewRaiting } from "@/common/components/review/ReviewRaiting";
 
 const Item = styled("li")`
+  position: relative;
   width: 100%;
   aspect-ratio: 1;
   padding: 20px;
@@ -44,6 +46,9 @@ export const ArtistItem = () => {
       />
 
       <TitleLink>MACAN</TitleLink>
+
+      <ReviewRaiting value={52} />
+
     </Item>
   );
 };

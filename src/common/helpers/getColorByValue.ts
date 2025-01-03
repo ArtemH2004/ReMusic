@@ -1,6 +1,13 @@
 import { colors } from "@/common/styles/styleConstants";
 
 export const getColorByValue = (value: number) => {
+  if (value > 10 && value < 100) {
+    value = (value - (value % 10)) / 10;
+  }
+
+  if (value == 0) value = 1;
+  if (value == 100) value = 10;
+
   switch (value) {
     case 1:
       return colors.value1;
