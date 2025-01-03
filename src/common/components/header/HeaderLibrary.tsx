@@ -44,15 +44,15 @@ export const HeaderLibrary = () => {
           <NavigationLink
             className={
               location.pathname === "/library" &&
-              location.search === "?foo=playlists" ||
+              location.search === "?foo=songs" ||
               location.pathname === "/library" &&
               location.search === ""
                 ? "active"
                 : ""
             }
-            onClick={() => navigate("/library?foo=playlists")}
+            onClick={() => navigate("/library?foo=songs")}
           >
-            Playlists
+            Songs
           </NavigationLink>
         </NavigationItem>
         <NavigationItem>

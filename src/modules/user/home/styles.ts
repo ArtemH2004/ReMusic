@@ -38,7 +38,7 @@ export const HomePageHeader = styled("header")`
   display: flex;
   align-items: center;
   justify-content: space-between;
-  /* column-gap: 50px; */
+  column-gap: 50px;
 `;
 
 export const HomePageTitle = styled("h2")`

@@ -10,6 +10,7 @@ import {
 } from "react-router-dom";
 import { ArtistPage } from "@/modules/user/artist/ArtistPage";
 import { SongPage } from "@/modules/user/song/SongPage";
+import { LibraryPage } from "@/modules/user/library/LibraryPage";
 
 export default function RoutesProvider() {
   const routesProvider = createBrowserRouter(
@@ -19,9 +20,8 @@ export default function RoutesProvider() {
           <Route index element={<Navigate to="/home" />} />
           <Route path="home" element={<HomePage />} />
           <Route path="search" element={<>Search</>} />
-          {/* TODO */}
-          <Route path="library" element={<>Library</>}>
-            <Route index element={<Navigate to="/library?foo=playlists" />} />
+          <Route path="library" element={<LibraryPage />}>
+            <Route index element={<Navigate to="/library?foo=songs" />} />
           </Route>
           <Route path="album" element={<AlbumPage />} />
           <Route path="artist" element={<ArtistPage />} />
