@@ -9,6 +9,7 @@ import {
   RouterProvider,
 } from "react-router-dom";
 import { ArtistPage } from "@/modules/user/artist/ArtistPage";
+import { SongPage } from "@/modules/user/song/SongPage";
 
 export default function RoutesProvider() {
   const routesProvider = createBrowserRouter(
@@ -24,6 +25,7 @@ export default function RoutesProvider() {
           </Route>
           <Route path="album" element={<AlbumPage />} />
           <Route path="artist" element={<ArtistPage />} />
+          <Route path="song" element={<SongPage />} />
         </Route>
         <Route path="error" element={<>Error</>} />
         <Route path="*" element={<Navigate to="/error" replace />} />
