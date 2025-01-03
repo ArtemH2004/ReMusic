@@ -10,6 +10,7 @@ import { ButtonWithIcon } from "@/common/styles/tags/button/ButtonWithIcon";
 import { useState } from "react";
 import styled from "styled-components";
 import { ReviewRaiting } from "@/common/components/review/ReviewRaiting";
+import { NavLink } from "react-router-dom";
 
 const Item = styled("li")`
   ${clampWidth(300, 500)}
@@ -79,6 +80,10 @@ const Time = styled("time")`
   color: ${colors.whiteTotal};
 `;
 
+const Link = styled(NavLink)`
+  ${flexCenter}
+`;
+
 export const Song = () => {
   const [isHover, setHover] = useState(false);
   return (
@@ -112,10 +117,14 @@ export const Song = () => {
       <Wrapper $isRightPadding={true}>
         {isHover ? (
           <>
-            <ButtonWithIcon size={40} icon={"player/open"} title="Перейти" />
+            <Link to="/song">
+              <ButtonWithIcon size={40} icon={"player/open"} title="Перейти" />
+            </Link>
             <ButtonWithIcon size={40} icon={"player/add"} title="Добавить" />
           </>
-        ) : (<ReviewRaiting value={30} />)}
+        ) : (
+          <ReviewRaiting value={30} />
+        )}
         <Time>2:12</Time>
       </Wrapper>
     </Item>
