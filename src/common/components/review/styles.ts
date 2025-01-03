@@ -19,13 +19,13 @@ export const ReviewList = styled("ul")`
   row-gap: 30px;
 `;
 
-export const ReviewItem = styled("li")`
+export const ReviewItem = styled("li")<{$isAccentColor?: boolean}>`
   width: 100%;
   display: flex;
   flex-direction: column;
   row-gap: 20px;
   padding: 25px 40px;
-  background-color: ${colors.blackCover};
+  background-color: ${(props) => props.$isAccentColor ? colors.whiteActive : colors.blackCover};
   border-radius: ${borders.smallBorderRadius};
 `;
 

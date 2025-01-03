@@ -13,9 +13,12 @@ import {
 import { ButtonWithIcon } from "@/common/styles/tags/button/ButtonWithIcon";
 import { ReviewStatistic } from "./ReviewStatistic";
 
-export const Review = () => {
+interface ReviewProps {
+  isAccentColor?: boolean;
+}
+export const Review = ({isAccentColor}: ReviewProps) => {
   return (
-    <ReviewItem>
+    <ReviewItem $isAccentColor={isAccentColor}>
       <ReviewHeader>
         <ReviewHeaderWrapper>
           <ReviewAuthorImg

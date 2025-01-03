@@ -22,7 +22,7 @@ export const ReviewStatistic = () => {
         <ReviewStatisticWrapper>
           <ReviewStatisticColumnWrapper>
             <ReviewStatisticTitleRaiting>Album Raiting:</ReviewStatisticTitleRaiting>
-            <ReviewStatisticRaiting $color={getColorByValue(8)}>
+            <ReviewStatisticRaiting $color={getColorByValue(82)}>
               82
             </ReviewStatisticRaiting>
           </ReviewStatisticColumnWrapper>
@@ -30,7 +30,7 @@ export const ReviewStatistic = () => {
 {/* TODO Name of Author in Raiting */}
           <ReviewStatisticColumnWrapper>
             <ReviewStatisticTitleRaiting>Kizaru's Raiting:</ReviewStatisticTitleRaiting>
-            <ReviewStatisticRaiting $color={getColorByValue(6)}>
+            <ReviewStatisticRaiting $color={getColorByValue(56)}>
               56
             </ReviewStatisticRaiting>
           </ReviewStatisticColumnWrapper>

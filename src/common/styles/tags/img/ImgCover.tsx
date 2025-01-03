@@ -10,8 +10,7 @@ import { clampText, flexCenter, linearGradient } from "@/common/styles/mixins";
 import { ButtonWithIcon } from "@/common/styles/tags/button/ButtonWithIcon";
 import { NavLink } from "react-router-dom";
 import { getImgAccentColor } from "@/common/helpers/getImgAccentColor";
-
-const logo = "public/logo.svg";
+import { ReviewRaiting } from "@/common/components/review/ReviewRaiting";
 
 const Wrapper = styled("div")<{ $accentColor: string }>`
   max-width: 300px;
@@ -71,14 +70,16 @@ const Link = styled(NavLink)`
   ${flexCenter}
 `;
 
-const Logo = styled("img")`
+const Logo = styled("div")`
   position: absolute;
-  top: 5px;
-  right: 5px;
+  top: 3%;
+  right: 0;
   z-index: 2;
 
-  width: 10%;
-  height: 10%;
+  padding: 3px;
+  background-color: ${colors.blackPlaylist};
+  border-top-left-radius: ${borders.mediumBorderRadius};
+  border-bottom-left-radius: ${borders.mediumBorderRadius};
 `;
 
 const Img = styled("img")`
@@ -157,19 +158,23 @@ export const ImgCover = ({
     <Wrapper $accentColor={accentColor}>
       {isButtonsActive && (
         <CoverWrapper $accentColor={accentColor}>
-          <ButtonWithIcon size={45} icon={"player/add"} title="Добавить" />
+          <ButtonWithIcon size={35} icon={"player/add"} title="Добавить" />
           <ButtonWithIcon
-            size={55}
+            size={45}
             icon={"player/play-white"}
             title="Воспроизвести"
           />
           <Link to="/album">
-            <ButtonWithIcon size={45} icon={"player/open"} title="Перейти" />
+            <ButtonWithIcon size={35} icon={"player/open"} title="Перейти" />
           </Link>
         </CoverWrapper>
       )}
       <Img src={img} alt={title} />
-      <Logo src={logo} alt="ReMusic" />
+      {isButtonsActive && (
+        <Logo>
+          <ReviewRaiting value={82} />
+        </Logo>
+      )}
       <TextWrapper $accentColor={accentColor}>
         <Title>{title}</Title>
         <Subtitle>

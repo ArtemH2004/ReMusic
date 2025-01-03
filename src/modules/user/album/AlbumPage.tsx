@@ -1,3 +1,4 @@
+import { ReviewRaiting } from "@/common/components/review/ReviewRaiting";
 import { SongInAlbum } from "@/common/components/song/SongInAlbum";
 import { getImgAccentColor } from "@/common/helpers/getImgAccentColor";
 import { scrollToTop } from "@/common/helpers/scrollToTop";
@@ -14,7 +15,15 @@ import {
   AlbumPageTitle,
   AlbumPageButtonWrapper,
   AlbumPageList,
+  AlbumPageInfoWrapper,
+  AlbumPageInfoButtonsWrapper,
+  AlbumPageRaitingWrapper,
+  AlbumPageContentSection,
+  AlbumPageHeader,
+  AlbumPageListTitle,
 } from "@/modules/user/album/styles";
+import { ButtonSeeAll } from "@/common/styles/tags/button/ButtonSeeAll";
+import { Review } from "@/common/components/review/Review";
 
 export const AlbumPage = () => {
   const accentColor = getImgAccentColor(
@@ -39,23 +48,27 @@ export const AlbumPage = () => {
             <AlbumPageSubtitle>Album</AlbumPageSubtitle>
             <AlbumPageTitle>Nevermind</AlbumPageTitle>
             <AlbumPageSubtitleLink>NIRVANA</AlbumPageSubtitleLink>
-            <AlbumPageDescription>
-              5 songs • 34 minutes
-            </AlbumPageDescription>
+            <AlbumPageDescription>5 songs • 34 minutes</AlbumPageDescription>
           </AlbumPageInnerWrapper>
         </AlbumPageContentWrapper>
 
         <AlbumPageSongsWrapper>
-          <AlbumPageContentWrapper>
-            <AlbumPageButtonWrapper $accentColor={accentColor}>
-              <ButtonWithIcon
-                size={60}
-                icon={"player/play-white"}
-                title="Воспроизвести"
-              />
-            </AlbumPageButtonWrapper>
-            <ButtonWithIcon size={60} icon={"player/add"} title="Добавить" />
-          </AlbumPageContentWrapper>
+          <AlbumPageInfoWrapper>
+            <AlbumPageInfoButtonsWrapper>
+              <AlbumPageButtonWrapper $accentColor={accentColor}>
+                <ButtonWithIcon
+                  size={60}
+                  icon={"player/play-white"}
+                  title="Воспроизвести"
+                />
+              </AlbumPageButtonWrapper>
+              <ButtonWithIcon size={60} icon={"player/add"} title="Добавить" />
+            </AlbumPageInfoButtonsWrapper>
+
+            <AlbumPageRaitingWrapper>
+              <ReviewRaiting value={82} />
+            </AlbumPageRaitingWrapper>
+          </AlbumPageInfoWrapper>
 
           <AlbumPageList>
             <SongInAlbum />
@@ -63,6 +76,15 @@ export const AlbumPage = () => {
             <SongInAlbum />
             <SongInAlbum />
           </AlbumPageList>
+
+          <AlbumPageContentSection>
+            <AlbumPageHeader>
+              <AlbumPageListTitle>Top Reviews</AlbumPageListTitle>
+              <ButtonSeeAll />
+            </AlbumPageHeader>
+
+            <Review isAccentColor={true} />
+          </AlbumPageContentSection>
         </AlbumPageSongsWrapper>
       </AlbumPageSection>
     </>

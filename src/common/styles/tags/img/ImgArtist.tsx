@@ -62,14 +62,14 @@ export const ImgArtist = ({ img, artist }: ImgArtistProps) => {
   return (
     <Wrapper>
       <FlexWrapper $accentColor={accentColor}>
-        <ButtonWithIcon size={45} icon={"player/add"} title="Добавить" />
+        <ButtonWithIcon size={35} icon={"player/add"} title="Добавить" />
         <ButtonWithIcon
-          size={55}
+          size={45}
           icon={"player/play-white"}
           title="Воспроизвести"
         />
         <Link to={`/artist`}>
-          <ButtonWithIcon size={45} icon={"player/open"} title="Перейти" />
+          <ButtonWithIcon size={35} icon={"player/open"} title="Перейти" />
         </Link>
       </FlexWrapper>
       <Img src={img} alt={artist} />

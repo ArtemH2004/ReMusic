@@ -9,6 +9,7 @@ import { borders, colors, fonts } from "@/common/styles/styleConstants";
 import { ButtonWithIcon } from "@/common/styles/tags/button/ButtonWithIcon";
 import { useState } from "react";
 import styled from "styled-components";
+import { ReviewRaiting } from "@/common/components/review/ReviewRaiting";
 
 const Item = styled("li")`
   ${clampWidth(300, 500)}
@@ -109,12 +110,12 @@ export const Song = () => {
       </Wrapper>
 
       <Wrapper $isRightPadding={true}>
-        {isHover && (
+        {isHover ? (
           <>
             <ButtonWithIcon size={40} icon={"player/open"} title="Перейти" />
             <ButtonWithIcon size={40} icon={"player/add"} title="Добавить" />
           </>
-        )}
+        ) : (<ReviewRaiting value={30} />)}
         <Time>2:12</Time>
       </Wrapper>
     </Item>

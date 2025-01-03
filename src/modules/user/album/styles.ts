@@ -15,6 +15,7 @@ import {
   fonts,
   shadows,
 } from "@/common/styles/styleConstants";
+import { HomeNewTitle, HomePageHeader } from "@/modules/user/home/styles";
 
 export const AlbumPageSection = styled(Section)<{ $accentColor: string }>`
   padding: 80px 0px 0px;
@@ -69,7 +70,20 @@ export const AlbumPageSongsWrapper = styled("div")`
   background-color: ${colors.blackPlaylist};
 `;
 
-export const AlbumPageButtonWrapper = styled("div")<{$accentColor: string;}>`
+export const AlbumPageInfoWrapper = styled("div")`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  column-gap: 50;
+  padding-inline: 40px;
+`;
+
+export const AlbumPageInfoButtonsWrapper = styled("div")`
+  ${flexCenter}
+  column-gap: 20px;
+`;
+
+export const AlbumPageButtonWrapper = styled("div")<{ $accentColor: string }>`
   ${square(60)}
   box-shadow: ${shadows.defaultShadow};
   background-color: ${(props) => props.$accentColor};
@@ -78,9 +92,23 @@ export const AlbumPageButtonWrapper = styled("div")<{$accentColor: string;}>`
   margin-block: 25px;
 `;
 
+export const AlbumPageRaitingWrapper = styled("div")`
+  ${flexCenter}
+  transform: scale(1.5);
+  margin-right: 10px;
+`;
+
 export const AlbumPageList = styled("ul")`
   width: 100%;
   display: flex;
   flex-direction: column;
-  border-top: ${borders.grayBorder};
-  `;
+  border-block: ${borders.grayBorder};
+`;
+
+export const AlbumPageContentSection = styled(Section)``;
+
+export const AlbumPageHeader = styled(HomePageHeader)``;
+
+export const AlbumPageListTitle = styled(HomeNewTitle)`
+  ${clampText(fonts.sizes.subtitleMobile, fonts.sizes.subtitle)}
+`;
