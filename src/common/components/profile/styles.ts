@@ -9,6 +9,7 @@ import {
   borders,
   colors,
   fonts,
+  shadows,
   transitions,
 } from "@/common/styles/styleConstants";
 import styled from "styled-components";
@@ -24,7 +25,8 @@ export const ProfileDropdownButton = styled("button")<{ $isActive: boolean }>`
   padding: 3px;
   border-radius: ${borders.mediumBorderRadius};
   background-color: ${(props) =>
-    props.$isActive ? colors.blackAccent : colors.blackPlaylist};
+    props.$isActive ? colors.blackTotal : colors.blackPlaylist};
+  box-shadow: ${(props) => (props.$isActive ? shadows.defaultShadow : "none")};
   transition: ${transitions.fastTransition};
   border-bottom-left-radius: ${(props) =>
     props.$isActive ? "0px" : borders.mediumBorderRadius};
@@ -67,7 +69,8 @@ export const ProfileDropdownList = styled("ul")`
   left: 50%;
   z-index: 10;
   translate: -50%;
-  background-color: ${colors.blackAccent};
+  background-color: ${colors.blackTotal};
+  box-shadow: ${shadows.defaultShadow};
   border-bottom-left-radius: ${borders.smallBorderRadius};
   border-bottom-right-radius: ${borders.smallBorderRadius};
   width: 100%;
@@ -81,7 +84,7 @@ export const ProfileDropdownItem = styled("li")`
   width: 100%;
   height: 40px;
 
-  &:last-child {    
+  &:last-child {
     border-top: ${borders.grayBorder};
   }
 `;

@@ -4,7 +4,7 @@ import { VisuallyHidden } from "@/common/styles/GlobalStyles";
 import { scrollToTop } from "@/common/helpers/scrollToTop";
 import { flexCenter, opacityHoverActive } from "@/common/styles/mixins";
 
-const logo = "public/images/icons/logo.svg";
+const logo = "src/common/images/icons/logo.svg";
 
 const LinkLogo = styled(Link)`
   ${flexCenter}
