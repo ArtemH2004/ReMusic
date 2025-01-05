@@ -17,7 +17,7 @@ export const NavItem = ({ icon, title, linkTo }: NavItemProps) => {
         {({ isActive }) => (
           <>
             <NavPanelIcon
-              src={`src/common/images/icons/navigation/${
+              src={`public/images/icons/navigation/${
                 isActive ? `${icon}Active` : icon
               }.svg`}
               alt={title}

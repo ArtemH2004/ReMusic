@@ -4,7 +4,7 @@ import {
   headerNavigationHoverActive,
   resetLink,
 } from "@/common/styles/mixins";
-import { borders, colors, fonts, shadows } from "@/common/styles/styleConstants";
+import { borders, colors, fonts } from "@/common/styles/styleConstants";
 import { useLocation, useNavigate } from "react-router-dom";
 import styled from "styled-components";
 
@@ -30,7 +30,6 @@ export const NavigationLink = styled("a")`
 
   &.active {
     background-color: ${colors.whiteActive};
-    box-shadow: ${shadows.defaultShadow};
   }
 `;
 
