@@ -25,7 +25,7 @@ export const Profile = () => {
           />
           <ProfileName>alblack52</ProfileName>
           <ProfileSvgWrapper>
-            <ProfileSvg src="src/common/images/icons/arrow-down.svg" />
+            <ProfileSvg src="public/images/icons/arrow-down.svg" />
           </ProfileSvgWrapper>
         </ProfileWrapper>
       </ProfileDropdownButton>
