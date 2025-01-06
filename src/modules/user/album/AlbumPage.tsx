@@ -24,8 +24,13 @@ import {
 } from "@/modules/user/album/styles";
 import { ButtonSeeAll } from "@/common/styles/tags/button/ButtonSeeAll";
 import { Review } from "@/common/components/review/Review";
+import { useState } from "react";
+import { Modal } from "@/common/components/modal/Modal";
+import { ModalReview } from "@/common/components/modal/ModalReview";
 
 export const AlbumPage = () => {
+  const [isModalReviewOpen, setModalReviewOpen] = useState(false);
+
   const accentColor = getImgAccentColor(
     "https://img-fotki.yandex.ru/get/765007/194398330.194/0_224238_718fa1c9_XL.jpg"
   );
@@ -34,6 +39,7 @@ export const AlbumPage = () => {
 
   return (
     <>
+      {isModalReviewOpen && <Modal title="Add Review" isOpen={isModalReviewOpen} setOpen={setModalReviewOpen} children={<ModalReview />} />}
       <AlbumPageSection $accentColor={accentColor}>
         <AlbumPageContentWrapper>
           <ImgCover
@@ -63,6 +69,12 @@ export const AlbumPage = () => {
                 />
               </AlbumPageButtonWrapper>
               <ButtonWithIcon size={60} icon={"player/add"} title="Добавить" />
+              <ButtonWithIcon
+                size={60}
+                icon={"player/review"}
+                title="Review"
+                click={() => setModalReviewOpen(true)}
+              />
             </AlbumPageInfoButtonsWrapper>
 
             <AlbumPageRaitingWrapper>

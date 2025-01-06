@@ -89,7 +89,7 @@ export const buttonHoverActive = css`
     &:hover,
     &:active {
       color: ${colors.whiteTotal};
-      background-color: ${colors.blackTotal};
+      background-color: ${colors.blackAccent};
     }
 
     &:active {
