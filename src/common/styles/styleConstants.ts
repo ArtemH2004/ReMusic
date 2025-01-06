@@ -91,6 +91,7 @@ export const shadows = {
 export const borders = {
   defaultBorder: `1px solid ${colors.blackTotal}`,
   grayBorder: `1px solid ${colors.grayScrollBar}`,
+  whiteBorder: `1px solid ${colors.whiteTotal}`,
   
   smallBorderRadius: "5px",
   mediumBorderRadius: "20px",

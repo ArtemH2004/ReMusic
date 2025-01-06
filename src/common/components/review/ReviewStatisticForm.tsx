@@ -1,25 +1,21 @@
 import {
   ReviewStatisticColumnWrapper,
-  ReviewStatisticCoverWrapper,
   ReviewStatisticHeaderWrapper,
   ReviewStatisticList,
   ReviewStatisticRaiting,
+  ReviewStatisticSpaceBetweenWrapper,
   ReviewStatisticTitleRaiting,
   ReviewStatisticWrapper,
 } from "@/common/components/review/styles";
-import { ReviewStatisticsItem } from "@/common/components/review/ReviewStatisticsItem";
-import { AlbumItem } from "@/common/components/album/AlbumItem";
+import { ReviewStatisticsInput } from "@/common/components/review/ReviewStatisticsInput";
 import { getColorByValue } from "@/common/helpers/getColorByValue";
 
-export const ReviewStatistic = () => {
+export const ReviewStatisticForm = () => {
   return (
     <ReviewStatisticWrapper>
       <ReviewStatisticHeaderWrapper>
-        <ReviewStatisticCoverWrapper>
-          <AlbumItem />
-        </ReviewStatisticCoverWrapper>
 
-        <ReviewStatisticWrapper>
+        <ReviewStatisticSpaceBetweenWrapper>
           <ReviewStatisticColumnWrapper>
             <ReviewStatisticTitleRaiting>Album Raiting:</ReviewStatisticTitleRaiting>
             <ReviewStatisticRaiting $color={getColorByValue(82)}>
@@ -27,22 +23,21 @@ export const ReviewStatistic = () => {
             </ReviewStatisticRaiting>
           </ReviewStatisticColumnWrapper>
 
-{/* TODO Name of Author in Raiting */}
           <ReviewStatisticColumnWrapper>
-            <ReviewStatisticTitleRaiting>Kizaru's Raiting:</ReviewStatisticTitleRaiting>
+            <ReviewStatisticTitleRaiting>Your's Raiting:</ReviewStatisticTitleRaiting>
             <ReviewStatisticRaiting $color={getColorByValue(56)}>
               56
             </ReviewStatisticRaiting>
           </ReviewStatisticColumnWrapper>
-        </ReviewStatisticWrapper>
+        </ReviewStatisticSpaceBetweenWrapper>
       </ReviewStatisticHeaderWrapper>
 
       <ReviewStatisticList>
-        <ReviewStatisticsItem title="Рифмы" value={7} />
-        <ReviewStatisticsItem title="Ритм" value={5} />
-        <ReviewStatisticsItem title="Стиль" value={10} />
-        <ReviewStatisticsItem title="Индивидуальность" value={2} />
-        <ReviewStatisticsItem title="Атмосфера" value={4} />
+        <ReviewStatisticsInput title="Рифмы" />
+        <ReviewStatisticsInput title="Ритм" />
+        <ReviewStatisticsInput title="Стиль" />
+        <ReviewStatisticsInput title="Индивидуальность" />
+        <ReviewStatisticsInput title="Атмосфера" />
       </ReviewStatisticList>
     </ReviewStatisticWrapper>
   );
