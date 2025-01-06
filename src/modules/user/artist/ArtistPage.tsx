@@ -30,7 +30,7 @@ import { ModalReview } from "@/common/components/modal/ModalReview";
 import { Modal } from "@/common/components/modal/Modal";
 
 export const ArtistPage = () => {
-  const [isModalReviewOpen, setModalReviewOpen] = useState(true);
+  const [isModalReviewOpen, setModalReviewOpen] = useState(false);
   const accentColor = getImgAccentColor(
     "https://upload.wikimedia.org/wikipedia/ru/thumb/8/80/Dragonborn.jpg/274px-Dragonborn.jpg"
   );

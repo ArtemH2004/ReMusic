@@ -5,6 +5,7 @@ import {
   fonts,
   shadows,
 } from "@/common/styles/styleConstants";
+import { BlackWhiteButton } from "@/common/styles/tags/button/BlackWhiteButton";
 import { ButtonWithIcon } from "@/common/styles/tags/button/ButtonWithIcon";
 import { useEffect } from "react";
 import styled from "styled-components";
@@ -57,11 +58,17 @@ const ModalBody = styled("div")`
   display: flex;
   flex-direction: column;
   row-gap: 20px;
+  padding-inline: 10px;
 `;
 
 const ModalTitle = styled("h2")`
   text-align: center;
   ${clampText(fonts.sizes.subtitleMobile, fonts.sizes.subtitle)}
+`;
+
+const ModalButtonsWrapper = styled("div")`
+  ${flexCenter}
+  column-gap: 20px;
 `;
 
 interface ModalProps {
@@ -99,6 +106,11 @@ export const Modal = ({ isOpen, setOpen, title, children }: ModalProps) => {
           </ModalCloseButtonWrapper>
         </ModalHeader>
         <ModalBody>{children}</ModalBody>
+
+        <ModalButtonsWrapper>
+        <BlackWhiteButton color="black" title="Cancel" />
+        <BlackWhiteButton color="white" title="Save" />
+      </ModalButtonsWrapper>
       </ModalContent>
     </ModalSection>
   );

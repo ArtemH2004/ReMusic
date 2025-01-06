@@ -22,8 +22,13 @@ import {
 } from "@/modules/user/song/styles";
 import { ButtonSeeAll } from "@/common/styles/tags/button/ButtonSeeAll";
 import { Review } from "@/common/components/review/Review";
+import { useState } from "react";
+import { Modal } from "@/common/components/modal/Modal";
+import { ModalReview } from "@/common/components/modal/ModalReview";
 
 export const SongPage = () => {
+  const [isModalReviewOpen, setModalReviewOpen] = useState(false);
+  
   const accentColor = getImgAccentColor(
     "https://aimm.edu/hubfs/Blog%20Images/Top%2010%20Album%20Covers%20of%202017/Tyler%20the%20Creator-%20Flower%20boy.jpg"
   );
@@ -32,6 +37,7 @@ export const SongPage = () => {
 
   return (
     <>
+      {isModalReviewOpen && <Modal title="Add Review" isOpen={isModalReviewOpen} setOpen={setModalReviewOpen} children={<ModalReview />} />}
       <SongPageSection $accentColor={accentColor}>
         <SongPageContentWrapper>
           <ImgCover
@@ -61,6 +67,7 @@ export const SongPage = () => {
                 />
               </SongPageButtonWrapper>
               <ButtonWithIcon size={60} icon={"player/add"} title="Добавить" />
+              <ButtonWithIcon size={60} icon={"player/review"} title="Review" click={() => setModalReviewOpen(true)} />
             </SongPageInfoButtonsWrapper>
 
             <SongPageRaitingWrapper>
