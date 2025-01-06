@@ -19,13 +19,14 @@ export const ReviewList = styled("ul")`
   row-gap: 30px;
 `;
 
-export const ReviewItem = styled("li")<{$isAccentColor?: boolean}>`
+export const ReviewItem = styled("li")<{ $isAccentColor?: boolean }>`
   width: 100%;
   display: flex;
   flex-direction: column;
   row-gap: 20px;
   padding: 25px 40px;
-  background-color: ${(props) => props.$isAccentColor ? colors.whiteActive : colors.blackCover};
+  background-color: ${(props) =>
+    props.$isAccentColor ? colors.whiteActive : colors.blackCover};
   border-radius: ${borders.smallBorderRadius};
 `;
 
@@ -100,6 +101,14 @@ export const ReviewStatisticColumnWrapper = styled("div")`
   display: flex;
   flex-direction: column;
   align-items: end;
+`;
+
+export const ReviewStatisticSpaceBetweenWrapper = styled("div")`
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  column-gap: 10px;
 `;
 
 export const ReviewStatisticTitleRaiting = styled("p")`
