@@ -11,6 +11,8 @@ const Wrapper = styled("div")`
   position: relative;
   display: grid;
   grid-template-columns: 20% 80%;
+
+  background-color: ${colors.blackAccent};
 `;
 
 const ContentWrapper = styled("div")`
