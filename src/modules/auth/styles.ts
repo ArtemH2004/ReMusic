@@ -8,6 +8,7 @@ import {
 import {
   borders,
   colors,
+  device,
   fonts,
   shadows,
 } from "@/common/styles/styleConstants";
@@ -34,6 +35,25 @@ export const AuthPageSection = styled("section")`
   ${flexCenter}
   flex-direction: column;
   row-gap: 25px;
+
+  @media ${device.tablet} {
+    width: 60%;
+  }
+
+  @media ${device.mobile} {
+    width: 80%;
+    padding-inline: 30px;
+    row-gap: 20px;
+  }
+
+  @media ${device.mobileL} {
+    width: 90%;
+  }
+
+  @media ${device.mobileM} {
+    width: 95%;
+    padding: 30px 20px;
+  }
 `;
 
 export const AuthPageLogoWrapper = styled("div")`
