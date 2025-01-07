@@ -5,7 +5,7 @@ import {
   linkHoverActive,
   resetLink,
 } from "@/common/styles/mixins";
-import { borders, colors, fonts } from "@/common/styles/styleConstants";
+import { borders, colors, device, fonts } from "@/common/styles/styleConstants";
 import { ButtonWithIcon } from "@/common/styles/tags/button/ButtonWithIcon";
 import { useState } from "react";
 import styled from "styled-components";
@@ -22,6 +22,15 @@ const Item = styled("li")`
   align-items: center;
   justify-content: space-between;
   column-gap: 20px;
+
+  @media ${device.mobile} {
+    height: 70px;
+    column-gap: 15px;
+  }
+
+  @media ${device.mobileL} {
+    height: 60px;
+  }
 `;
 
 const Wrapper = styled("div")<{ $isRightPadding?: boolean }>`
@@ -29,6 +38,10 @@ const Wrapper = styled("div")<{ $isRightPadding?: boolean }>`
   column-gap: 15px;
   height: 100%;
   padding-right: ${(props) => (props.$isRightPadding ? 20 : 0)}px;
+
+  @media ${device.mobile} {
+    column-gap: 10px;
+  }
 `;
 
 const ColumnWrapper = styled("div")`
