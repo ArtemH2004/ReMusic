@@ -1,11 +1,14 @@
 import { Review } from "@/common/components/review/Review";
+import { getLanguage } from "@/common/helpers/getLanguage";
 import { LibraryPageReviewsList, LibraryPageCount, LibraryPageHeader, LibraryPageTitle } from "@/modules/user/library/styles";
 
 export const LibraryReviews = () => {
+  const language = getLanguage();
+  
   return (
     <>
       <LibraryPageHeader>
-        <LibraryPageTitle>Liked Reviews <LibraryPageCount>(27)</LibraryPageCount>
+        <LibraryPageTitle>{language.likedReviews} <LibraryPageCount>(27)</LibraryPageCount>
         </LibraryPageTitle>
       </LibraryPageHeader>
 

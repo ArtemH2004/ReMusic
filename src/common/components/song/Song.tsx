@@ -11,6 +11,7 @@ import { useState } from "react";
 import styled from "styled-components";
 import { ReviewRaiting } from "@/common/components/review/ReviewRaiting";
 import { NavLink } from "react-router-dom";
+import { getLanguage } from "@/common/helpers/getLanguage";
 
 const Item = styled("li")`
   ${clampWidth(300, 500)}
@@ -99,6 +100,8 @@ const Link = styled(NavLink)`
 
 export const Song = () => {
   const [isHover, setHover] = useState(false);
+  const language = getLanguage();
+
   return (
     <Item
       onMouseEnter={() => setHover(true)}
@@ -115,7 +118,7 @@ export const Song = () => {
               <ButtonWithIcon
                 size={50}
                 icon={"player/play-white"}
-                title="Воспроизвести"
+                title={language.play}
               />
             </ImgLink>
           )}
@@ -131,9 +134,9 @@ export const Song = () => {
         {isHover ? (
           <>
             <Link to="/song">
-              <ButtonWithIcon size={40} icon={"player/open"} title="Перейти" />
+              <ButtonWithIcon size={40} icon={"player/open"} title={language.goto} />
             </Link>
-            <ButtonWithIcon size={40} icon={"player/add"} title="Добавить" />
+            <ButtonWithIcon size={40} icon={"player/add"} title={language.add} />
           </>
         ) : (
           <ReviewRaiting value={30} />

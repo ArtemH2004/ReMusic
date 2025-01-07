@@ -12,6 +12,7 @@ import { ButtonWithIcon } from "@/common/styles/tags/button/ButtonWithIcon";
 import { useState } from "react";
 import styled from "styled-components";
 import { ReviewRaiting } from "@/common/components/review/ReviewRaiting";
+import { getLanguage } from "@/common/helpers/getLanguage";
 
 const Item = styled("li")``;
 
@@ -71,6 +72,8 @@ const ArtistLink = styled("a")`
 
 export const SongInAlbum = () => {
   const [isHover, setHover] = useState(false);
+  const language = getLanguage();
+  
   return (
     <Item>
       <Button
@@ -92,8 +95,8 @@ export const SongInAlbum = () => {
         <Wrapper>
           {isHover ? (
             <>
-              <ButtonWithIcon size={40} icon={"player/open"} title="Перейти" />
-              <ButtonWithIcon size={40} icon={"player/add"} title="Добавить" />
+              <ButtonWithIcon size={40} icon={"player/open"} title={language.goto} />
+              <ButtonWithIcon size={40} icon={"player/add"} title={language.add} />
             </>
           ) : (<ReviewRaiting value={100} />)}
           <Time>2:12</Time>

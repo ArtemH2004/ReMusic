@@ -1,6 +1,7 @@
 import { MultipleInput } from "@/common/styles/tags/textarea/MultipleInput";
 import styled from "styled-components";
 import { ReviewStatisticForm } from "@/common/components/review/ReviewStatisticForm";
+import { getLanguage } from "@/common/helpers/getLanguage";
 
 const ContentWrapper = styled("div")`
   display: grid;
@@ -14,11 +15,13 @@ const CommentWrapper = styled("div")`
 `;
 
 export const ModalReview = () => {
+  const language = getLanguage();
+
   return (
     <>
       <ContentWrapper>
         <CommentWrapper>
-          <MultipleInput title="Comment" placeholder="Add comment..." />
+          <MultipleInput title={language.comment} placeholder={language.addComment} />
         </CommentWrapper>
 
         <ReviewStatisticForm />

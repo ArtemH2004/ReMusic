@@ -1,10 +1,16 @@
+import { getLanguage } from "@/common/helpers/getLanguage";
 import {
   clampText,
   flexCenter,
   headerNavigationHoverActive,
   resetLink,
 } from "@/common/styles/mixins";
-import { borders, colors, fonts, shadows } from "@/common/styles/styleConstants";
+import {
+  borders,
+  colors,
+  fonts,
+  shadows,
+} from "@/common/styles/styleConstants";
 import { useLocation, useNavigate } from "react-router-dom";
 import styled from "styled-components";
 
@@ -37,6 +43,7 @@ export const NavigationLink = styled("a")`
 export const HeaderLibrary = () => {
   const navigate = useNavigate();
   const location = useLocation();
+  const language = getLanguage();
 
   return (
     <Navigation>
@@ -44,16 +51,15 @@ export const HeaderLibrary = () => {
         <NavigationItem>
           <NavigationLink
             className={
-              location.pathname === "/library" &&
-              location.search === "?foo=songs" ||
-              location.pathname === "/library" &&
-              location.search === ""
+              (location.pathname === "/library" &&
+                location.search === "?foo=songs") ||
+              (location.pathname === "/library" && location.search === "")
                 ? "active"
                 : ""
             }
             onClick={() => navigate("/library?foo=songs")}
           >
-            Songs
+            {language.songs}
           </NavigationLink>
         </NavigationItem>
         <NavigationItem>
@@ -66,7 +72,7 @@ export const HeaderLibrary = () => {
             }
             onClick={() => navigate("/library?foo=artists")}
           >
-            Artists
+            {language.artists}
           </NavigationLink>
         </NavigationItem>
         <NavigationItem>
@@ -79,7 +85,7 @@ export const HeaderLibrary = () => {
             }
             onClick={() => navigate("/library?foo=albums")}
           >
-            Albums
+            {language.albums}
           </NavigationLink>
         </NavigationItem>
         <NavigationItem>
@@ -92,7 +98,7 @@ export const HeaderLibrary = () => {
             }
             onClick={() => navigate("/library?foo=reviews")}
           >
-            Reviews
+            {language.reviews}
           </NavigationLink>
         </NavigationItem>
       </NavigationList>

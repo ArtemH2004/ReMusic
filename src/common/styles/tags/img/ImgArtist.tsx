@@ -4,6 +4,7 @@ import { flexCenter } from "@/common/styles/mixins";
 import { ButtonWithIcon } from "@/common/styles/tags/button/ButtonWithIcon";
 import { NavLink } from "react-router-dom";
 import { getImgAccentColor } from "@/common/helpers/getImgAccentColor";
+import { getLanguage } from "@/common/helpers/getLanguage";
 
 const Wrapper = styled("div")`
   width: 100%;
@@ -59,17 +60,19 @@ interface ImgArtistProps {
 }
 export const ImgArtist = ({ img, artist }: ImgArtistProps) => {
   const accentColor = getImgAccentColor(img);
+  const language = getLanguage();
+  
   return (
     <Wrapper>
       <FlexWrapper $accentColor={accentColor}>
-        <ButtonWithIcon size={35} icon={"player/add"} title="Добавить" />
+        <ButtonWithIcon size={35} icon={"player/add"} title={language.add} />
         <ButtonWithIcon
           size={45}
           icon={"player/play-white"}
-          title="Воспроизвести"
+          title={language.play}
         />
         <Link to={`/artist`}>
-          <ButtonWithIcon size={35} icon={"player/open"} title="Перейти" />
+          <ButtonWithIcon size={35} icon={"player/open"} title={language.goto} />
         </Link>
       </FlexWrapper>
       <Img src={img} alt={artist} />

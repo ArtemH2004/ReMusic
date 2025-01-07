@@ -27,6 +27,7 @@ import { Review } from "@/common/components/review/Review";
 import { useState } from "react";
 import { Modal } from "@/common/components/modal/Modal";
 import { ModalReview } from "@/common/components/modal/ModalReview";
+import { getLanguage } from "@/common/helpers/getLanguage";
 
 export const AlbumPage = () => {
   const [isModalReviewOpen, setModalReviewOpen] = useState(false);
@@ -35,11 +36,20 @@ export const AlbumPage = () => {
     "https://img-fotki.yandex.ru/get/765007/194398330.194/0_224238_718fa1c9_XL.jpg"
   );
 
+  const language = getLanguage();
+
   scrollToTop();
 
   return (
     <>
-      {isModalReviewOpen && <Modal title="Add Review" isOpen={isModalReviewOpen} setOpen={setModalReviewOpen} children={<ModalReview />} />}
+      {isModalReviewOpen && (
+        <Modal
+          title={language.writeReview}
+          isOpen={isModalReviewOpen}
+          setOpen={setModalReviewOpen}
+          children={<ModalReview />}
+        />
+      )}
       <AlbumPageSection $accentColor={accentColor}>
         <AlbumPageContentWrapper>
           <ImgCover
@@ -51,7 +61,7 @@ export const AlbumPage = () => {
           />
 
           <AlbumPageInnerWrapper>
-            <AlbumPageSubtitle>Album</AlbumPageSubtitle>
+            <AlbumPageSubtitle>{language.album}</AlbumPageSubtitle>
             <AlbumPageTitle>Nevermind</AlbumPageTitle>
             <AlbumPageSubtitleLink>NIRVANA</AlbumPageSubtitleLink>
             <AlbumPageDescription>5 songs • 34 minutes</AlbumPageDescription>
@@ -65,14 +75,18 @@ export const AlbumPage = () => {
                 <ButtonWithIcon
                   size={60}
                   icon={"player/play-white"}
-                  title="Воспроизвести"
+                  title={language.play}
                 />
               </AlbumPageButtonWrapper>
-              <ButtonWithIcon size={60} icon={"player/add"} title="Добавить" />
+              <ButtonWithIcon
+                size={60}
+                icon={"player/add"}
+                title={language.add}
+              />
               <ButtonWithIcon
                 size={60}
                 icon={"player/review"}
-                title="Review"
+                title={language.writeReview}
                 click={() => setModalReviewOpen(true)}
               />
             </AlbumPageInfoButtonsWrapper>
@@ -91,7 +105,7 @@ export const AlbumPage = () => {
 
           <AlbumPageContentSection>
             <AlbumPageHeader>
-              <AlbumPageListTitle>Top Reviews</AlbumPageListTitle>
+              <AlbumPageListTitle>{language.topReviews}</AlbumPageListTitle>
               <ButtonSeeAll />
             </AlbumPageHeader>
 

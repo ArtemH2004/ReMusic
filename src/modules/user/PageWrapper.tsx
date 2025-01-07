@@ -12,8 +12,6 @@ const Wrapper = styled("div")`
   display: grid;
   grid-template-columns: 20% 80%;
 
-  background-color: ${colors.blackAccent};
-
   @media ${device.tablet} {
     grid-template-columns: 30% 70%;
   }

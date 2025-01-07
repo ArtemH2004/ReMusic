@@ -1,3 +1,4 @@
+import { getLanguage } from "@/common/helpers/getLanguage";
 import { clampText, flexCenter } from "@/common/styles/mixins";
 import {
   borders,
@@ -31,7 +32,7 @@ const ModalContent = styled("div")`
   box-shadow: ${shadows.defaultShadow};
   color: ${colors.whiteTotal};
 
-  display: flex;
+  ${flexCenter}
   flex-direction: column;
   row-gap: 30px;
 `;
@@ -68,6 +69,8 @@ const ModalTitle = styled("h2")`
 
 const ModalButtonsWrapper = styled("div")`
   ${flexCenter}
+
+  width: 75%;
   column-gap: 20px;
 `;
 
@@ -79,6 +82,8 @@ interface ModalProps {
 }
 
 export const Modal = ({ isOpen, setOpen, title, children }: ModalProps) => {
+  const language = getLanguage();
+
   useEffect(() => {
     if (isOpen) {
       document.body.style.overflow = "hidden";
@@ -99,7 +104,7 @@ export const Modal = ({ isOpen, setOpen, title, children }: ModalProps) => {
           <ModalCloseButtonWrapper>
             <ButtonWithIcon
               size={45}
-              title="Закрыть"
+              title={language.close}
               icon="close"
               click={() => setOpen(!isOpen)}
             />
@@ -108,8 +113,8 @@ export const Modal = ({ isOpen, setOpen, title, children }: ModalProps) => {
         <ModalBody>{children}</ModalBody>
 
         <ModalButtonsWrapper>
-        <BlackWhiteButton color="black" title="Cancel" />
-        <BlackWhiteButton color="white" title="Save" />
+        <BlackWhiteButton color="black" title={language.cancel} />
+        <BlackWhiteButton color="white" title={language.save} />
       </ModalButtonsWrapper>
       </ModalContent>
     </ModalSection>

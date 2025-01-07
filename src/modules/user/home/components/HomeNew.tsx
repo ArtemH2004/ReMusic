@@ -1,10 +1,13 @@
 import { Song } from "@/common/components/song/Song"
+import { getLanguage } from "@/common/helpers/getLanguage";
 import { HomeNewList, HomeNewSection, HomeNewTitle } from "@/modules/user/home/styles"
 
 export const HomeNew = () => {
+  const language = getLanguage();
+  
   return (
     <HomeNewSection>
-        <HomeNewTitle>New Songs</HomeNewTitle>
+        <HomeNewTitle>{language.newSongs}</HomeNewTitle>
         <HomeNewList>
             <Song />
             <Song />

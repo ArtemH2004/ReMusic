@@ -132,7 +132,7 @@ export const ReviewStatisticHeaderWrapper = styled("div")`
 export const ReviewStatisticColumnWrapper = styled("div")`
   display: flex;
   flex-direction: column;
-  align-items: end;
+  align-items: center;
 `;
 
 export const ReviewStatisticSpaceBetweenWrapper = styled("div")`

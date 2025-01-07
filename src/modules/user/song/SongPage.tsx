@@ -25,19 +25,27 @@ import { Review } from "@/common/components/review/Review";
 import { useState } from "react";
 import { Modal } from "@/common/components/modal/Modal";
 import { ModalReview } from "@/common/components/modal/ModalReview";
+import { getLanguage } from "@/common/helpers/getLanguage";
 
 export const SongPage = () => {
   const [isModalReviewOpen, setModalReviewOpen] = useState(false);
-  
+
   const accentColor = getImgAccentColor(
     "https://aimm.edu/hubfs/Blog%20Images/Top%2010%20Album%20Covers%20of%202017/Tyler%20the%20Creator-%20Flower%20boy.jpg"
   );
-
+  const language = getLanguage();
   scrollToTop();
 
   return (
     <>
-      {isModalReviewOpen && <Modal title="Add Review" isOpen={isModalReviewOpen} setOpen={setModalReviewOpen} children={<ModalReview />} />}
+      {isModalReviewOpen && (
+        <Modal
+          title={language.writeReview}
+          isOpen={isModalReviewOpen}
+          setOpen={setModalReviewOpen}
+          children={<ModalReview />}
+        />
+      )}
       <SongPageSection $accentColor={accentColor}>
         <SongPageContentWrapper>
           <ImgCover
@@ -49,7 +57,7 @@ export const SongPage = () => {
           />
 
           <SongPageInnerWrapper>
-            <SongPageSubtitle>Song</SongPageSubtitle>
+            <SongPageSubtitle>{language.song}</SongPageSubtitle>
             <SongPageTitle>Flower Boy</SongPageTitle>
             <SongPageSubtitleLink>Tyler the Creator</SongPageSubtitleLink>
             <SongPageDescription>2 minutes • 34 seconds</SongPageDescription>
@@ -63,11 +71,20 @@ export const SongPage = () => {
                 <ButtonWithIcon
                   size={60}
                   icon={"player/play-white"}
-                  title="Воспроизвести"
+                  title={language.play}
                 />
               </SongPageButtonWrapper>
-              <ButtonWithIcon size={60} icon={"player/add"} title="Добавить" />
-              <ButtonWithIcon size={60} icon={"player/review"} title="Review" click={() => setModalReviewOpen(true)} />
+              <ButtonWithIcon
+                size={60}
+                icon={"player/add"}
+                title={language.add}
+              />
+              <ButtonWithIcon
+                size={60}
+                icon={"player/review"}
+                title={language.writeReview}
+                click={() => setModalReviewOpen(true)}
+              />
             </SongPageInfoButtonsWrapper>
 
             <SongPageRaitingWrapper>
@@ -77,7 +94,7 @@ export const SongPage = () => {
 
           <SongPageContentSection>
             <SongPageHeader>
-              <SongPageListTitle>Top Reviews</SongPageListTitle>
+              <SongPageListTitle>{language.topReviews}</SongPageListTitle>
               <ButtonSeeAll />
             </SongPageHeader>
 

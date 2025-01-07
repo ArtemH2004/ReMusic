@@ -28,92 +28,111 @@ import { Review } from "@/common/components/review/Review";
 import { useState } from "react";
 import { ModalReview } from "@/common/components/modal/ModalReview";
 import { Modal } from "@/common/components/modal/Modal";
+import { getLanguage } from "@/common/helpers/getLanguage";
 
 export const ArtistPage = () => {
   const [isModalReviewOpen, setModalReviewOpen] = useState(false);
   const accentColor = getImgAccentColor(
     "https://upload.wikimedia.org/wikipedia/ru/thumb/8/80/Dragonborn.jpg/274px-Dragonborn.jpg"
   );
+  const language = getLanguage();
+
   scrollToTop();
 
   return (
     <>
-    {isModalReviewOpen && <Modal title="Add Review" isOpen={isModalReviewOpen} setOpen={setModalReviewOpen} children={<ModalReview />} />}
-    <ArtistPageSection $accentColor={accentColor}>
-      <ArtistPageContentWrapper>
-        <ArtistPageImg
-          src="https://upload.wikimedia.org/wikipedia/ru/thumb/8/80/Dragonborn.jpg/274px-Dragonborn.jpg"
-          alt="MACAN"
+      {isModalReviewOpen && (
+        <Modal
+          title={language.writeReview}
+          isOpen={isModalReviewOpen}
+          setOpen={setModalReviewOpen}
+          children={<ModalReview />}
         />
+      )}
+      <ArtistPageSection $accentColor={accentColor}>
+        <ArtistPageContentWrapper>
+          <ArtistPageImg
+            src="https://upload.wikimedia.org/wikipedia/ru/thumb/8/80/Dragonborn.jpg/274px-Dragonborn.jpg"
+            alt="MACAN"
+          />
 
-        <ArtistPageInnerWrapper>
-          <ArtistPageSubtitle>Artist</ArtistPageSubtitle>
-          <ArtistPageTitle>Big Baby Tape</ArtistPageTitle>
-          <ArtistPageDescription>152 songs • 6 albums</ArtistPageDescription>
-        </ArtistPageInnerWrapper>
-      </ArtistPageContentWrapper>
+          <ArtistPageInnerWrapper>
+            <ArtistPageSubtitle>{language.artist}</ArtistPageSubtitle>
+            <ArtistPageTitle>Big Baby Tape</ArtistPageTitle>
+            <ArtistPageDescription>152 songs • 6 albums</ArtistPageDescription>
+          </ArtistPageInnerWrapper>
+        </ArtistPageContentWrapper>
 
-      <ArtistPageSongsWrapper>
-        <ArtistPageInfoWrapper>
-          <ArtistPageInfoButtonsWrapper>
-            <ArtistPageButtonWrapper $accentColor={accentColor}>
+        <ArtistPageSongsWrapper>
+          <ArtistPageInfoWrapper>
+            <ArtistPageInfoButtonsWrapper>
+              <ArtistPageButtonWrapper $accentColor={accentColor}>
+                <ButtonWithIcon
+                  size={60}
+                  icon={"player/play-white"}
+                  title={language.play}
+                />
+              </ArtistPageButtonWrapper>
               <ButtonWithIcon
                 size={60}
-                icon={"player/play-white"}
-                title="Воспроизвести"
+                icon={"player/add"}
+                title={language.add}
               />
-            </ArtistPageButtonWrapper>
-            <ButtonWithIcon size={60} icon={"player/add"} title="Добавить" />
-            <ButtonWithIcon size={60} icon={"player/review"} title="Review" click={() => setModalReviewOpen(true)} />
-          </ArtistPageInfoButtonsWrapper>
+              <ButtonWithIcon
+                size={60}
+                icon={"player/review"}
+                title={language.writeReview}
+                click={() => setModalReviewOpen(true)}
+              />
+            </ArtistPageInfoButtonsWrapper>
 
-          <ArtistPageRaitingWrapper>
-            <ReviewRaiting value={95} />
-          </ArtistPageRaitingWrapper>
-        </ArtistPageInfoWrapper>
+            <ArtistPageRaitingWrapper>
+              <ReviewRaiting value={95} />
+            </ArtistPageRaitingWrapper>
+          </ArtistPageInfoWrapper>
 
-        <ArtistPageContentSection>
-          <ArtistPageListTitle>Songs</ArtistPageListTitle>
+          <ArtistPageContentSection>
+            <ArtistPageListTitle>{language.songs}</ArtistPageListTitle>
 
-          <ArtistPageList>
-            <Song />
-            <Song />
-            <Song />
-            <Song />
-            <Song />
-            <Song />
-            <Song />
-            <Song />
-            <Song />
-            <Song />
-          </ArtistPageList>
-        </ArtistPageContentSection>
+            <ArtistPageList>
+              <Song />
+              <Song />
+              <Song />
+              <Song />
+              <Song />
+              <Song />
+              <Song />
+              <Song />
+              <Song />
+              <Song />
+            </ArtistPageList>
+          </ArtistPageContentSection>
 
-        <ArtistPageContentSection>
-          <ArtistPageHeader>
-            <ArtistPageListTitle>Albums</ArtistPageListTitle>
-            <ButtonSeeAll />
-          </ArtistPageHeader>
+          <ArtistPageContentSection>
+            <ArtistPageHeader>
+              <ArtistPageListTitle>{language.albums}</ArtistPageListTitle>
+              <ButtonSeeAll />
+            </ArtistPageHeader>
 
-          <ArtistPageAlbumList>
-            <AlbumItem isAccentColor={true} />
-            <AlbumItem isAccentColor={true} />
-            <AlbumItem isAccentColor={true} />
-            <AlbumItem isAccentColor={true} />
-            <AlbumItem isAccentColor={true} />
-          </ArtistPageAlbumList>
-        </ArtistPageContentSection>
+            <ArtistPageAlbumList>
+              <AlbumItem isAccentColor={true} />
+              <AlbumItem isAccentColor={true} />
+              <AlbumItem isAccentColor={true} />
+              <AlbumItem isAccentColor={true} />
+              <AlbumItem isAccentColor={true} />
+            </ArtistPageAlbumList>
+          </ArtistPageContentSection>
 
-        <ArtistPageContentSection>
-          <ArtistPageHeader>
-            <ArtistPageListTitle>Reviews</ArtistPageListTitle>
-            <ButtonSeeAll />
-          </ArtistPageHeader>
+          <ArtistPageContentSection>
+            <ArtistPageHeader>
+              <ArtistPageListTitle>{language.reviews}</ArtistPageListTitle>
+              <ButtonSeeAll />
+            </ArtistPageHeader>
 
-          <Review isAccentColor={true} />
-        </ArtistPageContentSection>
-      </ArtistPageSongsWrapper>
-    </ArtistPageSection>
+            <Review isAccentColor={true} />
+          </ArtistPageContentSection>
+        </ArtistPageSongsWrapper>
+      </ArtistPageSection>
     </>
   );
 };
