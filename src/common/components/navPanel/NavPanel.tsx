@@ -15,7 +15,7 @@ export const NavPanel = () => {
         <NavPanelMenu>
           <NavPanelList>
             <NavItem linkTo="/home" title="Home" icon="home" />
-            <NavItem linkTo="/searc" title="Search" icon="search" />
+            <NavItem linkTo="/search" title="Search" icon="search" />
             <NavItem linkTo="/library" title="Library" icon="library" />
           </NavPanelList>
         </NavPanelMenu>

@@ -11,8 +11,8 @@ import { Logo } from "@/common/components/Logo";
 import { Link } from "react-router-dom";
 import { BlackWhiteButton } from "@/common/styles/tags/button/BlackWhiteButton";
 
-const zero = "/src/common/images/icons/error/zero.svg";
-const four = "/src/common/images/icons/error/four.svg";
+const zero = "/public/images/icons/error/zero.svg";
+const four = "/public/images/icons/error/four.svg";
 
 const rotateCounterClockwise = keyframes`
   from {
