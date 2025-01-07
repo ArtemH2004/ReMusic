@@ -11,9 +11,31 @@ import {
 import { ArtistPage } from "@/modules/user/artist/ArtistPage";
 import { SongPage } from "@/modules/user/song/SongPage";
 import { LibraryPage } from "@/modules/user/library/LibraryPage";
+import { AuthPage } from "@/modules/auth/AuthPage";
+import { Register } from "@/modules/auth/components/Register";
+import { Login } from "@/modules/auth/components/Login";
 
 export default function RoutesProvider() {
-  const routesProvider = createBrowserRouter(
+  const authorizedUser = false;
+
+  const unAuthorizedProvider = createBrowserRouter(
+    createRoutesFromElements(
+      <>
+        <Route path="authentication/" element={<AuthPage />}>
+          <Route path="login" element={<Login />} />
+          <Route path="register" element={<Register />} />
+          {/* <Route path="forgot" element={<ForgotPassword />} />
+          <Route path="change" element={<ChangePassword />} /> */}
+        </Route>
+        <Route
+          path="*"
+          element={<Navigate to="/authentication/register" replace />}
+        />
+      </>
+    )
+  );
+
+  const authorizedProvider = createBrowserRouter(
     createRoutesFromElements(
       <>
         <Route path="/" element={<PageWrapper />}>
@@ -33,5 +55,9 @@ export default function RoutesProvider() {
     )
   );
 
-  return <RouterProvider router={routesProvider} />;
+  return (
+    <RouterProvider
+      router={authorizedUser ? authorizedProvider : unAuthorizedProvider}
+    />
+  );
 }
