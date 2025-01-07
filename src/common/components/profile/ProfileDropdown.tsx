@@ -1,4 +1,5 @@
 import {
+  ProfileDropdownGrayLink,
   ProfileDropdownItem,
   ProfileDropdownLink,
   ProfileDropdownList,
@@ -11,10 +12,10 @@ export const ProfileDropdown = () => {
         <ProfileDropdownLink>Set image</ProfileDropdownLink>
       </ProfileDropdownItem>
       <ProfileDropdownItem>
-        <ProfileDropdownLink>Language</ProfileDropdownLink>
+        <ProfileDropdownLink>Language <ProfileDropdownGrayLink>(Eng)</ProfileDropdownGrayLink></ProfileDropdownLink>
       </ProfileDropdownItem>
       <ProfileDropdownItem>
-        <ProfileDropdownLink>Log out</ProfileDropdownLink>
+        <ProfileDropdownLink $isRed={true}>Log out</ProfileDropdownLink>
       </ProfileDropdownItem>
     </ProfileDropdownList>
   );

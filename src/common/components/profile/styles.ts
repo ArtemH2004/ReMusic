@@ -9,6 +9,7 @@ import {
   borders,
   colors,
   fonts,
+  shadows,
   transitions,
 } from "@/common/styles/styleConstants";
 import styled from "styled-components";
@@ -24,7 +25,8 @@ export const ProfileDropdownButton = styled("button")<{ $isActive: boolean }>`
   padding: 3px;
   border-radius: ${borders.mediumBorderRadius};
   background-color: ${(props) =>
-    props.$isActive ? colors.blackAccent : colors.blackPlaylist};
+    props.$isActive ? colors.blackTotal : colors.blackPlaylist};
+  box-shadow: ${(props) => (props.$isActive ? shadows.defaultShadow : "none")};
   transition: ${transitions.fastTransition};
   border-bottom-left-radius: ${(props) =>
     props.$isActive ? "0px" : borders.mediumBorderRadius};
@@ -67,9 +69,10 @@ export const ProfileDropdownList = styled("ul")`
   left: 50%;
   z-index: 10;
   translate: -50%;
-  background-color: ${colors.blackAccent};
+  background-color: ${colors.blackTotal};
   border-bottom-left-radius: ${borders.smallBorderRadius};
   border-bottom-right-radius: ${borders.smallBorderRadius};
+  box-shadow: ${shadows.defaultShadow};
   width: 100%;
 
   display: flex;
@@ -81,19 +84,28 @@ export const ProfileDropdownItem = styled("li")`
   width: 100%;
   height: 40px;
 
-  &:last-child {    
+  &:last-child {
     border-top: ${borders.grayBorder};
   }
 `;
 
-export const ProfileDropdownLink = styled("a")`
+export const ProfileDropdownLink = styled("a")<{ $isRed?: boolean }>`
   ${resetButton}
   width: 100%;
   height: 100%;
   padding: 5px 15px;
-  color: ${colors.whiteTotal};
+  display: flex;
+  align-items: center;
+  column-gap: 5px;
+  color: ${(props) => (!!props.$isRed ? colors.red : colors.whiteTotal)};
   ${clampText(fonts.sizes.mainMobile, fonts.sizes.main)}
   font-weight: ${fonts.weights.medium};
   border-radius: ${borders.smallBorderRadius};
   ${hoverActive}
+`;
+
+export const ProfileDropdownGrayLink = styled("span")`
+  color: ${colors.grayText};
+  ${clampText(fonts.sizes.smallMobile, fonts.sizes.small)}
+  font-weight: ${fonts.weights.medium};
 `;
