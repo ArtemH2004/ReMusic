@@ -14,9 +14,10 @@ import { LibraryPage } from "@/modules/user/library/LibraryPage";
 import { AuthPage } from "@/modules/auth/AuthPage";
 import { Register } from "@/modules/auth/components/Register";
 import { Login } from "@/modules/auth/components/Login";
+import { Error404 } from "@/common/components/error/Error404";
 
 export default function RoutesProvider() {
-  const authorizedUser = false;
+  const authorizedUser = true;
 
   const unAuthorizedProvider = createBrowserRouter(
     createRoutesFromElements(
@@ -49,7 +50,7 @@ export default function RoutesProvider() {
           <Route path="artist" element={<ArtistPage />} />
           <Route path="song" element={<SongPage />} />
         </Route>
-        <Route path="error" element={<>Error</>} />
+        <Route path="error" element={<Error404 />} />
         <Route path="*" element={<Navigate to="/error" replace />} />
       </>
     )
