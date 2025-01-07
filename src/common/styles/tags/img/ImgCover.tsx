@@ -11,6 +11,7 @@ import { ButtonWithIcon } from "@/common/styles/tags/button/ButtonWithIcon";
 import { NavLink } from "react-router-dom";
 import { getImgAccentColor } from "@/common/helpers/getImgAccentColor";
 import { ReviewRaiting } from "@/common/components/review/ReviewRaiting";
+import { getLanguage } from "@/common/helpers/getLanguage";
 
 const Wrapper = styled("div")<{ $accentColor: string }>`
   max-width: 300px;
@@ -153,19 +154,20 @@ export const ImgCover = ({
   isButtonsActive,
 }: ImgCoverProps) => {
   const accentColor = getImgAccentColor(img);
+  const language = getLanguage();
 
   return (
     <Wrapper $accentColor={accentColor}>
       {isButtonsActive && (
         <CoverWrapper $accentColor={accentColor}>
-          <ButtonWithIcon size={35} icon={"player/add"} title="Добавить" />
+          <ButtonWithIcon size={35} icon={"player/add"} title={language.add} />
           <ButtonWithIcon
             size={45}
             icon={"player/play-white"}
-            title="Воспроизвести"
+            title={language.play}
           />
           <Link to="/album">
-            <ButtonWithIcon size={35} icon={"player/open"} title="Перейти" />
+            <ButtonWithIcon size={35} icon={"player/open"} title={language.goto} />
           </Link>
         </CoverWrapper>
       )}

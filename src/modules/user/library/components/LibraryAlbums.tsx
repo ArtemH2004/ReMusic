@@ -1,11 +1,13 @@
 import { AlbumItem } from "@/common/components/album/AlbumItem";
+import { getLanguage } from "@/common/helpers/getLanguage";
 import { LibraryPageAlbumsList, LibraryPageCount, LibraryPageHeader, LibraryPageTitle } from "@/modules/user/library/styles";
 
 export const LibraryAlbums = () => {
+  const language = getLanguage();
   return (
     <>
       <LibraryPageHeader>
-        <LibraryPageTitle>Liked Albums <LibraryPageCount>(128)</LibraryPageCount>
+        <LibraryPageTitle>{language.likedAlbums} <LibraryPageCount>(128)</LibraryPageCount>
         </LibraryPageTitle>
       </LibraryPageHeader>
 

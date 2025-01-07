@@ -1,3 +1,4 @@
+import { getLanguage } from "@/common/helpers/getLanguage";
 import { BlackWhiteButton } from "@/common/styles/tags/button/BlackWhiteButton";
 import { DefaultInput } from "@/common/styles/tags/input/DefaultInput";
 import {
@@ -10,12 +11,14 @@ import {
 } from "@/modules/auth/styles";
 
 export const Register = () => {
+  const language = getLanguage();
+
   return (
     <AuthPageContentWrapper>
-      <AuthPageTitle>Register</AuthPageTitle>
+      <AuthPageTitle>{language.registration}</AuthPageTitle>
       <AuthPageForm>
         <DefaultInput
-          label="Username"
+          label={language.username}
           type="text"
           placeholder="alblack52"
           isRequired={true}
@@ -27,13 +30,13 @@ export const Register = () => {
           isRequired={true}
         />
         <DefaultInput
-          label="Password"
+          label={language.password}
           type="password"
           placeholder="••••••"
           isRequired={true}
         />
         <DefaultInput
-          label="Password (repeat)"
+          label={language.confirmPassword}
           type="password"
           placeholder="••••••"
           isRequired={true}
@@ -42,12 +45,12 @@ export const Register = () => {
         <AuthPageFormSubmitButtonWrapper>
           <BlackWhiteButton
             color="black"
-            title="Register"
+            title={language.register}
             buttonType="submit"
           />
         </AuthPageFormSubmitButtonWrapper>
       </AuthPageForm>
-      <AuthPageSpanText>Already have an account? <AuthPageLink to="/authentication/login">Login</AuthPageLink></AuthPageSpanText>
+      <AuthPageSpanText>{language.alreadyHaveAccount} <AuthPageLink to="/authentication/login">{language.login}</AuthPageLink></AuthPageSpanText>
     </AuthPageContentWrapper>
   );
 };

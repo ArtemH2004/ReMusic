@@ -1,3 +1,4 @@
+import { getLanguage } from "@/common/helpers/getLanguage";
 import { VisuallyHidden } from "@/common/styles/GlobalStyles";
 import { clampText, clampWidth } from "@/common/styles/mixins";
 import { borders, colors, fonts, shadows } from "@/common/styles/styleConstants";
@@ -42,13 +43,15 @@ const ButtonWrapper = styled("div")`
   z-index: 1;
 `;
 export const HeaderSearch = () => {
+  const language = getLanguage();
+
   return (
     <Form>
       <ButtonWrapper>
         <ButtonWithIcon
           size={50}
           icon={"search"}
-          title="Поиск"
+          title={language.search}
         />
         {/* TODO CLICK FOR BUTTON */}
       </ButtonWrapper>
@@ -56,7 +59,7 @@ export const HeaderSearch = () => {
       <VisuallyHidden>
         <label htmlFor="search">Search</label>
       </VisuallyHidden>
-      <Input id="search" placeholder="Artists, songs or albums" type="text" />
+      <Input id="search" placeholder={language.headerSearch} type="text" />
     </Form>
   );
 };

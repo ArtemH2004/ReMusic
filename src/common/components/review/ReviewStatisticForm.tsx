@@ -9,22 +9,25 @@ import {
 } from "@/common/components/review/styles";
 import { ReviewStatisticsInput } from "@/common/components/review/ReviewStatisticsInput";
 import { getColorByValue } from "@/common/helpers/getColorByValue";
+import { getLanguage } from "@/common/helpers/getLanguage";
 
 export const ReviewStatisticForm = () => {
+  const language = getLanguage();
+  
   return (
     <ReviewStatisticWrapper>
       <ReviewStatisticHeaderWrapper>
 
         <ReviewStatisticSpaceBetweenWrapper>
           <ReviewStatisticColumnWrapper>
-            <ReviewStatisticTitleRaiting>Album Raiting:</ReviewStatisticTitleRaiting>
+            <ReviewStatisticTitleRaiting>{language.albumRating}</ReviewStatisticTitleRaiting>
             <ReviewStatisticRaiting $color={getColorByValue(82)}>
               82
             </ReviewStatisticRaiting>
           </ReviewStatisticColumnWrapper>
 
           <ReviewStatisticColumnWrapper>
-            <ReviewStatisticTitleRaiting>Your's Raiting:</ReviewStatisticTitleRaiting>
+            <ReviewStatisticTitleRaiting>{language.yourRating}</ReviewStatisticTitleRaiting>
             <ReviewStatisticRaiting $color={getColorByValue(56)}>
               56
             </ReviewStatisticRaiting>
@@ -33,11 +36,11 @@ export const ReviewStatisticForm = () => {
       </ReviewStatisticHeaderWrapper>
 
       <ReviewStatisticList>
-        <ReviewStatisticsInput title="Рифмы" />
-        <ReviewStatisticsInput title="Ритм" />
-        <ReviewStatisticsInput title="Стиль" />
-        <ReviewStatisticsInput title="Индивидуальность" />
-        <ReviewStatisticsInput title="Атмосфера" />
+        <ReviewStatisticsInput title={language.rhymes} />
+        <ReviewStatisticsInput title={language.rhythm} />
+        <ReviewStatisticsInput title={language.style} />
+        <ReviewStatisticsInput title={language.individuality} />
+        <ReviewStatisticsInput title={language.atmosphere} />
       </ReviewStatisticList>
     </ReviewStatisticWrapper>
   );

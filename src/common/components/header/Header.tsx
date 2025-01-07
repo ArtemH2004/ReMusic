@@ -7,23 +7,25 @@ import { useNavigate } from "react-router-dom";
 import { HeaderSearch } from "@/common/components/header/HeaderSearch";
 import { HeaderLibrary } from "@/common/components/header/HeaderLibrary";
 import { Profile } from "@/common/components/profile/Profile";
+import { getLanguage } from "@/common/helpers/getLanguage";
 
 export const Header = () => {
   const navigate = useNavigate();
   const currentUrl = window.location.pathname;
+  const language = getLanguage();
   
   return (
     <HeaderWrapper>
       <HeaderContentWrapper>
         <ButtonWithIcon
           size={40}
-          title="Назад"
+          title={language.back}
           icon={"back"}
           click={() => navigate(-1)}
         />
         <ButtonWithIcon
           size={40}
-          title="Вперед"
+          title={language.forward}
           icon={"forward"}
           click={() => navigate(1)}
         />

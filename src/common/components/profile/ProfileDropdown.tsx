@@ -4,18 +4,27 @@ import {
   ProfileDropdownLink,
   ProfileDropdownList,
 } from "@/common/components/profile/styles";
+import { getLanguage } from "@/common/helpers/getLanguage";
 
 export const ProfileDropdown = () => {
+  const lang = sessionStorage.getItem("language") || 'Рус';
+  const language = getLanguage();
+
+  const handleChangeLanguage = (language: string) => {
+    sessionStorage.setItem("language", language);
+    document.location.reload();
+  };
+
   return (
     <ProfileDropdownList>
       <ProfileDropdownItem>
-        <ProfileDropdownLink>Set image</ProfileDropdownLink>
+        <ProfileDropdownLink>{language.setImg}</ProfileDropdownLink>
       </ProfileDropdownItem>
       <ProfileDropdownItem>
-        <ProfileDropdownLink>Language <ProfileDropdownGrayLink>(Eng)</ProfileDropdownGrayLink></ProfileDropdownLink>
+        <ProfileDropdownLink onClick={() => handleChangeLanguage(lang === 'Eng' ? 'Рус' : 'Eng')}>{language.language} <ProfileDropdownGrayLink>{language.lang}</ProfileDropdownGrayLink></ProfileDropdownLink>
       </ProfileDropdownItem>
       <ProfileDropdownItem>
-        <ProfileDropdownLink $isRed={true}>Log out</ProfileDropdownLink>
+        <ProfileDropdownLink $isRed={true}>{language.logout}</ProfileDropdownLink>
       </ProfileDropdownItem>
     </ProfileDropdownList>
   );

@@ -1,4 +1,5 @@
 import { AlbumItem } from "@/common/components/album/AlbumItem";
+import { getLanguage } from "@/common/helpers/getLanguage";
 import { ButtonSeeAll } from "@/common/styles/tags/button/ButtonSeeAll";
 import {
   HomePageHeader,
@@ -8,10 +9,12 @@ import {
 } from "@/modules/user/home/styles";
 
 export const HomeAlbums = () => {
+  const language = getLanguage();
+
   return (
     <HomePageSection>
       <HomePageHeader>
-        <HomePageTitle>Top Albums</HomePageTitle>
+        <HomePageTitle>{language.topAlbums}</HomePageTitle>
         <ButtonSeeAll />
       </HomePageHeader>
 

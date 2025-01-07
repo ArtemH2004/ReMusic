@@ -1,3 +1,4 @@
+import { getLanguage } from "@/common/helpers/getLanguage";
 import { BlackWhiteButton } from "@/common/styles/tags/button/BlackWhiteButton";
 import { DefaultInput } from "@/common/styles/tags/input/DefaultInput";
 import {
@@ -10,9 +11,11 @@ import {
 } from "@/modules/auth/styles";
 
 export const Login = () => {
+  const language = getLanguage();
+
   return (
         <AuthPageContentWrapper>
-          <AuthPageTitle>Login</AuthPageTitle>
+          <AuthPageTitle>{language.login}</AuthPageTitle>
           <AuthPageForm>
             <DefaultInput
               label="Email"
@@ -21,7 +24,7 @@ export const Login = () => {
               isRequired={true}
             />
             <DefaultInput
-              label="Password"
+              label={language.password}
               type="password"
               placeholder="••••••"
               isRequired={true}
@@ -30,12 +33,12 @@ export const Login = () => {
             <AuthPageFormSubmitButtonWrapper>
               <BlackWhiteButton
                 color="black"
-                title="Login"
+                title={language.login}
                 buttonType="submit"
               />
             </AuthPageFormSubmitButtonWrapper>
           </AuthPageForm>
-          <AuthPageSpanText>Don't have an account? <AuthPageLink to="/authentication/register">Register</AuthPageLink></AuthPageSpanText>
+          <AuthPageSpanText>{language.dontHaveAccount} <AuthPageLink to="/authentication/register">{language.register}</AuthPageLink></AuthPageSpanText>
         </AuthPageContentWrapper>
   )
 }

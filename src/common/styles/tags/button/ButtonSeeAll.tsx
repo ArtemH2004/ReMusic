@@ -5,6 +5,7 @@ import {
   resetButton,
 } from "@/common/styles/mixins";
 import { colors, fonts } from "@/common/styles/styleConstants";
+import { getLanguage } from "@/common/helpers/getLanguage";
 
 const Button = styled("button")`
   ${resetButton}
@@ -16,5 +17,7 @@ const Button = styled("button")`
 `;
 
 export const ButtonSeeAll = () => {
-  return <Button>See All</Button>;
+  const language = getLanguage();
+
+  return <Button>{language.seeAll}</Button>;
 };

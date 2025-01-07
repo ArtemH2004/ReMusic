@@ -10,8 +10,11 @@ import {
 import { ReviewStatisticsItem } from "@/common/components/review/ReviewStatisticsItem";
 import { AlbumItem } from "@/common/components/album/AlbumItem";
 import { getColorByValue } from "@/common/helpers/getColorByValue";
+import { getLanguage } from "@/common/helpers/getLanguage";
 
 export const ReviewStatistic = () => {
+  const language = getLanguage();
+  
   return (
     <ReviewStatisticWrapper>
       <ReviewStatisticHeaderWrapper>
@@ -21,7 +24,7 @@ export const ReviewStatistic = () => {
 
         <ReviewStatisticWrapper>
           <ReviewStatisticColumnWrapper>
-            <ReviewStatisticTitleRaiting>Album Raiting:</ReviewStatisticTitleRaiting>
+            <ReviewStatisticTitleRaiting>{language.albumRating}</ReviewStatisticTitleRaiting>
             <ReviewStatisticRaiting $color={getColorByValue(82)}>
               82
             </ReviewStatisticRaiting>
@@ -29,7 +32,7 @@ export const ReviewStatistic = () => {
 
 {/* TODO Name of Author in Raiting */}
           <ReviewStatisticColumnWrapper>
-            <ReviewStatisticTitleRaiting>Kizaru's Raiting:</ReviewStatisticTitleRaiting>
+            <ReviewStatisticTitleRaiting>{`Kizaru ${language.rating}:`}</ReviewStatisticTitleRaiting>
             <ReviewStatisticRaiting $color={getColorByValue(56)}>
               56
             </ReviewStatisticRaiting>
@@ -38,11 +41,11 @@ export const ReviewStatistic = () => {
       </ReviewStatisticHeaderWrapper>
 
       <ReviewStatisticList>
-        <ReviewStatisticsItem title="Рифмы" value={7} />
-        <ReviewStatisticsItem title="Ритм" value={5} />
-        <ReviewStatisticsItem title="Стиль" value={10} />
-        <ReviewStatisticsItem title="Индивидуальность" value={2} />
-        <ReviewStatisticsItem title="Атмосфера" value={4} />
+        <ReviewStatisticsItem title={language.rhymes} value={7} />
+        <ReviewStatisticsItem title={language.rhythm} value={5} />
+        <ReviewStatisticsItem title={language.style} value={10} />
+        <ReviewStatisticsItem title={language.individuality} value={2} />
+        <ReviewStatisticsItem title={language.atmosphere} value={4} />
       </ReviewStatisticList>
     </ReviewStatisticWrapper>
   );

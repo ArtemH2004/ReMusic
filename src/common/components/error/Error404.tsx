@@ -10,6 +10,7 @@ import styled, { keyframes } from "styled-components";
 import { Logo } from "@/common/components/Logo";
 import { Link } from "react-router-dom";
 import { BlackWhiteButton } from "@/common/styles/tags/button/BlackWhiteButton";
+import { getLanguage } from "@/common/helpers/getLanguage";
 
 const zero = "/public/images/icons/error/zero.svg";
 const four = "/public/images/icons/error/four.svg";
@@ -75,6 +76,8 @@ const ButtonLink = styled(Link)`
 `;
 
 export const Error404 = () => {
+  const language = getLanguage();
+
   return (
     <Wrapper>
       <LogoWrapper>
@@ -86,9 +89,9 @@ export const Error404 = () => {
         <SpanFour src={four} alt="4" />
       </SpanWrapper>
 
-      <SpanText>Page Not Found</SpanText>
+      <SpanText>{language.notFound}</SpanText>
       <ButtonLink to="/home">
-        <BlackWhiteButton color="black" title="Return To Home" />
+        <BlackWhiteButton color="black" title={language.goHome} />
       </ButtonLink>
     </Wrapper>
   );

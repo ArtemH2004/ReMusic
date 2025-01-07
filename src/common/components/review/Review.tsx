@@ -12,11 +12,14 @@ import {
 } from "@/common/components/review/styles";
 import { ButtonWithIcon } from "@/common/styles/tags/button/ButtonWithIcon";
 import { ReviewStatistic } from "./ReviewStatistic";
+import { getLanguage } from "@/common/helpers/getLanguage";
 
 interface ReviewProps {
   isAccentColor?: boolean;
 }
 export const Review = ({isAccentColor}: ReviewProps) => {
+  const language = getLanguage();
+
   return (
     <ReviewItem $isAccentColor={isAccentColor}>
       <ReviewHeader>
@@ -33,7 +36,7 @@ export const Review = ({isAccentColor}: ReviewProps) => {
 
         <ReviewHeaderWrapper>
           <ReviewLikesCount>52</ReviewLikesCount>
-          <ButtonWithIcon size={45} icon={"player/add"} title="Добавить" />
+          <ButtonWithIcon size={45} icon={"player/add"} title={language.add} />
         </ReviewHeaderWrapper>
       </ReviewHeader>
 
