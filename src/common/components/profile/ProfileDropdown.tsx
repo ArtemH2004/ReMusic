@@ -7,7 +7,7 @@ import {
 import { getLanguage } from "@/common/helpers/getLanguage";
 
 export const ProfileDropdown = () => {
-  const lang = sessionStorage.getItem("language") || 'Рус';
+  const lang = sessionStorage.getItem("language") || 'Eng';
   const language = getLanguage();
 
   const handleChangeLanguage = (language: string) => {
