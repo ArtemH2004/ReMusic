@@ -8,6 +8,7 @@ import {
 import {
   borders,
   colors,
+  device,
   fonts,
   shadows,
   transitions,
@@ -16,6 +17,7 @@ import styled from "styled-components";
 
 export const ProfileDropdownWrapper = styled("div")`
   position: relative;
+  ${flexCenter}
 `;
 
 export const ProfileDropdownButton = styled("button")<{ $isActive: boolean }>`
@@ -32,6 +34,10 @@ export const ProfileDropdownButton = styled("button")<{ $isActive: boolean }>`
     props.$isActive ? "0px" : borders.mediumBorderRadius};
   border-bottom-right-radius: ${(props) =>
     props.$isActive ? "0px" : borders.mediumBorderRadius};
+
+    @media ${device.mobileM} {
+      width: 175px;
+    }
 `;
 
 export const ProfileWrapper = styled("div")`
@@ -54,9 +60,11 @@ export const ProfileName = styled("span")`
   font-weight: ${fonts.weights.bold};
 `;
 
-export const ProfileSvgWrapper = styled("div")`
+export const ProfileSvgWrapper = styled("div")<{ $isActive: boolean }>`
   ${square(34)}
   ${flexCenter}
+  transform: ${(props) => !!props.$isActive && 'rotate(-180deg)'};
+  transition: ${transitions.fastTransition};
 `;
 
 export const ProfileSvg = styled(ProfileImg)`

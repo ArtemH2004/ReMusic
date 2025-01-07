@@ -5,7 +5,7 @@ import {
   resetLink,
   square,
 } from "@/common/styles/mixins";
-import { colors, fonts } from "@/common/styles/styleConstants";
+import { colors, device, fonts } from "@/common/styles/styleConstants";
 import { NavLink } from "react-router-dom";
 import styled from "styled-components";
 
@@ -13,6 +13,11 @@ export const NavPanelWrapper = styled("div")`
   width: 100%;
   height: 100%;
   background-color: ${colors.blackTotal};
+
+  // TODO IN FUTURE
+  @media ${device.mobile} {
+    display: none;
+  }
 `;
 
 export const NavPanelContentWrapper = styled("div")`

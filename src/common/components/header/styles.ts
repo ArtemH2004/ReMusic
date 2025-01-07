@@ -1,4 +1,5 @@
 import { flexCenter } from "@/common/styles/mixins";
+import { device } from "@/common/styles/styleConstants";
 import styled from "styled-components";
 
 export const HeaderWrapper = styled("header")`
@@ -16,9 +17,29 @@ export const HeaderWrapper = styled("header")`
   justify-content: space-between;
   column-gap: 50px;
   padding-inline: 40px;
+
+  @media ${device.mobile} {
+    padding-inline: 30px;
+    height: 70px;
+    column-gap: 30px;
+  }
+
+  @media ${device.mobileM} {
+    padding-inline: 20px;
+    height: 60px;
+    column-gap: 5px;
+  }
 `;
 
 export const HeaderContentWrapper = styled("div")`
   ${flexCenter}
   column-gap: 22px;
+
+  @media ${device.mobileL} {
+    column-gap: 15px;
+  }
+
+  @media ${device.mobileM} {
+    column-gap: 10px;
+  }
 `;

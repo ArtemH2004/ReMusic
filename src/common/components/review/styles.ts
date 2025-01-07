@@ -7,6 +7,7 @@ import {
 import {
   borders,
   colors,
+  device,
   fonts,
   shadows,
 } from "@/common/styles/styleConstants";
@@ -17,6 +18,22 @@ export const ReviewList = styled("ul")`
   display: flex;
   flex-direction: column;
   row-gap: 30px;
+
+  @media ${device.tablet} {
+    row-gap: 25px;
+  }
+
+  @media ${device.mobile} {
+    row-gap: 20px;
+  }
+
+  @media ${device.mobileL} {
+    row-gap: 15px;
+  }
+
+  @media ${device.mobileM} {
+    row-gap: 10px;
+  }
 `;
 
 export const ReviewItem = styled("li")<{ $isAccentColor?: boolean }>`
@@ -28,6 +45,15 @@ export const ReviewItem = styled("li")<{ $isAccentColor?: boolean }>`
   background-color: ${(props) =>
     props.$isAccentColor ? colors.whiteActive : colors.blackCover};
   border-radius: ${borders.smallBorderRadius};
+
+  @media ${device.mobileL} {
+    row-gap: 15px;
+    padding: 25px;
+  }
+
+  @media ${device.mobileM} {
+    padding: 20px;
+  }
 `;
 
 export const ReviewHeader = styled("header")`
@@ -77,6 +103,12 @@ export const ReviewContentWrapper = styled("div")`
   align-items: start;
   justify-content: space-between;
   column-gap: 50px;
+
+  @media ${device.tablet} {
+    ${flexCenter}
+    flex-direction: column-reverse;
+    row-gap: 30px;
+  }
 `;
 
 export const ReviewDescription = styled("p")`

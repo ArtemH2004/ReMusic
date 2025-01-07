@@ -1,16 +1,19 @@
 import { clampText, linkHoverActive, resetLink } from "@/common/styles/mixins";
-import { borders, colors, fonts } from "@/common/styles/styleConstants";
+import { borders, colors, device, fonts } from "@/common/styles/styleConstants";
 import { ImgCover } from "@/common/styles/tags/img/ImgCover";
 import styled from "styled-components";
 
-const Item = styled("li")<{$isAccentColor?: boolean}>`
+const Item = styled("li")<{ $isAccentColor?: boolean }>`
   width: 100%;
+  max-width: 300px;
+  margin-inline: auto;
 
   display: flex;
   justify-content: space-between;
   flex-direction: column;
 
-  background-color: ${(props) => props.$isAccentColor ? colors.whiteActive : colors.blackCover};
+  background-color: ${(props) =>
+    props.$isAccentColor ? colors.whiteActive : colors.blackCover};
   border-radius: ${borders.smallBorderRadius};
 `;
 
@@ -19,6 +22,14 @@ const Wrapper = styled("div")`
   display: flex;
   flex-direction: column;
   row-gap: 5px;
+
+  @media ${device.mobileL} {
+    padding: 15px;
+  }
+
+  @media ${device.mobileM} {
+    padding: 10px;
+  }
 `;
 
 const TitleLink = styled("a")`
@@ -30,8 +41,8 @@ const TitleLink = styled("a")`
   color: ${colors.whiteTotal};
   ${linkHoverActive}
 
-  overflow: hidden; 
-  white-space: nowrap; 
+  overflow: hidden;
+  white-space: nowrap;
   text-overflow: ellipsis;
 `;
 
@@ -44,8 +55,8 @@ const SubtitleLink = styled("a")`
   color: ${colors.grayText};
   ${linkHoverActive}
 
-  overflow: hidden; 
-  white-space: nowrap; 
+  overflow: hidden;
+  white-space: nowrap;
   text-overflow: ellipsis;
 `;
 
@@ -54,14 +65,15 @@ const Span = styled("span")`
   font-weight: ${fonts.weights.medium};
   color: ${colors.grayText};
   user-select: none;
-  `;
+`;
 
-  interface AlbumItemProps {
-    isAccentColor?: boolean;
-  }
+interface AlbumItemProps {
+  isAccentColor?: boolean;
+}
 
-export const AlbumItem = ({isAccentColor}: AlbumItemProps) => {
-  const img="https://img-fotki.yandex.ru/get/765007/194398330.194/0_224238_718fa1c9_XL.jpg";
+export const AlbumItem = ({ isAccentColor }: AlbumItemProps) => {
+  const img =
+    "https://img-fotki.yandex.ru/get/765007/194398330.194/0_224238_718fa1c9_XL.jpg";
 
   return (
     <Item $isAccentColor={isAccentColor}>
