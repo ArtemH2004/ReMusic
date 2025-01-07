@@ -24,7 +24,7 @@ export const Profile = () => {
             alt="alblack52"
           />
           <ProfileName>alblack52</ProfileName>
-          <ProfileSvgWrapper>
+          <ProfileSvgWrapper $isActive={isHover}>
             <ProfileSvg src="public/images/icons/arrow-down.svg" />
           </ProfileSvgWrapper>
         </ProfileWrapper>

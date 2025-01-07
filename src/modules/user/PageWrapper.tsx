@@ -1,6 +1,6 @@
 import { Header } from "@/common/components/header/Header";
 import { NavPanel } from "@/common/components/navPanel/NavPanel";
-import { colors } from "@/common/styles/styleConstants";
+import { colors, device } from "@/common/styles/styleConstants";
 import { Outlet } from "react-router-dom";
 import styled from "styled-components";
 
@@ -13,6 +13,14 @@ const Wrapper = styled("div")`
   grid-template-columns: 20% 80%;
 
   background-color: ${colors.blackAccent};
+
+  @media ${device.tablet} {
+    grid-template-columns: 30% 70%;
+  }
+
+  @media ${device.mobile} {
+    grid-template-columns: 100%;
+  }
 `;
 
 const ContentWrapper = styled("div")`
@@ -28,6 +36,16 @@ export const Section = styled("section")`
   display: flex;
   flex-direction: column;
   row-gap: 25px;
+
+  @media ${device.mobile} {
+    padding: 20px 30px;
+    row-gap: 20px;
+  }
+
+  @media ${device.mobileM} {
+    padding: 15px 20px;
+    row-gap: 15px;
+  }
 `;
 
 export const PageWrapper = () => {

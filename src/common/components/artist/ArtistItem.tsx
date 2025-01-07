@@ -4,7 +4,7 @@ import {
   linkHoverActive,
   resetLink,
 } from "@/common/styles/mixins";
-import { borders, colors, fonts } from "@/common/styles/styleConstants";
+import { borders, colors, device, fonts } from "@/common/styles/styleConstants";
 import { ImgArtist } from "@/common/styles/tags/img/ImgArtist";
 import styled from "styled-components";
 import { ReviewRaiting } from "@/common/components/review/ReviewRaiting";
@@ -12,8 +12,10 @@ import { ReviewRaiting } from "@/common/components/review/ReviewRaiting";
 const Item = styled("li")`
   position: relative;
   width: 100%;
+  max-width: 300px;
   aspect-ratio: 1;
   padding: 20px;
+  margin-inline: auto;
 
   ${flexCenter}
   flex-direction: column;
@@ -21,6 +23,15 @@ const Item = styled("li")`
 
   background-color: ${colors.blackCover};
   border-radius: ${borders.smallBorderRadius};
+
+  @media ${device.mobileL} {
+    padding: 15px;
+  }
+
+  @media ${device.mobileM} {
+    padding: 10px;
+    row-gap: 5px;
+  }
 `;
 
 const TitleLink = styled("a")`
