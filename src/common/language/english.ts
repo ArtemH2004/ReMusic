@@ -29,6 +29,10 @@ export const EnglishLanguage = {
   add: "Add",
   goto: "Go To",
   close: "Close",
+  repeat: "Repeat",
+  shuffle: "Shuffle",
+  previous: "Previous",
+  next: "Next",
 
   // HeaderSearch
   headerSearch: "Artists, songs or albums",
