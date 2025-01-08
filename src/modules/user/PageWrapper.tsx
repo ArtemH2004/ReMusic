@@ -40,9 +40,14 @@ export const Section = styled("section")`
     row-gap: 20px;
   }
 
-  @media ${device.mobileM} {
+  @media ${device.mobileL} {
     padding: 15px 20px;
     row-gap: 15px;
+  }
+
+  @media ${device.mobileM} {
+    padding: 10px;
+    row-gap: 10px;
   }
 `;
 

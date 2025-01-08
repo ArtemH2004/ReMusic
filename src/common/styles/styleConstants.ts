@@ -114,9 +114,9 @@ export const fonts = {
     extraTitle: 100,
     extraTitleMobile: 60,
     title: 40,
-    titleMobile: 30,
+    titleMobile: 27,
     subtitle: 30,
-    subtitleMobile: 25,
+    subtitleMobile: 22,
 
     main: 18,
     mainMobile: 15,
