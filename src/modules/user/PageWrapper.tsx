@@ -1,5 +1,6 @@
 import { Header } from "@/common/components/header/Header";
 import { NavPanel } from "@/common/components/navPanel/NavPanel";
+import { Player } from "@/common/components/player/Player";
 import { colors, device } from "@/common/styles/styleConstants";
 import { Outlet } from "react-router-dom";
 import styled from "styled-components";
@@ -59,6 +60,8 @@ export const PageWrapper = () => {
         <Header />
         <Outlet />
       </ContentWrapper>
+
+      <Player />
     </Wrapper>
   );
 };

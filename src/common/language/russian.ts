@@ -29,6 +29,10 @@ export const RussianLanguage = {
   add: "Добавить",
   goto: "Перейти",
   close: "Закрыть",
+  repeat: "Повтор",
+  shuffle: "Перемешать",
+  previous: "Следущая",
+  next: "Предыдущая",
 
   // HeaderSearch
   headerSearch: "Артисты, песни или альбомы",
