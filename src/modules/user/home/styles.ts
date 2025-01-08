@@ -47,6 +47,14 @@ export const HomePageHeader = styled("header")`
   align-items: center;
   justify-content: space-between;
   column-gap: 50px;
+
+  @media ${device.mobileL} {
+    column-gap: 30px;
+  }
+
+  @media ${device.mobileM} {
+    column-gap: 15px;
+  }
 `;
 
 export const HomePageTitle = styled("h2")`

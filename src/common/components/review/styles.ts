@@ -48,11 +48,11 @@ export const ReviewItem = styled("li")<{ $isAccentColor?: boolean }>`
 
   @media ${device.mobileL} {
     row-gap: 15px;
-    padding: 25px;
+    padding: 20px;
   }
 
   @media ${device.mobileM} {
-    padding: 20px;
+    padding: 15px;
   }
 `;
 
@@ -126,7 +126,13 @@ export const ReviewStatisticHeaderWrapper = styled("div")`
   display: flex;
   align-items: end;
   justify-content: space-between;
-  column-gap: 20px;
+  column-gap: 10px;
+
+  @media ${device.mobileL} {
+    ${flexCenter}
+    flex-direction: column;
+    row-gap: 10px;
+  }
 `;
 
 export const ReviewStatisticColumnWrapper = styled("div")`
@@ -157,10 +163,14 @@ export const ReviewStatisticRaiting = styled("span")<{ $color: string }>`
 `;
 
 export const ReviewStatisticList = styled("ul")`
-  ${clampWidth(300, 500)}
+  ${clampWidth(275, 500)}
   display: flex;
   flex-direction: column;
   row-gap: 10px;
+
+  @media ${device.mobileM} {
+    width: 250px;
+  }
 `;
 
 export const ReviewStatisticItem = styled("li")`

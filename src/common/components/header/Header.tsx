@@ -1,5 +1,6 @@
 import {
   HeaderContentWrapper,
+  HeaderLibraryWrapper,
   HeaderWrapper,
 } from "@/common/components/header/styles";
 import { ButtonWithIcon } from "@/common/styles/tags/button/ButtonWithIcon";
@@ -34,7 +35,10 @@ export const Header = () => {
         ) : currentUrl === "/search" ? (
           <HeaderSearch />
         ) : (
-          currentUrl === "/library" && <HeaderLibrary />
+          currentUrl === "/library" && 
+          <HeaderLibraryWrapper>
+            <HeaderLibrary />
+          </HeaderLibraryWrapper>
         )}
       </HeaderContentWrapper>
 

@@ -15,13 +15,13 @@ export const HeaderWrapper = styled("header")`
   display: flex;
   align-items: center;
   justify-content: space-between;
-  column-gap: 50px;
+  column-gap: 20px;
   padding-inline: 40px;
 
   @media ${device.mobile} {
     padding-inline: 30px;
     height: 70px;
-    column-gap: 30px;
+    column-gap: 15px;
   }
 
   @media ${device.mobileM} {
@@ -41,5 +41,11 @@ export const HeaderContentWrapper = styled("div")`
 
   @media ${device.mobileM} {
     column-gap: 10px;
+  }
+`;
+
+export const HeaderLibraryWrapper = styled("div")`
+  @media ${device.tablet} {
+    display: none;
   }
 `;

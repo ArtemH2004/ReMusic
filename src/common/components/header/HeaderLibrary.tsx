@@ -8,6 +8,7 @@ import {
 import {
   borders,
   colors,
+  device,
   fonts,
   shadows,
 } from "@/common/styles/styleConstants";
@@ -18,7 +19,14 @@ const Navigation = styled("nav")``;
 
 const NavigationList = styled("ul")`
   ${flexCenter}
-  column-gap: 12px;
+  column-gap: 7px;
+  background-color: ${colors.blackCover};
+  border-radius: ${borders.searchBorderRadius};
+  padding: 3px;
+
+  @media ${device.mobileL} {
+    column-gap: 5px;
+  }
 `;
 
 export const NavigationItem = styled("li")``;
@@ -27,16 +35,29 @@ export const NavigationLink = styled("a")`
   ${resetLink}
 
   ${flexCenter}
-  padding: 15px 20px;
+  padding: 10px 15px;
   ${clampText(fonts.sizes.mainMobile, fonts.sizes.main)}
   font-weight: ${fonts.weights.bold};
   color: ${colors.whiteTotal};
-  border-radius: ${borders.smallBorderRadius};
+  border-radius: ${borders.searchBorderRadius};
   ${headerNavigationHoverActive}
 
   &.active {
     background-color: ${colors.whiteActive};
     box-shadow: ${shadows.defaultShadow};
+  }
+
+  @media ${device.mobile} {
+    border-radius: ${borders.mediumBorderRadius};
+  }
+
+  @media ${device.mobileL} {
+    padding: 5px 10px;
+    font-weight: ${fonts.weights.semiBold};
+  }
+
+  @media ${device.mobileM} {
+    ${clampText(fonts.sizes.smallMobile, fonts.sizes.small)}
   }
 `;
 
