@@ -2,12 +2,14 @@ import { Header } from "@/common/components/header/Header";
 import { NavPanel } from "@/common/components/navPanel/NavPanel";
 import { Player } from "@/common/components/player/Player";
 import { colors, device } from "@/common/styles/styleConstants";
+import { useState } from "react";
 import { Outlet } from "react-router-dom";
 import styled from "styled-components";
 
-const Wrapper = styled("div")`
+const Wrapper = styled("div")<{$isPlayer: boolean}>`
   width: 100%;
   min-height: 100vh;
+  padding-bottom: ${(props) => props.$isPlayer && '80px'};
 
   position: relative;
   display: grid;
@@ -19,6 +21,11 @@ const Wrapper = styled("div")`
 
   @media ${device.mobile} {
     grid-template-columns: 100%;
+    padding-bottom: ${(props) => props.$isPlayer && '70px'};
+  }
+
+  @media ${device.mobileM} {
+    padding-bottom: ${(props) => props.$isPlayer && '60px'};
   }
 `;
 
@@ -53,15 +60,16 @@ export const Section = styled("section")`
 `;
 
 export const PageWrapper = () => {
+  const [isPlayerOpen, setPlayerOpen] = useState(true);
   return (
-    <Wrapper>
+    <Wrapper $isPlayer={isPlayerOpen}>
       <NavPanel />
       <ContentWrapper>
         <Header />
         <Outlet />
       </ContentWrapper>
 
-      <Player />
+      {isPlayerOpen && <Player setClose={setPlayerOpen} />}
     </Wrapper>
   );
 };
