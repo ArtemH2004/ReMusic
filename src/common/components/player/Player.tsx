@@ -17,7 +17,11 @@ import {
 import { getLanguage } from "@/common/helpers/getLanguage";
 import { ButtonWithIcon } from "@/common/styles/tags/button/ButtonWithIcon";
 
-export const Player = () => {
+interface PlayerProps {
+  setClose: (isOpen: boolean) => void;
+}
+
+export const Player = ({setClose}: PlayerProps) => {
   const language = getLanguage();
 
   return (
@@ -82,7 +86,7 @@ export const Player = () => {
               icon="player/open"
               title={language.goto}
             />
-            <ButtonWithIcon size={40} icon="close" title={language.close} />
+            <ButtonWithIcon size={40} icon="close" title={language.close} click={() => setClose(false)} />
           </PlayerControlButtonsWrapper>
         </PlayerAdaptiveDisplayNoneWrapper>
 
