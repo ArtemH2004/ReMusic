@@ -20,7 +20,7 @@ export const PlayerSection = styled("section")`
   position: fixed;
   bottom: 0;
   left: 0;
-  z-index: 1000;
+  z-index: 500;
   width: 100%;
   height: 80px;
   padding-inline: 25px;
