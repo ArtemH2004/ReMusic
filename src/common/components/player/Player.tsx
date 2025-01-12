@@ -21,24 +21,23 @@ interface PlayerProps {
   setClose: (isOpen: boolean) => void;
 }
 
-export const Player = ({setClose}: PlayerProps) => {
+export const Player = ({ setClose }: PlayerProps) => {
   const language = getLanguage();
 
   return (
     <PlayerSection>
       <PlayerContentWrapper>
         <PlayerInfoWrapper>
-            <PlayerAdaptiveDisplayBlockWrapper>
-                <PlayerInfoSongImg src="https://i.pinimg.com/736x/2a/5e/a2/2a5ea249f33a3346e55319214ee8ec91.jpg" alt="Song" />
-            </PlayerAdaptiveDisplayBlockWrapper>
+          <PlayerAdaptiveDisplayBlockWrapper>
+            <PlayerInfoSongImg
+              src="https://i.pinimg.com/736x/2a/5e/a2/2a5ea249f33a3346e55319214ee8ec91.jpg"
+              alt="Song"
+            />
+          </PlayerAdaptiveDisplayBlockWrapper>
           <PlayerInfoColumnWrapper>
             <PlayerInfoTitle>Play It Safe</PlayerInfoTitle>
             <PlayerInfoArtistLink>Julia Wolf</PlayerInfoArtistLink>
           </PlayerInfoColumnWrapper>
-
-          <PlayerAdaptiveDisplayNoneWrapper>
-            <ButtonWithIcon size={40} icon="player/add" title={language.add} />
-          </PlayerAdaptiveDisplayNoneWrapper>
         </PlayerInfoWrapper>
 
         <PlayerAdaptiveDisplayNoneWrapper>
@@ -81,12 +80,19 @@ export const Player = ({setClose}: PlayerProps) => {
 
         <PlayerAdaptiveDisplayNoneWrapper>
           <PlayerControlButtonsWrapper>
+            <ButtonWithIcon size={40} icon="player/add" title={language.add} />
+
             <ButtonWithIcon
               size={40}
               icon="player/open"
               title={language.goto}
             />
-            <ButtonWithIcon size={40} icon="close" title={language.close} click={() => setClose(false)} />
+            <ButtonWithIcon
+              size={40}
+              icon="close"
+              title={language.close}
+              click={() => setClose(false)}
+            />
           </PlayerControlButtonsWrapper>
         </PlayerAdaptiveDisplayNoneWrapper>
 
