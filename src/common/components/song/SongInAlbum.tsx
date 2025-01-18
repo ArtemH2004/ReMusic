@@ -14,13 +14,7 @@ import styled from "styled-components";
 import { ReviewRaiting } from "@/common/components/review/ReviewRaiting";
 import { getLanguage } from "@/common/helpers/getLanguage";
 
-const Item = styled("li")`
-  @media ${device.mobileL} {
-    &:not(:last-child) {
-      border-bottom: ${borders.defaultBorder};
-    }
-  }
-`;
+const Item = styled("li")``;
 
 const Button = styled("button")`
   ${resetButton}
@@ -31,6 +25,7 @@ const Button = styled("button")`
   justify-content: space-between;
   column-gap: 30px;
   padding-inline: 40px;
+  border-radius: ${borders.smallBorderRadius};
 
   ${hoverActive}
 
@@ -99,7 +94,7 @@ const ArtistLink = styled("a")`
   ${linkHoverActive}
 `;
 
-const ButtonsWrapper = styled("div")`
+const ButtonsWrapper = styled(Wrapper)`
   @media ${device.mobileL} {
     display: none;
   }
