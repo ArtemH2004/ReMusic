@@ -23,6 +23,7 @@ const authService = '/auth';
 const userService = '/user';
 const songService = '/song';
 const albumService = '/album';
+const reviewService = '/review';
 
 export enum AuthServiceEndpoints {
   LOGIN = `${authService}/login`,
@@ -41,3 +42,6 @@ export enum AlbumServiceEndpoints {
   ALBUM = `${albumService}`,
 }
 
+export enum ReviewServiceEndpoints {
+  REVIEW = `${reviewService}`,
+}
