@@ -26,13 +26,24 @@ import { useState } from "react";
 import { Modal } from "@/common/components/modal/Modal";
 import { ModalReview } from "@/common/components/modal/ModalReview";
 import { getLanguage } from "@/common/helpers/getLanguage";
+import { useGetSongByIdQuery } from "@/store/reducers/song/songApi";
+import { useParams } from "react-router-dom";
+import { getImgByName } from "@/common/helpers/getImgByName";
+import { useGetUserByIdQuery } from "@/store/reducers/user/userApi";
+import { getYearFromDate } from "@/common/helpers/getYearFromDate";
+import { SongPageLoading } from "@/common/components/loading/SongPageLoading";
+
+const defaultSongImg = "/public/images/default-song.svg";
 
 export const SongPage = () => {
   const [isModalReviewOpen, setModalReviewOpen] = useState(false);
+  const { id } = useParams();
+  const { data: song, isLoading } = useGetSongByIdQuery(Number(id));
+  const { data: artist } = useGetUserByIdQuery(song?.artist_id || 0);
+  const year = getYearFromDate(song?.created_at);
 
-  const accentColor = getImgAccentColor(
-    "https://aimm.edu/hubfs/Blog%20Images/Top%2010%20Album%20Covers%20of%202017/Tyler%20the%20Creator-%20Flower%20boy.jpg"
-  );
+  const img = !!song?.photo ? getImgByName(song?.photo || "") : defaultSongImg;
+  const accentColor = getImgAccentColor(img);
   const language = getLanguage();
   scrollToTop();
 
@@ -46,62 +57,66 @@ export const SongPage = () => {
           children={<ModalReview />}
         />
       )}
-      <SongPageSection $accentColor={accentColor}>
-        <SongPageContentWrapper>
-          <ImgCover
-            img="https://aimm.edu/hubfs/Blog%20Images/Top%2010%20Album%20Covers%20of%202017/Tyler%20the%20Creator-%20Flower%20boy.jpg"
-            title="Flower Boy"
-            artist="Tyler the Creator"
-            year={2020}
-            isButtonsActive={false}
-          />
+      {!isLoading ? (
+        <SongPageLoading />
+      ) : (
+        <SongPageSection $accentColor={accentColor}>
+          <SongPageContentWrapper>
+            <ImgCover
+              img={img}
+              title={song?.name || ""}
+              artist={artist?.username || ""}
+              year={year}
+              isButtonsActive={false}
+            />
 
-          <SongPageInnerWrapper>
-            <SongPageSubtitle>{language.song}</SongPageSubtitle>
-            <SongPageTitle>Flower Boy</SongPageTitle>
-            <SongPageSubtitleLink>Tyler the Creator</SongPageSubtitleLink>
-            <SongPageDescription>2 minutes • 34 seconds</SongPageDescription>
-          </SongPageInnerWrapper>
-        </SongPageContentWrapper>
+            <SongPageInnerWrapper>
+              <SongPageSubtitle>{language.song}</SongPageSubtitle>
+              <SongPageTitle>{song?.name}</SongPageTitle>
+              <SongPageSubtitleLink>{artist?.username}</SongPageSubtitleLink>
+              <SongPageDescription>2 minutes • 12 seconds</SongPageDescription>
+            </SongPageInnerWrapper>
+          </SongPageContentWrapper>
 
-        <SongPageSongsWrapper>
-          <SongPageInfoWrapper>
-            <SongPageInfoButtonsWrapper>
-              <SongPageButtonWrapper $accentColor={accentColor}>
+          <SongPageSongsWrapper>
+            <SongPageInfoWrapper>
+              <SongPageInfoButtonsWrapper>
+                <SongPageButtonWrapper $accentColor={accentColor}>
+                  <ButtonWithIcon
+                    size={60}
+                    icon={"player/play-white"}
+                    title={language.play}
+                  />
+                </SongPageButtonWrapper>
                 <ButtonWithIcon
                   size={60}
-                  icon={"player/play-white"}
-                  title={language.play}
+                  icon={"player/add"}
+                  title={language.add}
                 />
-              </SongPageButtonWrapper>
-              <ButtonWithIcon
-                size={60}
-                icon={"player/add"}
-                title={language.add}
-              />
-              <ButtonWithIcon
-                size={60}
-                icon={"player/review"}
-                title={language.writeReview}
-                click={() => setModalReviewOpen(true)}
-              />
-            </SongPageInfoButtonsWrapper>
+                <ButtonWithIcon
+                  size={60}
+                  icon={"player/review"}
+                  title={language.writeReview}
+                  click={() => setModalReviewOpen(true)}
+                />
+              </SongPageInfoButtonsWrapper>
 
-            <SongPageRaitingWrapper>
-              <ReviewRaiting value={30} />
-            </SongPageRaitingWrapper>
-          </SongPageInfoWrapper>
+              <SongPageRaitingWrapper>
+                <ReviewRaiting value={30} />
+              </SongPageRaitingWrapper>
+            </SongPageInfoWrapper>
 
-          <SongPageContentSection>
-            <SongPageHeader>
-              <SongPageListTitle>{language.topReviews}</SongPageListTitle>
-              <ButtonSeeAll />
-            </SongPageHeader>
+            <SongPageContentSection>
+              <SongPageHeader>
+                <SongPageListTitle>{language.topReviews}</SongPageListTitle>
+                <ButtonSeeAll />
+              </SongPageHeader>
 
-            <Review isAccentColor={true} />
-          </SongPageContentSection>
-        </SongPageSongsWrapper>
-      </SongPageSection>
+              <Review isAccentColor={true} />
+            </SongPageContentSection>
+          </SongPageSongsWrapper>
+        </SongPageSection>
+      )}
     </>
   );
 };

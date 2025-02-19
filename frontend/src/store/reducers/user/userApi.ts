@@ -25,7 +25,7 @@ export const userApi = createApi({
       transformResponse: (response: User[]) => {
         return response
           .filter(user => user.isartist)
-          .sort((a, b) => new Date(b.createdat).getTime() - new Date(a.createdat).getTime()); // Сортируем по времени создания
+          .sort((a, b) => new Date(b.created_at).getTime() - new Date(a.created_at).getTime()); // Сортируем по времени создания
       },
     }),
     

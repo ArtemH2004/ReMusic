@@ -99,9 +99,9 @@ export const ReviewLikesCount = styled("span")`
 `;
 
 export const ReviewContentWrapper = styled("div")`
-  display: flex;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
   align-items: start;
-  justify-content: space-between;
   column-gap: 50px;
 
   @media ${device.tablet} {

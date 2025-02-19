@@ -42,7 +42,7 @@ export const ButtonWithIcon = ({
   return (
     <ButtonWrapper $size={size} title={title} onClick={click}>
       <VisuallyHidden>{title}</VisuallyHidden>
-      <ButtonIcon src={`public/images/icons/${icon}.svg`} alt={title} />
+      <ButtonIcon src={`/public/images/icons/${icon}.svg`} alt={title} />
     </ButtonWrapper>
   );
 };

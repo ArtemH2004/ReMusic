@@ -12,6 +12,9 @@ import styled from "styled-components";
 import { ReviewRaiting } from "@/common/components/review/ReviewRaiting";
 import { NavLink } from "react-router-dom";
 import { getLanguage } from "@/common/helpers/getLanguage";
+import { Song } from "@/store/reducers/song/types";
+import { useGetUserByIdQuery } from "@/store/reducers/user/userApi";
+import { getImgByName } from "@/common/helpers/getImgByName";
 
 const Item = styled("li")`
   ${clampWidth(300, 500)}
@@ -53,10 +56,12 @@ const ColumnWrapper = styled("div")`
 const Title = styled("h3")`
   ${clampText(fonts.sizes.mainMobile, fonts.sizes.main)}
   font-weight: ${fonts.weights.semiBold};
+  width: fit-content;
 `;
 
 const ArtistLink = styled("a")`
   ${resetLink}
+  width: fit-content;
   ${clampText(fonts.sizes.smallMobile, fonts.sizes.small)}
   font-weight: ${fonts.weights.medium};
   ${linkHoverActive}
@@ -98,9 +103,15 @@ const Link = styled(NavLink)`
   ${flexCenter}
 `;
 
-export const Song = () => {
+interface SongProps {
+  song: Song;
+}
+
+export const SongItem = ({song}: SongProps) => {
   const [isHover, setHover] = useState(false);
   const language = getLanguage();
+  const img = getImgByName(song.photo);
+  const { data } = useGetUserByIdQuery(song.artist_id); 
 
   return (
     <Item
@@ -110,8 +121,8 @@ export const Song = () => {
       <Wrapper>
         <ImgWrapper>
           <Img
-            src="https://aimm.edu/hubfs/Blog%20Images/Top%2010%20Album%20Covers%20of%202017/Tyler%20the%20Creator-%20Flower%20boy.jpg"
-            alt="Song cover"
+            src={img}
+            alt={`"${song.name}" ${data?.username}`}
           />
           {isHover && (
             <ImgLink>
@@ -125,15 +136,15 @@ export const Song = () => {
         </ImgWrapper>
 
         <ColumnWrapper>
-          <Title>Flower Boy</Title>
-          <ArtistLink>Tyler the Creator</ArtistLink>
+          <Title>{song.name}</Title>
+          <ArtistLink>{data?.username}</ArtistLink>
         </ColumnWrapper>
       </Wrapper>
 
       <Wrapper $isRightPadding={true}>
         {isHover ? (
           <>
-            <Link to="/song">
+            <Link to={`/song/${song.id}`}>
               <ButtonWithIcon size={40} icon={"player/open"} title={language.goto} />
             </Link>
             <ButtonWithIcon size={40} icon={"player/add"} title={language.add} />

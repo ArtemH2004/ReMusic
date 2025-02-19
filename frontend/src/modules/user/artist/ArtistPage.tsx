@@ -20,7 +20,7 @@ import {
   ArtistPageSubtitle,
   ArtistPageTitle,
 } from "@/modules/user/artist/styles";
-import { Song } from "@/common/components/song/Song";
+import { SongItem } from "@/common/components/song/SongItem";
 import { AlbumItem } from "@/common/components/album/AlbumItem";
 import { ButtonSeeAll } from "@/common/styles/tags/button/ButtonSeeAll";
 import { ReviewRaiting } from "@/common/components/review/ReviewRaiting";
@@ -95,16 +95,16 @@ export const ArtistPage = () => {
             <ArtistPageListTitle>{language.songs}</ArtistPageListTitle>
 
             <ArtistPageList>
-              <Song />
-              <Song />
-              <Song />
-              <Song />
-              <Song />
-              <Song />
-              <Song />
-              <Song />
-              <Song />
-              <Song />
+              {/* <SongItem song={}/>
+              <SongItem song={}/>
+              <SongItem song={}/>
+              <SongItem song={}/>
+              <SongItem song={}/>
+              <SongItem song={}/>
+              <SongItem song={}/>
+              <SongItem song={}/>
+              <SongItem song={}/>
+              <SongItem song={}/> */}
             </ArtistPageList>
           </ArtistPageContentSection>
 

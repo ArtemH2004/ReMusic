@@ -11,7 +11,7 @@ import {
   ReviewLikesCount,
 } from "@/common/components/review/styles";
 import { ButtonWithIcon } from "@/common/styles/tags/button/ButtonWithIcon";
-import { ReviewStatistic } from "./ReviewStatistic";
+import { ReviewStatistic } from "@/common/components/review/ReviewStatistic";
 import { getLanguage } from "@/common/helpers/getLanguage";
 
 interface ReviewProps {

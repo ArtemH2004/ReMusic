@@ -21,6 +21,7 @@ export type ErrorResponse = {
 const authService = '/auth';
 
 const userService = '/user';
+const songService = '/song';
 
 export enum AuthServiceEndpoints {
   LOGIN = `${authService}/login`,
@@ -29,5 +30,9 @@ export enum AuthServiceEndpoints {
 
 export enum UserServiceEndpoints {
   USER = `${userService}`,
+}
+
+export enum SongServiceEndpoints {
+  SONG = `${songService}`,
 }
 
