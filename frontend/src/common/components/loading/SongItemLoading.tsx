@@ -9,7 +9,8 @@ import { RaitingLoading } from "@/common/components/loading/RaitingLoading";
 
 const Item = styled("li")`
   ${clampWidth(300, 500)}
-  height: 82px;
+  height: 100%;
+  max-height: 82px;
   background-color: ${colors.whiteActive};
   border-radius: ${borders.smallBorderRadius};
 
@@ -19,12 +20,12 @@ const Item = styled("li")`
   column-gap: 20px;
 
   @media ${device.mobile} {
-    height: 70px;
+    max-height: 70px;
     column-gap: 15px;
   }
 
   @media ${device.mobileL} {
-    height: 60px;
+    max-height: 60px;
   }
 `;
 
@@ -46,18 +47,17 @@ const ColumnWrapper = styled("div")`
   row-gap: 5px;
 `;
 
-const Img = styled("div")`
+const Img = styled("img")`
   height: 100%;
   aspect-ratio: 1;
   border-radius: ${borders.smallBorderRadius};
-  background-color: ${colors.blackLoading};
 `;
 
 export const SongItemLoading = () => {
   return (
     <Item>
       <Wrapper>
-        <Img />
+        <Img src="/public/images/default-song.svg"/>
 
         <ColumnWrapper>
           <TextLoading $height={18} $width="100%" />

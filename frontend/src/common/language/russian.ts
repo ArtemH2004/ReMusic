@@ -45,9 +45,9 @@ export const RussianLanguage = {
 
   //Home
   newSongs: "Новые Песни",
-  topArtists: "Популярные Артисты",
-  topAlbums: "Популярные Альбомы",
-  topReviews: "Популярные Обзоры",
+  newArtists: "Новые Артисты",
+  newAlbums: "Новые Альбомы",
+  newReviews: "Новые Обзоры",
 
   // Library
   likedSongs: "Отмеченные Песни",

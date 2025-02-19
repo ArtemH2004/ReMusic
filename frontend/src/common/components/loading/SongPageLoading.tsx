@@ -15,13 +15,16 @@ import {
   SongPageListTitle,
 } from "@/modules/user/song/styles";
 import { ButtonSeeAll } from "@/common/styles/tags/button/ButtonSeeAll";
-import { Review } from "@/common/components/review/Review";
-
 import { getLanguage } from "@/common/helpers/getLanguage";
 import { SquareLoading, TextLoading } from "@/common/components/loading/styles";
 import { RaitingLoading } from "@/common/components/loading/RaitingLoading";
 import { ImgCoverLoading } from "@/common/components/loading/ImgCoverLoading";
 import { ReviewLoading } from "@/common/components/loading/ReviewLoading";
+import styled from "styled-components";
+
+const Wrapper = styled(SongPageInnerWrapper)`
+  row-gap: 20px;
+`;
 
 export const SongPageLoading = () => {
   const defaultSongImg = "/public/images/default-song.svg";
@@ -35,12 +38,12 @@ export const SongPageLoading = () => {
         <SongPageContentWrapper>
           <ImgCoverLoading img={defaultSongImg} />
 
-          <SongPageInnerWrapper>
+          <Wrapper>
             <TextLoading $height={18} $width="15%" />
             <TextLoading $height={75} $width="75%" />
             <TextLoading $height={18} $width="25%" />
             <TextLoading $height={18} $width="35%" />
-          </SongPageInnerWrapper>
+          </Wrapper>
         </SongPageContentWrapper>
 
         <SongPageSongsWrapper>
@@ -64,7 +67,7 @@ export const SongPageLoading = () => {
 
           <SongPageContentSection>
             <SongPageHeader>
-              <SongPageListTitle>{language.topReviews}</SongPageListTitle>
+              <SongPageListTitle>{language.newReviews}</SongPageListTitle>
               <ButtonSeeAll />
             </SongPageHeader>
 

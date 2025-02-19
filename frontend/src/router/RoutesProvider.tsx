@@ -44,8 +44,8 @@ export default function RoutesProvider() {
           <Route path="library" element={<LibraryPage />}>
             <Route index element={<Navigate to="/library?foo=songs" />} />
           </Route>
-          <Route path="album" element={<AlbumPage />} />
-          <Route path="artist" element={<ArtistPage />} />
+          <Route path="album/:id" element={<AlbumPage />} />
+          <Route path="artist/:id" element={<ArtistPage />} />
           <Route path="song/:id" element={<SongPage />} />
         </Route>
         <Route path="error" element={<Error404 />} />

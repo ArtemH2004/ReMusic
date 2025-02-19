@@ -10,7 +10,7 @@ export const HomeReviews = () => {
   return (
     <HomePageSection>
       <HomePageHeader>
-        <HomePageTitle>{language.topReviews}</HomePageTitle>
+        <HomePageTitle>{language.newReviews}</HomePageTitle>
         <ButtonSeeAll />
       </HomePageHeader>
 

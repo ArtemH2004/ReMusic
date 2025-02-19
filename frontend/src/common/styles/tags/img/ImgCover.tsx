@@ -145,6 +145,7 @@ interface ImgCoverProps {
   artist: string;
   year: number;
   isButtonsActive: boolean;
+  linkTo?: string;
 }
 export const ImgCover = ({
   img,
@@ -152,6 +153,7 @@ export const ImgCover = ({
   artist,
   year,
   isButtonsActive,
+  linkTo,
 }: ImgCoverProps) => {
   const accentColor = getImgAccentColor(img);
   const language = getLanguage();
@@ -166,7 +168,7 @@ export const ImgCover = ({
             icon={"player/play-white"}
             title={language.play}
           />
-          <Link to="/album">
+          <Link to={linkTo || ""}>
             <ButtonWithIcon size={35} icon={"player/open"} title={language.goto} />
           </Link>
         </CoverWrapper>

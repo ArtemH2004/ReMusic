@@ -1,18 +1,10 @@
 import {
-  ReviewAuthorColumnWrapper,
-  ReviewAuthorImg,
-  ReviewAuthorName,
-  ReviewAuthorTime,
   ReviewContentWrapper,
-  ReviewDescription,
   ReviewHeader,
   ReviewHeaderWrapper,
   ReviewItem,
-  ReviewLikesCount,
 } from "@/common/components/review/styles";
-import { ButtonWithIcon } from "@/common/styles/tags/button/ButtonWithIcon";
 import { ReviewStatistic } from "@/common/components/review/ReviewStatistic";
-import { getLanguage } from "@/common/helpers/getLanguage";
 import { SquareLoading, TextLoading } from "./styles";
 import styled from "styled-components";
 
@@ -30,7 +22,6 @@ interface ReviewProps {
   isAccentColor?: boolean;
 }
 export const ReviewLoading = ({ isAccentColor }: ReviewProps) => {
-  const language = getLanguage();
 
   return (
     <ReviewItem $isAccentColor={isAccentColor}>

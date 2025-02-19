@@ -28,13 +28,29 @@ import { useState } from "react";
 import { Modal } from "@/common/components/modal/Modal";
 import { ModalReview } from "@/common/components/modal/ModalReview";
 import { getLanguage } from "@/common/helpers/getLanguage";
+import { useGetAlbumByIdQuery } from "@/store/reducers/album/albumApi";
+import { useParams } from "react-router-dom";
+import { getImgByName } from "@/common/helpers/getImgByName";
+import { AlbumPageLoading } from "@/common/components/loading/AlbumPageLoading";
+import { useGetUserByIdQuery } from "@/store/reducers/user/userApi";
+import { getYearFromDate } from "@/common/helpers/getYearFromDate";
+import { useGetAllSongsQuery } from "@/store/reducers/song/songApi";
+
+const defaultAlbumImg = "/public/images/default-album.svg";
 
 export const AlbumPage = () => {
   const [isModalReviewOpen, setModalReviewOpen] = useState(false);
-
-  const accentColor = getImgAccentColor(
-    "https://img-fotki.yandex.ru/get/765007/194398330.194/0_224238_718fa1c9_XL.jpg"
-  );
+  const { id } = useParams();
+  const { data: album, isLoading: isAlbumLoading } = useGetAlbumByIdQuery(Number(id));
+  const {data: song, isLoading: isSongLoading} = useGetAllSongsQuery();
+  const {data: artist} = useGetUserByIdQuery(album?.artist_id || 0);
+  const img = !!album?.photo ? getImgByName(album.photo) : defaultAlbumImg;
+  const accentColor = getImgAccentColor(img);
+  const year = getYearFromDate(album?.created_at);
+  const songsList = song?.filter((song) => song.album_id === Number(id)) || [];
+  //TODO Review
+  const isReviewLoading = true;
+  const isLoading = isAlbumLoading && isSongLoading && isReviewLoading;
 
   const language = getLanguage();
 
@@ -50,69 +66,70 @@ export const AlbumPage = () => {
           children={<ModalReview />}
         />
       )}
-      <AlbumPageSection $accentColor={accentColor}>
-        <AlbumPageContentWrapper>
-          <ImgCover
-            img="https://img-fotki.yandex.ru/get/765007/194398330.194/0_224238_718fa1c9_XL.jpg"
-            title="Nevermind"
-            artist="NIRVANA"
-            year={2001}
-            isButtonsActive={false}
-          />
+      {isLoading ? (
+        <AlbumPageLoading />
+      ) : (
+        <AlbumPageSection $accentColor={accentColor}>
+          <AlbumPageContentWrapper>
+            <ImgCover
+              img={img}
+              title={album?.name || ""}
+              artist={artist?.username || ""}
+              year={year}
+              isButtonsActive={false}
+            />
 
-          <AlbumPageInnerWrapper>
-            <AlbumPageSubtitle>{language.album}</AlbumPageSubtitle>
-            <AlbumPageTitle>Nevermind</AlbumPageTitle>
-            <AlbumPageSubtitleLink>NIRVANA</AlbumPageSubtitleLink>
-            <AlbumPageDescription>5 songs • 34 minutes</AlbumPageDescription>
-          </AlbumPageInnerWrapper>
-        </AlbumPageContentWrapper>
+            <AlbumPageInnerWrapper>
+              <AlbumPageSubtitle>{language.album}</AlbumPageSubtitle>
+              <AlbumPageTitle>{album?.name}</AlbumPageTitle>
+              <AlbumPageSubtitleLink to={`/artist/${artist?.id}`}>{artist?.username}</AlbumPageSubtitleLink>
+              <AlbumPageDescription>{`${songsList.length} ${language.songs} • 34 minutes`}</AlbumPageDescription>
+            </AlbumPageInnerWrapper>
+          </AlbumPageContentWrapper>
 
-        <AlbumPageSongsWrapper>
-          <AlbumPageInfoWrapper>
-            <AlbumPageInfoButtonsWrapper>
-              <AlbumPageButtonWrapper $accentColor={accentColor}>
+          <AlbumPageSongsWrapper>
+            <AlbumPageInfoWrapper>
+              <AlbumPageInfoButtonsWrapper>
+                <AlbumPageButtonWrapper $accentColor={accentColor}>
+                  <ButtonWithIcon
+                    size={60}
+                    icon={"player/play-white"}
+                    title={language.play}
+                  />
+                </AlbumPageButtonWrapper>
                 <ButtonWithIcon
                   size={60}
-                  icon={"player/play-white"}
-                  title={language.play}
+                  icon={"player/add"}
+                  title={language.add}
                 />
-              </AlbumPageButtonWrapper>
-              <ButtonWithIcon
-                size={60}
-                icon={"player/add"}
-                title={language.add}
-              />
-              <ButtonWithIcon
-                size={60}
-                icon={"player/review"}
-                title={language.writeReview}
-                click={() => setModalReviewOpen(true)}
-              />
-            </AlbumPageInfoButtonsWrapper>
+                <ButtonWithIcon
+                  size={60}
+                  icon={"player/review"}
+                  title={language.writeReview}
+                  click={() => setModalReviewOpen(true)}
+                />
+              </AlbumPageInfoButtonsWrapper>
 
-            <AlbumPageRaitingWrapper>
-              <ReviewRaiting value={82} />
-            </AlbumPageRaitingWrapper>
-          </AlbumPageInfoWrapper>
+              <AlbumPageRaitingWrapper>
+                <ReviewRaiting value={82} />
+              </AlbumPageRaitingWrapper>
+            </AlbumPageInfoWrapper>
 
-          <AlbumPageList>
-            <SongInAlbum />
-            <SongInAlbum />
-            <SongInAlbum />
-            <SongInAlbum />
-          </AlbumPageList>
+            <AlbumPageList>
+              {songsList?.map((song, index) =>  <SongInAlbum key={song.id} index={index + 1} song={song}/>)}
+            </AlbumPageList>
 
-          <AlbumPageContentSection>
-            <AlbumPageHeader>
-              <AlbumPageListTitle>{language.topReviews}</AlbumPageListTitle>
-              <ButtonSeeAll />
-            </AlbumPageHeader>
+            <AlbumPageContentSection>
+              <AlbumPageHeader>
+                <AlbumPageListTitle>{language.newReviews}</AlbumPageListTitle>
+                <ButtonSeeAll />
+              </AlbumPageHeader>
 
-            <Review isAccentColor={true} />
-          </AlbumPageContentSection>
-        </AlbumPageSongsWrapper>
-      </AlbumPageSection>
+              <Review isAccentColor={true} />
+            </AlbumPageContentSection>
+          </AlbumPageSongsWrapper>
+        </AlbumPageSection>
+      )}
     </>
   );
 };

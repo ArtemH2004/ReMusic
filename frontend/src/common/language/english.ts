@@ -45,9 +45,9 @@ export const EnglishLanguage = {
 
   //Home
   newSongs: "New Songs",
-  topArtists: "Top Artists",
-  topAlbums: "Top Albums",
-  topReviews: "Top Reviews",
+  newArtists: "New Artists",
+  newAlbums: "New Albums",
+  newReviews: "New Reviews",
 
   // Library
   likedSongs: "Liked Songs",
