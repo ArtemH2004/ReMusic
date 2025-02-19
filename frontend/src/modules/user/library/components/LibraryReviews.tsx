@@ -1,4 +1,4 @@
-import { Review } from "@/common/components/review/Review";
+import { Review } from "@/common/components/review/Reviews";
 import { getLanguage } from "@/common/helpers/getLanguage";
 import { LibraryPageReviewsList, LibraryPageCount, LibraryPageHeader, LibraryPageTitle } from "@/modules/user/library/styles";
 

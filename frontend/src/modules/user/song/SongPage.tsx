@@ -21,7 +21,7 @@ import {
   SongPageListTitle,
 } from "@/modules/user/song/styles";
 import { ButtonSeeAll } from "@/common/styles/tags/button/ButtonSeeAll";
-import { Review } from "@/common/components/review/Review";
+import { Reviews } from "@/common/components/review/Reviews";
 import { useEffect, useState } from "react";
 import { Modal } from "@/common/components/modal/Modal";
 import { ModalReview } from "@/common/components/modal/ModalReview";
@@ -33,20 +33,23 @@ import { useGetUserByIdQuery } from "@/store/reducers/user/userApi";
 import { getYearFromDate } from "@/common/helpers/getYearFromDate";
 import { SongPageLoading } from "@/common/components/loading/SongPageLoading";
 import { changeTitle } from "@/common/helpers/changeTitle";
+import { useGetAllReviewsQuery } from "@/store/reducers/review/reviewApi";
 
 const defaultSongImg = "/public/images/default-song.svg";
 
 export const SongPage = () => {
   const [isModalReviewOpen, setModalReviewOpen] = useState(false);
   const { id } = useParams();
-  const { data: song, isLoading } = useGetSongByIdQuery(Number(id));
+  const { data: song, isLoading: isSongLoading } = useGetSongByIdQuery(Number(id));
+  const { data: review, isLoading: isReviewLoading } = useGetAllReviewsQuery();
+  const reviewsList = review?.filter((review) => !!review.song_id && review.song_id === Number(id)) || [];
   const { data: artist } = useGetUserByIdQuery(song?.artist_id || 0);
   const year = getYearFromDate(song?.created_at);
-
+  const isLoading = isSongLoading && isReviewLoading;
   const img = song?.photo !== "" ? getImgByName(song?.photo || "") : defaultSongImg;
   const accentColor = getImgAccentColor(img);
   const language = getLanguage();
-  
+
   useEffect(() => {
     scrollToTop();
     changeTitle("song");
@@ -78,7 +81,9 @@ export const SongPage = () => {
             <SongPageInnerWrapper>
               <SongPageSubtitle>{language.song}</SongPageSubtitle>
               <SongPageTitle>{song?.name}</SongPageTitle>
-              <SongPageSubtitleLink to={`/artist/${artist?.id}`}>{artist?.username}</SongPageSubtitleLink>
+              <SongPageSubtitleLink to={`/artist/${artist?.id}`}>
+                {artist?.username}
+              </SongPageSubtitleLink>
               <SongPageDescription>2 minutes • 12 seconds</SongPageDescription>
             </SongPageInnerWrapper>
           </SongPageContentWrapper>
@@ -111,14 +116,16 @@ export const SongPage = () => {
               </SongPageRaitingWrapper>
             </SongPageInfoWrapper>
 
-            <SongPageContentSection>
-              <SongPageHeader>
-                <SongPageListTitle>{language.newReviews}</SongPageListTitle>
-                <ButtonSeeAll />
-              </SongPageHeader>
+            {reviewsList.length !== 0 &&
+              <SongPageContentSection>
+                <SongPageHeader>
+                  <SongPageListTitle>{language.newReviews}</SongPageListTitle>
+                  <ButtonSeeAll />
+                </SongPageHeader>
 
-              <Review isAccentColor={true} />
-            </SongPageContentSection>
+                {reviewsList.map((review) => <Reviews key={review.id} review={review} isAccentColor={true} />)}
+              </SongPageContentSection>
+            }
           </SongPageSongsWrapper>
         </SongPageSection>
       )}

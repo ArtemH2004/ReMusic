@@ -1,12 +1,12 @@
+import styled from "styled-components";
 import {
   ReviewContentWrapper,
   ReviewHeader,
   ReviewHeaderWrapper,
   ReviewItem,
 } from "@/common/components/review/styles";
-import { ReviewStatistic } from "@/common/components/review/ReviewStatistic";
-import { SquareLoading, TextLoading } from "./styles";
-import styled from "styled-components";
+import { SquareLoading, TextLoading } from "@/common/components/loading/styles";
+import { ReviewStatisticLoading } from "@/common/components/loading/ReviewStatisticLoading";
 
 const ColumnWrapper = styled("div")`
   display: flex;
@@ -52,7 +52,7 @@ export const ReviewLoading = ({ isAccentColor }: ReviewProps) => {
         <TextLoading $height={18} $width="75%" />
         </TextColumnWrapper>
 
-        <ReviewStatistic />
+        <ReviewStatisticLoading />
       </ReviewContentWrapper>
     </ReviewItem>
   );

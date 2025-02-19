@@ -42,9 +42,9 @@ export default function RoutesProvider() {
           <Route index element={<Navigate to="/home" />} />
           <Route path="home" element={<HomePage />} />
           <Route path="search" element={<SearchPage />} />
-          <Route path="library" element={<LibraryPage />}>
+          {/* <Route path="library" element={<LibraryPage />}>
             <Route index element={<Navigate to="/library?foo=songs" />} />
-          </Route>
+          </Route> */}
           <Route path="album/:id" element={<AlbumPage />} />
           <Route path="artist/:id" element={<ArtistPage />} />
           <Route path="song/:id" element={<SongPage />} />

@@ -83,6 +83,7 @@ const Img = styled("img")`
 const ColumnWrapper = styled("div")`
   display: flex;
   flex-direction: column;
+  row-gap: 2px;
 `;
 
 const TitleLink = styled(Link)`

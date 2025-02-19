@@ -11,8 +11,13 @@ import { ReviewStatisticsItem } from "@/common/components/review/ReviewStatistic
 import { AlbumItem } from "@/common/components/album/AlbumItem";
 import { getColorByValue } from "@/common/helpers/getColorByValue";
 import { getLanguage } from "@/common/helpers/getLanguage";
+import { ReviewStatistics } from "@/store/reducers/review/types";
 
-export const ReviewStatistic = () => {
+interface ReviewStatisticProps {
+  review: ReviewStatistics;
+}
+
+export const ReviewStatistic = ({review}: ReviewStatisticProps) => {
   const language = getLanguage();
   
   return (
@@ -33,19 +38,19 @@ export const ReviewStatistic = () => {
 {/* TODO Name of Author in Raiting */}
           <ReviewStatisticColumnWrapper>
             <ReviewStatisticTitleRaiting>{`Kizaru ${language.rating}:`}</ReviewStatisticTitleRaiting>
-            <ReviewStatisticRaiting $color={getColorByValue(56)}>
-              56
+            <ReviewStatisticRaiting $color={getColorByValue(review.rating)}>
+              {review.rating}
             </ReviewStatisticRaiting>
           </ReviewStatisticColumnWrapper>
         </ReviewStatisticWrapper>
       </ReviewStatisticHeaderWrapper>
 
       <ReviewStatisticList>
-        <ReviewStatisticsItem title={language.rhymes} value={7} />
-        <ReviewStatisticsItem title={language.rhythm} value={5} />
-        <ReviewStatisticsItem title={language.style} value={10} />
-        <ReviewStatisticsItem title={language.individuality} value={2} />
-        <ReviewStatisticsItem title={language.atmosphere} value={4} />
+        <ReviewStatisticsItem title={language.rhymes} value={review.rhymes} />
+        <ReviewStatisticsItem title={language.rhythm} value={review.rhythm} />
+        <ReviewStatisticsItem title={language.style} value={review.styles} />
+        <ReviewStatisticsItem title={language.individuality} value={review.individuality} />
+        <ReviewStatisticsItem title={language.atmosphere} value={review.atmosphere} />
       </ReviewStatisticList>
     </ReviewStatisticWrapper>
   );

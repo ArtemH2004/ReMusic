@@ -57,8 +57,13 @@ const Title = styled(NavLink)`
   color: ${colors.whiteTotal};
   ${clampText(fonts.sizes.mainMobile, fonts.sizes.main)}
   font-weight: ${fonts.weights.semiBold};
-  width: fit-content;
   ${linkHoverActive}
+
+  max-width: fit-content;
+  ${clampWidth(75, 175)}
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
 `;
 
 const ArtistLink = styled(NavLink)`

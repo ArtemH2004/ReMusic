@@ -24,7 +24,7 @@ import { SongItem } from "@/common/components/song/SongItem";
 import { AlbumItem } from "@/common/components/album/AlbumItem";
 import { ButtonSeeAll } from "@/common/styles/tags/button/ButtonSeeAll";
 import { ReviewRaiting } from "@/common/components/review/ReviewRaiting";
-import { Review } from "@/common/components/review/Review";
+import { Reviews } from "@/common/components/review/Reviews";
 import { memo, useEffect, useState } from "react";
 import { ModalReview } from "@/common/components/modal/ModalReview";
 import { Modal } from "@/common/components/modal/Modal";
@@ -36,32 +36,29 @@ import { getImgByName } from "@/common/helpers/getImgByName";
 import { useGetAllSongsQuery } from "@/store/reducers/song/songApi";
 import { useGetAllAlbumsQuery } from "@/store/reducers/album/albumApi";
 import { changeTitle } from "@/common/helpers/changeTitle";
+import { useGetAllReviewsQuery } from "@/store/reducers/review/reviewApi";
 
 const defaultArtistImg = "/public/images/default-user.svg";
 
 export const ArtistPage = memo(() => {
   const [isModalReviewOpen, setModalReviewOpen] = useState(false);
   const { id } = useParams();
-  const { data: artist, isLoading: isArtistLoading } = useGetUserByIdQuery(
-    Number(id)
-  );
+  const { data: artist, isLoading: isArtistLoading } = useGetUserByIdQuery(Number(id));
   const { data: song, isLoading: isSongLoading } = useGetAllSongsQuery();
   const { data: album, isLoading: isAlbumLoading } = useGetAllAlbumsQuery();
+  const { data: review, isLoading: isReviewLoading } = useGetAllReviewsQuery();
+  const reviewsList = review?.filter((review) => !!review.artist_id && review.artist_id === Number(id)) || [];
   const songsList = song?.filter((song) => song.artist_id === Number(id)) || [];
-  const albumsList =
-    album?.filter((album) => album.artist_id === Number(id)) || [];
+  const albumsList = album?.filter((album) => album.artist_id === Number(id)) || [];
   const img = !!artist?.photo ? getImgByName(artist?.photo) : defaultArtistImg;
   const accentColor = getImgAccentColor(img);
-  // TODO Review
-  const isReviewLoading = true;
-  const isLoading =
-    isArtistLoading && isSongLoading && isAlbumLoading && isReviewLoading;
+  const isLoading = isArtistLoading && isSongLoading && isAlbumLoading && isReviewLoading;
   const language = getLanguage();
 
-    useEffect(() => {
-      scrollToTop();
-      changeTitle("artist");
-    }, []);
+  useEffect(() => {
+    scrollToTop();
+    changeTitle("artist");
+  }, []);
 
   return (
     <>
@@ -148,14 +145,22 @@ export const ArtistPage = memo(() => {
               </ArtistPageContentSection>
             )}
 
-            <ArtistPageContentSection>
-              <ArtistPageHeader>
-                <ArtistPageListTitle>{language.reviews}</ArtistPageListTitle>
-                <ButtonSeeAll />
-              </ArtistPageHeader>
+            {reviewsList.length !== 0 && (
+              <ArtistPageContentSection>
+                <ArtistPageHeader>
+                  <ArtistPageListTitle>{language.reviews}</ArtistPageListTitle>
+                  <ButtonSeeAll />
+                </ArtistPageHeader>
 
-              <Review isAccentColor={true} />
-            </ArtistPageContentSection>
+                {reviewsList.map((review) => (
+                  <Reviews
+                    key={review.id}
+                    review={review}
+                    isAccentColor={true}
+                  />
+                ))}
+              </ArtistPageContentSection>
+            )}
           </ArtistPageSongsWrapper>
         </ArtistPageSection>
       )}
