@@ -1,6 +1,11 @@
+import { getImgByName } from "@/common/helpers/getImgByName";
+import { getYearFromDate } from "@/common/helpers/getYearFromDate";
 import { clampText, linkHoverActive, resetLink } from "@/common/styles/mixins";
 import { borders, colors, device, fonts } from "@/common/styles/styleConstants";
 import { ImgCover } from "@/common/styles/tags/img/ImgCover";
+import { Album } from "@/store/reducers/album/types";
+import { useGetUserByIdQuery } from "@/store/reducers/user/userApi";
+import { Link } from "react-router-dom";
 import styled from "styled-components";
 
 const Item = styled("li")<{ $isAccentColor?: boolean }>`
@@ -32,7 +37,7 @@ const Wrapper = styled("div")`
   }
 `;
 
-const TitleLink = styled("a")`
+const TitleLink = styled(Link)`
   ${resetLink}
   width: fit-content;
   max-width: 150px;
@@ -46,7 +51,7 @@ const TitleLink = styled("a")`
   text-overflow: ellipsis;
 `;
 
-const SubtitleLink = styled("a")`
+const SubtitleLink = styled(Link)`
   ${resetLink}
   width: fit-content;
   max-width: 150px;
@@ -67,28 +72,33 @@ const Span = styled("span")`
   user-select: none;
 `;
 
+const defaultAlbumImg = '/public/images/default-album.svg'
+
 interface AlbumItemProps {
+  album?: Album;
   isAccentColor?: boolean;
 }
 
-export const AlbumItem = ({ isAccentColor }: AlbumItemProps) => {
-  const img =
-    "https://img-fotki.yandex.ru/get/765007/194398330.194/0_224238_718fa1c9_XL.jpg";
+export const AlbumItem = ({ album, isAccentColor }: AlbumItemProps) => {
+  const {data: artist} = useGetUserByIdQuery(album?.artist_id || 0);
+  const img = album?.photo !== "" ? getImgByName(album?.photo || "") : defaultAlbumImg;
+  const year = getYearFromDate(album?.created_at);
 
   return (
     <Item $isAccentColor={isAccentColor}>
       <ImgCover
         img={img}
-        title="Nevermind"
-        artist="NIRVANA"
-        year={2001}
+        title={album?.name || ""}
+        artist={artist?.username || ""}
+        year={year}
         isButtonsActive={true}
+        linkTo={`/album/${album?.id}`}
       />
 
       <Wrapper>
-        <TitleLink>Nevermind</TitleLink>
-        <SubtitleLink>NIRVANA</SubtitleLink>
-        <Span>2001 • Рок</Span>
+        <TitleLink to={`/album/${album?.id}`}>{album?.name}</TitleLink>
+        <SubtitleLink to={`/artist/${artist?.id}`}>{artist?.username}</SubtitleLink>
+        <Span>{year}</Span>
       </Wrapper>
     </Item>
   );

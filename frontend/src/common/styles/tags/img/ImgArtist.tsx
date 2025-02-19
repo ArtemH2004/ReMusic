@@ -57,8 +57,9 @@ const Link = styled(NavLink)`
 interface ImgArtistProps {
   img: string;
   artist: string;
+  artistId: number;
 }
-export const ImgArtist = ({ img, artist }: ImgArtistProps) => {
+export const ImgArtist = ({ img, artist, artistId }: ImgArtistProps) => {
   const accentColor = getImgAccentColor(img);
   const language = getLanguage();
   
@@ -71,7 +72,7 @@ export const ImgArtist = ({ img, artist }: ImgArtistProps) => {
           icon={"player/play-white"}
           title={language.play}
         />
-        <Link to={`/artist`}>
+        <Link to={`/artist/${artistId}`}>
           <ButtonWithIcon size={35} icon={"player/open"} title={language.goto} />
         </Link>
       </FlexWrapper>

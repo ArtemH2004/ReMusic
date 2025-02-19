@@ -13,6 +13,10 @@ import { useState } from "react";
 import styled from "styled-components";
 import { ReviewRaiting } from "@/common/components/review/ReviewRaiting";
 import { getLanguage } from "@/common/helpers/getLanguage";
+import { Song } from "@/store/reducers/song/types";
+import { getImgByName } from "@/common/helpers/getImgByName";
+import { useGetUserByIdQuery } from "@/store/reducers/user/userApi";
+import { Link } from "react-router-dom";
 
 const Item = styled("li")``;
 
@@ -81,11 +85,15 @@ const ColumnWrapper = styled("div")`
   flex-direction: column;
 `;
 
-const Title = styled(Number)`
+const TitleLink = styled(Link)`
+  ${resetLink}
+  ${clampText(fonts.sizes.mainMobile, fonts.sizes.main)}
+  font-weight: ${fonts.weights.medium};
   color: ${colors.whiteTotal};
+  ${linkHoverActive}
 `;
 
-const ArtistLink = styled("a")`
+const ArtistLink = styled(Link)`
   ${resetLink}
   width: fit-content;
   ${clampText(fonts.sizes.smallMobile, fonts.sizes.small)}
@@ -100,8 +108,19 @@ const ButtonsWrapper = styled(Wrapper)`
   }
 `;
 
-export const SongInAlbum = () => {
+const NavLink = styled(Link)`
+  ${flexCenter}
+`;
+
+interface SongInAlbumProps {
+  index: number;
+  song: Song;
+}
+
+export const SongInAlbum = ({ index, song }: SongInAlbumProps) => {
+  const { data: artist } = useGetUserByIdQuery(song.artist_id);
   const [isHover, setHover] = useState(false);
+  const img = getImgByName(song.photo);
   const language = getLanguage();
 
   return (
@@ -111,26 +130,27 @@ export const SongInAlbum = () => {
         onMouseLeave={() => setHover(false)}
       >
         <Wrapper>
-          <Number>1</Number>
-          <Img
-            src="https://upload.wikimedia.org/wikipedia/en/thumb/3/3a/Drake_and_21_Savage_-_Her_Loss.png/220px-Drake_and_21_Savage_-_Her_Loss.png"
-            alt="Song cover"
-          />
+          <Number>{index}</Number>
+          <Img src={img} alt={song.name} />
 
           <ColumnWrapper>
-            <Title>2 Freaky Girls</Title>
-            <ArtistLink>21 Savage</ArtistLink>
+            <TitleLink to={`/song/${song.id}`}>{song.name}</TitleLink>
+            <ArtistLink to={`/artist/${artist?.id}`}>
+              {artist?.username}
+            </ArtistLink>
           </ColumnWrapper>
         </Wrapper>
         <Wrapper>
           <ButtonsWrapper>
             {isHover ? (
               <>
-                <ButtonWithIcon
-                  size={40}
-                  icon={"player/open"}
-                  title={language.goto}
-                />
+                <NavLink to={`/song/${song.id}`}>
+                  <ButtonWithIcon
+                    size={40}
+                    icon={"player/open"}
+                    title={language.goto}
+                  />
+                </NavLink>
                 <ButtonWithIcon
                   size={40}
                   icon={"player/add"}

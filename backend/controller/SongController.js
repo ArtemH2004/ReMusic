@@ -4,8 +4,8 @@ import uploadPhoto from "../uploadPhoto.js";
 
 const QUERIES = {
   CREATE_SONG: `
-    INSERT INTO song (name, photo, artist_id, songname, created_at)
-    VALUES ($1, $2, $3, $4, DEFAULT)
+    INSERT INTO song (name, photo, artist_id, songname, album_id, created_at)
+    VALUES ($1, $2, $3, $4, $5, DEFAULT)
     RETURNING *
   `,
   GET_ALL_SONGS: `SELECT * FROM song`,
@@ -21,7 +21,7 @@ class SongController {
     }
 
     try {
-      const { name, artistid, songname } = req.body;
+      const { name, artistid, songname, albumid } = req.body;
 
       let uploadedPhoto;
       if (req.files && req.files.photo) {
@@ -35,6 +35,7 @@ class SongController {
         uploadedPhoto,
         artistid,
         songname,
+        albumid
       ]);
       res.status(201).json(newSong.rows[0]);
     } catch (error) {

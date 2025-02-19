@@ -18,7 +18,7 @@ export const HomeArtists = () => {
   return (
     <HomePageSection>
       <HomePageHeader>
-        <HomePageTitle>{language.topArtists}</HomePageTitle>
+        <HomePageTitle>{language.newArtists}</HomePageTitle>
         <ButtonSeeAll />
       </HomePageHeader>
 

@@ -10,6 +10,7 @@ import styled from "styled-components";
 import { ReviewRaiting } from "@/common/components/review/ReviewRaiting";
 import { ShortUserInfo } from "@/store/reducers/user/types";
 import { getImgByName } from "@/common/helpers/getImgByName";
+import { Link } from "react-router-dom";
 
 const Item = styled("li")`
   position: relative;
@@ -36,7 +37,7 @@ const Item = styled("li")`
   }
 `;
 
-const TitleLink = styled("a")`
+const TitleLink = styled(Link)`
   ${resetLink}
   width: fit-content;
   max-width: 150px;
@@ -57,17 +58,16 @@ interface ArtistProps {
 }
 
 export const ArtistItem = ({artist}: ArtistProps) => {
-  const img = !!artist.photo ? getImgByName(artist.photo || "") : defaultArtistImg;
-
-  console.log(artist.photo)
+  const img = !!artist.photo ? getImgByName(artist.photo) : defaultArtistImg;
   return (
     <Item>
       <ImgArtist
         img={img}
         artist={artist.username}
+        artistId={artist.id}
       />
 
-      <TitleLink>{artist.username}</TitleLink>
+      <TitleLink to={`/artist/${artist.id}`}>{artist.username}</TitleLink>
 
       <ReviewRaiting value={52} />
 

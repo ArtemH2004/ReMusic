@@ -42,7 +42,7 @@ export const SongPage = () => {
   const { data: artist } = useGetUserByIdQuery(song?.artist_id || 0);
   const year = getYearFromDate(song?.created_at);
 
-  const img = !!song?.photo ? getImgByName(song?.photo || "") : defaultSongImg;
+  const img = song?.photo !== "" ? getImgByName(song?.photo || "") : defaultSongImg;
   const accentColor = getImgAccentColor(img);
   const language = getLanguage();
   scrollToTop();
@@ -57,7 +57,7 @@ export const SongPage = () => {
           children={<ModalReview />}
         />
       )}
-      {!isLoading ? (
+      {isLoading ? (
         <SongPageLoading />
       ) : (
         <SongPageSection $accentColor={accentColor}>
@@ -73,7 +73,7 @@ export const SongPage = () => {
             <SongPageInnerWrapper>
               <SongPageSubtitle>{language.song}</SongPageSubtitle>
               <SongPageTitle>{song?.name}</SongPageTitle>
-              <SongPageSubtitleLink>{artist?.username}</SongPageSubtitleLink>
+              <SongPageSubtitleLink to={`/artist/${artist?.id}`}>{artist?.username}</SongPageSubtitleLink>
               <SongPageDescription>2 minutes • 12 seconds</SongPageDescription>
             </SongPageInnerWrapper>
           </SongPageContentWrapper>

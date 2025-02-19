@@ -14,7 +14,7 @@ const Item = styled("li")`
 
   ${flexCenter}
   flex-direction: column;
-  row-gap: 10px;
+  row-gap: 15px;
 
   background-color: ${colors.blackCover};
   border-radius: ${borders.smallBorderRadius};
@@ -29,18 +29,17 @@ const Item = styled("li")`
   }
 `;
 
-const Img = styled("div")`
+const Img = styled("img")`
   width: 100%;
   aspect-ratio: 1;
   border-radius: ${borders.circleBorderRadius};
-  background-color: ${colors.blackLoading};
   box-shadow: ${shadows.defaultShadow};
 `;
 
 export const ArtistItemLoading = () => {
   return (
     <Item>
-      <Img />
+      <Img src='/public/images/default-user.svg' />
       <TextLoading $width={'75%'} $height={17} />
       <RaitingLoading />
     </Item>

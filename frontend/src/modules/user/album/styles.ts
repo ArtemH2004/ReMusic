@@ -16,6 +16,7 @@ import {
   shadows,
 } from "@/common/styles/styleConstants";
 import { HomeNewTitle, HomePageHeader } from "@/modules/user/home/styles";
+import { Link } from "react-router-dom";
 
 export const AlbumPageSection = styled(Section)<{ $accentColor: string }>`
   padding: 80px 0px 0px;
@@ -82,7 +83,7 @@ export const AlbumPageSubtitle = styled("span")`
   color: ${colors.whiteTotal};
 `;
 
-export const AlbumPageSubtitleLink = styled("a")`
+export const AlbumPageSubtitleLink = styled(Link)`
   ${resetLink}
   ${clampText(fonts.sizes.mainMobile, fonts.sizes.main)}
   font-weight: ${fonts.weights.medium};
@@ -93,7 +94,7 @@ export const AlbumPageSubtitleLink = styled("a")`
 
 export const AlbumPageDescription = styled(AlbumPageSubtitle)`
   color: ${colors.grayText};
-  text-transform: none;
+  text-transform: lowercase;
 `;
 
 export const AlbumPageSongsWrapper = styled("div")`

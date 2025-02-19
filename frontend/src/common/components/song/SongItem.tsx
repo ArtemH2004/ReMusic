@@ -53,13 +53,15 @@ const ColumnWrapper = styled("div")`
   flex-direction: column;
 `;
 
-const Title = styled("h3")`
+const Title = styled(NavLink)`
+  color: ${colors.whiteTotal};
   ${clampText(fonts.sizes.mainMobile, fonts.sizes.main)}
   font-weight: ${fonts.weights.semiBold};
   width: fit-content;
+  ${linkHoverActive}
 `;
 
-const ArtistLink = styled("a")`
+const ArtistLink = styled(NavLink)`
   ${resetLink}
   width: fit-content;
   ${clampText(fonts.sizes.smallMobile, fonts.sizes.small)}
@@ -103,15 +105,17 @@ const Link = styled(NavLink)`
   ${flexCenter}
 `;
 
+const defaultSongImg = "/public/images/default-song.svg";
+
 interface SongProps {
   song: Song;
 }
 
-export const SongItem = ({song}: SongProps) => {
+export const SongItem = ({ song }: SongProps) => {
   const [isHover, setHover] = useState(false);
   const language = getLanguage();
-  const img = getImgByName(song.photo);
-  const { data } = useGetUserByIdQuery(song.artist_id); 
+  const img = song.photo !== "" ? getImgByName(song.photo) : defaultSongImg;
+  const { data: artist } = useGetUserByIdQuery(song.artist_id);
 
   return (
     <Item
@@ -122,7 +126,7 @@ export const SongItem = ({song}: SongProps) => {
         <ImgWrapper>
           <Img
             src={img}
-            alt={`"${song.name}" ${data?.username}`}
+            alt={`"${song.name}" ${artist?.username}`}
           />
           {isHover && (
             <ImgLink>
@@ -136,8 +140,10 @@ export const SongItem = ({song}: SongProps) => {
         </ImgWrapper>
 
         <ColumnWrapper>
-          <Title>{song.name}</Title>
-          <ArtistLink>{data?.username}</ArtistLink>
+          <Title to={`/song/${song.id}`}>{song.name}</Title>
+          <ArtistLink to={`/artist/${artist?.id}`}>
+            {artist?.username}
+          </ArtistLink>
         </ColumnWrapper>
       </Wrapper>
 
@@ -145,9 +151,17 @@ export const SongItem = ({song}: SongProps) => {
         {isHover ? (
           <>
             <Link to={`/song/${song.id}`}>
-              <ButtonWithIcon size={40} icon={"player/open"} title={language.goto} />
+              <ButtonWithIcon
+                size={40}
+                icon={"player/open"}
+                title={language.goto}
+              />
             </Link>
-            <ButtonWithIcon size={40} icon={"player/add"} title={language.add} />
+            <ButtonWithIcon
+              size={40}
+              icon={"player/add"}
+              title={language.add}
+            />
           </>
         ) : (
           <ReviewRaiting value={30} />

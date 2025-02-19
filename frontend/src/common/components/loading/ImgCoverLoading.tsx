@@ -58,7 +58,7 @@ const TextWrapper = styled("div")<{ $accentColor: string }>`
   display: flex;
   justify-content: center;
   flex-direction: column;
-  row-gap: 3px;
+  row-gap: 5px;
 
   &::before {
     content: "";
