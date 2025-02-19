@@ -25,7 +25,7 @@ import { AlbumItem } from "@/common/components/album/AlbumItem";
 import { ButtonSeeAll } from "@/common/styles/tags/button/ButtonSeeAll";
 import { ReviewRaiting } from "@/common/components/review/ReviewRaiting";
 import { Review } from "@/common/components/review/Review";
-import { memo, useState } from "react";
+import { memo, useEffect, useState } from "react";
 import { ModalReview } from "@/common/components/modal/ModalReview";
 import { Modal } from "@/common/components/modal/Modal";
 import { getLanguage } from "@/common/helpers/getLanguage";
@@ -35,6 +35,7 @@ import { ArtistPageLoading } from "@/common/components/loading/ArtistPageLoading
 import { getImgByName } from "@/common/helpers/getImgByName";
 import { useGetAllSongsQuery } from "@/store/reducers/song/songApi";
 import { useGetAllAlbumsQuery } from "@/store/reducers/album/albumApi";
+import { changeTitle } from "@/common/helpers/changeTitle";
 
 const defaultArtistImg = "/public/images/default-user.svg";
 
@@ -57,7 +58,10 @@ export const ArtistPage = memo(() => {
     isArtistLoading && isSongLoading && isAlbumLoading && isReviewLoading;
   const language = getLanguage();
 
-  scrollToTop();
+    useEffect(() => {
+      scrollToTop();
+      changeTitle("artist");
+    }, []);
 
   return (
     <>

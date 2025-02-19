@@ -15,6 +15,7 @@ import { AuthPage } from "@/modules/auth/AuthPage";
 import { Register } from "@/modules/auth/components/Register";
 import { Login } from "@/modules/auth/components/Login";
 import { Error404 } from "@/common/components/error/Error404";
+import { SearchPage } from "@/modules/user/search/SearchPage";
 
 export default function RoutesProvider() {
   const authorizedUser = true;
@@ -40,7 +41,7 @@ export default function RoutesProvider() {
         <Route path="/" element={<PageWrapper />}>
           <Route index element={<Navigate to="/home" />} />
           <Route path="home" element={<HomePage />} />
-          <Route path="search" element={<>Search</>} />
+          <Route path="search" element={<SearchPage />} />
           <Route path="library" element={<LibraryPage />}>
             <Route index element={<Navigate to="/library?foo=songs" />} />
           </Route>
