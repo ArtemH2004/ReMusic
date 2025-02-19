@@ -8,9 +8,15 @@ import { LibraryArtists } from "@/modules/user/library/components/LibraryArtists
 import { LibraryAlbums } from "@/modules/user/library/components/LibraryAlbums";
 import { LibraryReviews } from "@/modules/user/library/components/LibraryReviews";
 import { HeaderLibrary } from "@/common/components/header/HeaderLibrary";
+import { useEffect } from "react";
+import { changeTitle } from "@/common/helpers/changeTitle";
 
 export const LibraryPage = () => {
   const location = useLocation();
+
+    useEffect(() => {
+      changeTitle("library");
+    }, []);
 
   return (
     <LibraryPageSection>

@@ -22,7 +22,7 @@ import {
 } from "@/modules/user/song/styles";
 import { ButtonSeeAll } from "@/common/styles/tags/button/ButtonSeeAll";
 import { Review } from "@/common/components/review/Review";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Modal } from "@/common/components/modal/Modal";
 import { ModalReview } from "@/common/components/modal/ModalReview";
 import { getLanguage } from "@/common/helpers/getLanguage";
@@ -32,6 +32,7 @@ import { getImgByName } from "@/common/helpers/getImgByName";
 import { useGetUserByIdQuery } from "@/store/reducers/user/userApi";
 import { getYearFromDate } from "@/common/helpers/getYearFromDate";
 import { SongPageLoading } from "@/common/components/loading/SongPageLoading";
+import { changeTitle } from "@/common/helpers/changeTitle";
 
 const defaultSongImg = "/public/images/default-song.svg";
 
@@ -45,7 +46,11 @@ export const SongPage = () => {
   const img = song?.photo !== "" ? getImgByName(song?.photo || "") : defaultSongImg;
   const accentColor = getImgAccentColor(img);
   const language = getLanguage();
-  scrollToTop();
+  
+  useEffect(() => {
+    scrollToTop();
+    changeTitle("song");
+  }, []);
 
   return (
     <>
@@ -108,7 +113,7 @@ export const SongPage = () => {
 
             <SongPageContentSection>
               <SongPageHeader>
-                <SongPageListTitle>{language.topReviews}</SongPageListTitle>
+                <SongPageListTitle>{language.newReviews}</SongPageListTitle>
                 <ButtonSeeAll />
               </SongPageHeader>
 

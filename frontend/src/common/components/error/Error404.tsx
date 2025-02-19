@@ -11,6 +11,8 @@ import { Logo } from "@/common/components/Logo";
 import { Link } from "react-router-dom";
 import { BlackWhiteButton } from "@/common/styles/tags/button/BlackWhiteButton";
 import { getLanguage } from "@/common/helpers/getLanguage";
+import { useEffect } from "react";
+import { changeTitle } from "@/common/helpers/changeTitle";
 
 const zero = "/public/images/icons/error/zero.svg";
 const four = "/public/images/icons/error/four.svg";
@@ -77,6 +79,10 @@ const ButtonLink = styled(Link)`
 
 export const Error404 = () => {
   const language = getLanguage();
+
+    useEffect(() => {
+      changeTitle("error");
+    }, []);
 
   return (
     <Wrapper>

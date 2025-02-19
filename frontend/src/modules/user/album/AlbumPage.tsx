@@ -24,7 +24,7 @@ import {
 } from "@/modules/user/album/styles";
 import { ButtonSeeAll } from "@/common/styles/tags/button/ButtonSeeAll";
 import { Review } from "@/common/components/review/Review";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Modal } from "@/common/components/modal/Modal";
 import { ModalReview } from "@/common/components/modal/ModalReview";
 import { getLanguage } from "@/common/helpers/getLanguage";
@@ -35,6 +35,7 @@ import { AlbumPageLoading } from "@/common/components/loading/AlbumPageLoading";
 import { useGetUserByIdQuery } from "@/store/reducers/user/userApi";
 import { getYearFromDate } from "@/common/helpers/getYearFromDate";
 import { useGetAllSongsQuery } from "@/store/reducers/song/songApi";
+import { changeTitle } from "@/common/helpers/changeTitle";
 
 const defaultAlbumImg = "/public/images/default-album.svg";
 
@@ -54,7 +55,10 @@ export const AlbumPage = () => {
 
   const language = getLanguage();
 
-  scrollToTop();
+    useEffect(() => {
+      scrollToTop();
+      changeTitle("album");
+    }, []);
 
   return (
     <>
