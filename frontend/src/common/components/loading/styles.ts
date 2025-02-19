@@ -8,8 +8,8 @@ export const SquareLoading = styled("div")<{ $size: number }>`
   background-color: ${colors.blackLoading};
 `;
 
-export const TextLoading = styled("div")<{ $height: number, $width?: number }>`
-  width: ${(props) => props.$width || 50}%;
+export const TextLoading = styled("div")<{ $height: number, $width?: string }>`
+  width: ${(props) => props.$width || '50%'};
   height: ${(props) => props.$height}px;
   background-color: ${colors.blackLoading};
   border-radius: ${borders.mediumBorderRadius};

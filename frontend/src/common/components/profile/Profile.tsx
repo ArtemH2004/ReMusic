@@ -32,7 +32,7 @@ export const Profile = memo(() => {
               <ProfileImg src={img} alt={data?.username} />
               <ProfileName>{data?.username}</ProfileName>
               <ProfileSvgWrapper $isActive={isHover}>
-                <ProfileSvg src="public/images/icons/arrow-down.svg" />
+                <ProfileSvg src="/public/images/icons/arrow-down.svg" />
               </ProfileSvgWrapper>
             </ProfileWrapper>
           </ProfileDropdownButton>

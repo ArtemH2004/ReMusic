@@ -46,7 +46,7 @@ export const colors = {
   //White
   whiteTotal: "rgba(255, 255, 255, 1)",
   whiteAccent: "rgba(245, 245, 245, 1)",
-  whiteActive: "rgba(255, 255, 255, .3)",
+  whiteActive: "rgba(255, 255, 255, .2)",
   whiteHover: "rgba(255, 255, 255, .1)",
 
   //Gray

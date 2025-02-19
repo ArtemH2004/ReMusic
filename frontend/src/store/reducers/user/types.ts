@@ -6,7 +6,7 @@ export interface User {
   photo?: string;
   isartist: boolean;
   isAuthorizedUser: boolean;
-  createdat: string;
+  created_at: string;
 }
 
 export interface ShortUserInfo {

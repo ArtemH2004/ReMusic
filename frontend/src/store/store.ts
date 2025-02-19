@@ -3,12 +3,14 @@ import { rememberEnhancer, rememberReducer } from "redux-remember";
 import { userApi } from "@/store/reducers/user/userApi";
 import { commentsReducer } from "@/store/reducers/comments/commentsSlice";
 import { commentsApi } from "@/store/reducers/comments/commentsApi";
+import { songApi } from "@/store/reducers/song/songApi";
 
 const rememberedReducers = [""];
 
 const rootReducer = combineReducers({
   commentsReducer,
   [userApi.reducerPath]: userApi.reducer,
+  [songApi.reducerPath]: songApi.reducer,
   [commentsApi.reducerPath]: commentsApi.reducer,
 });
 
@@ -19,6 +21,7 @@ export const store = configureStore({
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware()
       .concat(userApi.middleware)
+      .concat(songApi.middleware)
       .concat(commentsApi.middleware),
   enhancers: (getDefaultEnhancer) =>
     getDefaultEnhancer().concat(

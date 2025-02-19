@@ -1,8 +1,8 @@
 import { flexCenter } from "@/common/styles/mixins";
 import { borders, colors, device, shadows } from "@/common/styles/styleConstants";
 import styled from "styled-components";
-import { ReviewRaiting } from "@/common/components/review/ReviewRaiting";
 import { TextLoading } from "@/common/components/loading/styles";
+import { RaitingLoading } from "@/common/components/loading/RaitingLoading";
 
 const Item = styled("li")`
   position: relative;
@@ -41,8 +41,8 @@ export const ArtistItemLoading = () => {
   return (
     <Item>
       <Img />
-      <TextLoading $width={75} $height={17} />
-      <ReviewRaiting value={52} />
+      <TextLoading $width={'75%'} $height={17} />
+      <RaitingLoading />
     </Item>
   );
 };

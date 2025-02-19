@@ -50,13 +50,16 @@ const TitleLink = styled("a")`
   text-overflow: ellipsis;
 `;
 
+const defaultArtistImg = "/public/images/default-user.svg";
+
 interface ArtistProps {
   artist: ShortUserInfo
 }
 
 export const ArtistItem = ({artist}: ArtistProps) => {
-  const img = getImgByName(artist.photo || "");
+  const img = !!artist.photo ? getImgByName(artist.photo || "") : defaultArtistImg;
 
+  console.log(artist.photo)
   return (
     <Item>
       <ImgArtist
