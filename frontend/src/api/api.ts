@@ -18,16 +18,20 @@ export type ErrorResponse = {
   message: string;
 };
 
-const authService = '/auth';
+const loginService = '/login';
+const registerService = '/register';
 
 const userService = '/user';
 const songService = '/song';
 const albumService = '/album';
 const reviewService = '/review';
 
-export enum AuthServiceEndpoints {
-  LOGIN = `${authService}/login`,
-  LOGOUT = `${authService}/logout`,
+export enum LoginServiceEndpoints {
+  LOGIN = `${loginService}`,
+}
+
+export enum RegisterServiceEndpoints {
+  REGISTER = `${registerService}`,
 }
 
 export enum UserServiceEndpoints {

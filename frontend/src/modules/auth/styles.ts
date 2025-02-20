@@ -25,7 +25,7 @@ export const AuthPageWrapper = styled("div")`
 `;
 
 export const AuthPageSection = styled("section")`
-  ${clampWidth(300, 750)}
+  ${clampWidth(300, 600)}
   padding: 50px;
   color: ${colors.whiteTotal};
   background-color: ${colors.blackCover};
@@ -65,7 +65,7 @@ export const AuthPageContentWrapper = styled("div")`
   width: 100%;
   ${flexCenter}
   flex-direction: column;
-  row-gap: 20px;
+  row-gap: 15px;
 `;
 
 export const AuthPageTitle = styled("h2")`
@@ -101,3 +101,8 @@ export const AuthPageLink = styled(Link)`
   color: ${colors.whiteTotal};
   ${linkHoverActive}
 `;
+
+export const AuthErrorText = styled("span")`
+  text-align: center;
+  color: ${colors.red};
+  ${clampText(fonts.sizes.mainMobile, fonts.sizes.main)}`;

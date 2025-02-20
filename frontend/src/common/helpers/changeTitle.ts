@@ -4,6 +4,12 @@ export const changeTitle = (location: string) => {
   const language = getLanguage();
 
   switch (location) {
+    case "login":
+      document.title = language.login;
+      break;
+    case "register":
+      document.title = language.registration;
+      break;
     case "home":
       document.title = language.home;
       break;

@@ -4,11 +4,11 @@ import { validationResult } from "express-validator";
 import uploadPhoto from "../uploadPhoto.js";
 
 const QUERIES = {
-  CREATE_USER: `
-    INSERT INTO users (username, email, password, photo, isartist, created_at)
-    VALUES ($1, $2, $3, $4, $5, DEFAULT)
-    RETURNING *
-  `,
+  // CREATE_USER: `
+  //   INSERT INTO users (username, email, password, photo, isartist, created_at)
+  //   VALUES ($1, $2, $3, $4, $5, DEFAULT)
+  //   RETURNING *
+  // `,
   GET_ALL_USERS: `SELECT * FROM users`,
   GET_USER_BY_ID: `SELECT * FROM users WHERE id = $1`,
   UPDATE_USER: `
@@ -21,29 +21,29 @@ const QUERIES = {
 };
 
 class UserController {
-  async create(req, res) {
-    const errors = validationResult(req);
-    if (!errors.isEmpty()) {
-      return res.status(400).json({ errors: errors.array() });
-    }
+  // async create(req, res) {
+  //   const errors = validationResult(req);
+  //   if (!errors.isEmpty()) {
+  //     return res.status(400).json({ errors: errors.array() });
+  //   }
 
-    try {
-      const { username, email, password, photo, isartist } = req.body;
-      const hashedPassword = await bcrypt.hash(password, 10);
+  //   try {
+  //     const { username, email, password, photo, isartist } = req.body;
+  //     const hashedPassword = await bcrypt.hash(password, 10);
 
-      const newUser = await db.query(QUERIES.CREATE_USER, [
-        username,
-        email,
-        hashedPassword,
-        photo,
-        isartist,
-      ]);
-      res.status(201).json(newUser.rows[0]);
-    } catch (error) {
-      console.error("Error creating user:", error);
-      res.status(500).json({ error: "Internal Server Error" });
-    }
-  }
+  //     const newUser = await db.query(QUERIES.CREATE_USER, [
+  //       username,
+  //       email,
+  //       hashedPassword,
+  //       photo,
+  //       isartist,
+  //     ]);
+  //     res.status(201).json(newUser.rows[0]);
+  //   } catch (error) {
+  //     console.error("Error creating user:", error);
+  //     res.status(500).json({ error: "Internal Server Error" });
+  //   }
+  // }
 
   async getAll(req, res) {
     try {

@@ -53,7 +53,7 @@ export const Reviews = ({review, isAccentColor}: ReviewProps) => {
       <ReviewContentWrapper>
         <ReviewDescription>{review.description}</ReviewDescription>
 
-        <ReviewStatistic review={review} />
+        <ReviewStatistic review={review} username={user?.username || ""} />
       </ReviewContentWrapper>
     </ReviewItem>
   );

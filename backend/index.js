@@ -1,10 +1,12 @@
 import express from 'express';
 import cors from 'cors';
 import fileUpload from 'express-fileupload';
+import session from 'express-session';
 import userRouter from './routes/UserRoutes.js';
 import songRouter from './routes/SongRoutes.js';
 import albumRouter from './routes/AlbumRoutes.js';
 import reviewRouter from './routes/ReviewRoutes.js';
+import authRouter from './routes/AuthRoutes.js';
 
 const PORT = 8081;
 const app = express()
@@ -14,10 +16,18 @@ app.use(express.static('uploads'))
 app.use(fileUpload())
 app.use(cors())
 
+app.use(session({
+    secret: 'root',
+    resave: false,
+    saveUninitialized: false,
+    cookie: { secure: false } 
+  }));
+
 app.use('/api', userRouter)
 app.use('/api', songRouter)
 app.use('/api', albumRouter)
 app.use('/api', reviewRouter)
+app.use('/api', authRouter)
 
 async function startApp () {
     try {
