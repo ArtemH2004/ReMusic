@@ -1,21 +1,24 @@
 import { combineReducers, configureStore } from "@reduxjs/toolkit";
 import { rememberEnhancer, rememberReducer } from "redux-remember";
 import { userApi } from "@/store/reducers/user/userApi";
-import { commentsReducer } from "@/store/reducers/comments/commentsSlice";
-import { commentsApi } from "@/store/reducers/comments/commentsApi";
 import { songApi } from "@/store/reducers/song/songApi";
 import { albumApi } from "@/store/reducers/album/albumApi";
 import { reviewApi } from "@/store/reducers/review/reviewApi";
+import { authApi } from "@/store/reducers/authApi.ts";
+import { userReducer } from "@/store/reducers/user/userSlice";
 
-const rememberedReducers = [""];
+const rememberedReducers = [
+  authApi.reducerPath,
+  'userReducer',
+];
 
 const rootReducer = combineReducers({
-  commentsReducer,
+  userReducer,
+  [authApi.reducerPath]: authApi.reducer,
   [userApi.reducerPath]: userApi.reducer,
   [songApi.reducerPath]: songApi.reducer,
   [albumApi.reducerPath]: albumApi.reducer,
   [reviewApi.reducerPath]: reviewApi.reducer,
-  [commentsApi.reducerPath]: commentsApi.reducer,
 });
 
 const rememberedReducer = rememberReducer(rootReducer);
@@ -24,11 +27,11 @@ export const store = configureStore({
   reducer: rememberedReducer,
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware()
+      .concat(authApi.middleware)
       .concat(userApi.middleware)
       .concat(songApi.middleware)
       .concat(albumApi.middleware)
-      .concat(reviewApi.middleware)
-      .concat(commentsApi.middleware),
+      .concat(reviewApi.middleware),
   enhancers: (getDefaultEnhancer) =>
     getDefaultEnhancer().concat(
       rememberEnhancer(window.localStorage, rememberedReducers)

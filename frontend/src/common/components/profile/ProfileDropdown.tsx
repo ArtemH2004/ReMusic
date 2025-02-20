@@ -5,6 +5,7 @@ import {
   ProfileDropdownList,
 } from "@/common/components/profile/styles";
 import { getLanguage } from "@/common/helpers/getLanguage";
+import { useActions } from "@/store/actions";
 import { useUpdateUserPhotoByIdMutation } from "@/store/reducers/user/userApi";
 import { useState } from "react";
 
@@ -12,6 +13,7 @@ export const ProfileDropdown = () => {
   const lang = sessionStorage.getItem("language") || "Eng";
   const language = getLanguage();
   const [selectedFile, setSelectedFile] = useState(null);
+  const { clearAuthorizedUser } = useActions();
   const [updateUserPhoto] = useUpdateUserPhotoByIdMutation();
 
   const handleChangeLanguage = (language: string) => {
@@ -19,7 +21,12 @@ export const ProfileDropdown = () => {
     document.location.reload();
   };
 
-  const handleFileChange = (event) => {
+  const handleLogout = () => {
+    clearAuthorizedUser(); // Очистка авторизованного пользователя
+    // Дополнительно: перенаправьте пользователя на экран входа
+  };
+
+  const handleFileChange = (event: any) => {
     const file = event.target.files[0];
     if (file) {
       const reader = new FileReader();
@@ -43,6 +50,7 @@ export const ProfileDropdown = () => {
       }
     }
   };
+
   return (
     <ProfileDropdownList>
       <ProfileDropdownItem>
@@ -66,7 +74,7 @@ export const ProfileDropdown = () => {
         </ProfileDropdownLink>
       </ProfileDropdownItem>
       <ProfileDropdownItem>
-        <ProfileDropdownLink $isRed={true}>
+        <ProfileDropdownLink $isRed={true} onClick={handleLogout}>
           {language.logout}
         </ProfileDropdownLink>
       </ProfileDropdownItem>

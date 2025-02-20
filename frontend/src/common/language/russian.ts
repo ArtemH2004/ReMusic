@@ -8,6 +8,14 @@ export const RussianLanguage = {
   confirmPassword: "Подтвердите Пароль",
   alreadyHaveAccount: "Уже есть аккаунт?",
   dontHaveAccount: "Нет аккаунта?",
+  youAnArtist: "Вы артист?",
+
+  //Validation
+  userNotFound: 'Пользователь не найден',
+  incorrectPassword: 'Неверный пароль',
+  registrationError: 'Ошибка при регистрации',
+  namingError: "Имя пользователя или Email уже существует",
+  passwordDontMatch: "Пароли не совпадают",
 
   //Profile
   setImg: "Выбрать фото",

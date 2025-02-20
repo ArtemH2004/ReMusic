@@ -10,16 +10,15 @@ import {
 } from "react-router-dom";
 import { ArtistPage } from "@/modules/user/artist/ArtistPage";
 import { SongPage } from "@/modules/user/song/SongPage";
-import { LibraryPage } from "@/modules/user/library/LibraryPage";
 import { AuthPage } from "@/modules/auth/AuthPage";
 import { Register } from "@/modules/auth/components/Register";
 import { Login } from "@/modules/auth/components/Login";
 import { Error404 } from "@/common/components/error/Error404";
 import { SearchPage } from "@/modules/user/search/SearchPage";
+import { useIsAuthorized } from "@/store/reducers/user/userSlice";
 
 export default function RoutesProvider() {
-  const authorizedUser = true;
-
+  const isAuthorizedUser = useIsAuthorized();
   const unAuthorizedProvider = createBrowserRouter(
     createRoutesFromElements(
       <>
@@ -50,14 +49,14 @@ export default function RoutesProvider() {
           <Route path="song/:id" element={<SongPage />} />
         </Route>
         <Route path="error" element={<Error404 />} />
-        <Route path="*" element={<Navigate to="/error" replace />} />
+        <Route path="*" element={<Navigate to="/home" replace />} />
       </>
     )
   );
 
   return (
     <RouterProvider
-      router={authorizedUser ? authorizedProvider : unAuthorizedProvider}
+      router={isAuthorizedUser ? authorizedProvider : unAuthorizedProvider}
     />
   );
 }

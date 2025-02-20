@@ -15,9 +15,10 @@ import { ReviewStatistics } from "@/store/reducers/review/types";
 
 interface ReviewStatisticProps {
   review: ReviewStatistics;
+  username: string;
 }
 
-export const ReviewStatistic = ({review}: ReviewStatisticProps) => {
+export const ReviewStatistic = ({review, username}: ReviewStatisticProps) => {
   const language = getLanguage();
   
   return (
@@ -37,7 +38,7 @@ export const ReviewStatistic = ({review}: ReviewStatisticProps) => {
 
 {/* TODO Name of Author in Raiting */}
           <ReviewStatisticColumnWrapper>
-            <ReviewStatisticTitleRaiting>{`Kizaru ${language.rating}:`}</ReviewStatisticTitleRaiting>
+            <ReviewStatisticTitleRaiting>{`${username} ${language.rating}:`}</ReviewStatisticTitleRaiting>
             <ReviewStatisticRaiting $color={getColorByValue(review.rating)}>
               {review.rating}
             </ReviewStatisticRaiting>

@@ -1,13 +1,10 @@
 import { bindActionCreators } from "@reduxjs/toolkit";
 import { useDispatch } from "react-redux";
-import { commentsActions } from "@/store/reducers/comments/commentsSlice";
-import { newCommentActions } from "./reducers/comments/newCommentSlice";
+import { userActions } from "@/store/reducers/user/userSlice";
 
 const actions = {
-    ...newCommentActions,
-    ...commentsActions,
+    ...userActions,
 };
-
 
 export const useActions = () => {
     return bindActionCreators(actions, useDispatch());

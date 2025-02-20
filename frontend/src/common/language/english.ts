@@ -8,6 +8,14 @@ export const EnglishLanguage = {
   confirmPassword: "Confirm Password",
   alreadyHaveAccount: "Already have an account?",
   dontHaveAccount: "Don't have an account?",
+  youAnArtist: "You are an artist?",
+
+  //Validation
+  userNotFound: 'User not found',
+  incorrectPassword: 'Incorrect password',
+  registrationError: 'Registration error',
+  namingError: "Username or Email already exists",
+  passwordDontMatch: "Passwords don't match",
   
   // Profile
   setImg: "Set Image",

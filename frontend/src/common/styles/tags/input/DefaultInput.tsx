@@ -53,6 +53,7 @@ interface DefaultInputProps {
   type: string;
   placeholder: string;
   isRequired?: boolean;
+  onChange?: (e: any) => void;
 }
 
 export const DefaultInput = ({
@@ -60,6 +61,7 @@ export const DefaultInput = ({
   type,
   placeholder,
   isRequired,
+  onChange,
 }: DefaultInputProps) => {
   return (
     <Wrapper>
@@ -69,6 +71,7 @@ export const DefaultInput = ({
         placeholder={placeholder}
         id={label}
         required={!!isRequired ? isRequired : false}
+        onChange={onChange}
       />
     </Wrapper>
   );
