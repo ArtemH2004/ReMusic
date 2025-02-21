@@ -16,8 +16,8 @@ export interface Review {
 
 
 export interface ReviewStatistics {
-  id: number;
-  rating: number;
+  id?: number;
+  rating?: number;
   rhymes: number;
   rhythm: number;
   styles: number;

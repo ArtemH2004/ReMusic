@@ -28,6 +28,16 @@ export const reviewApi = createApi({
       transformResponse: (response: Review) => response,
     }),
 
+    postReview: build.mutation<Review, Partial<Review>>({
+      query: (newReview) => ({
+        url: ReviewServiceEndpoints.REVIEW,
+        method: "POST",
+        body: newReview,
+      }),
+      invalidatesTags: ['Review'],
+      transformResponse: (response: Review) => response,
+    }),
+
     updateReviewById: build.mutation<Review, { reviewId: number; updatedReview: Partial<Review> }>({
       query: ({ reviewId, updatedReview }) => ({
         url: `${ReviewServiceEndpoints.REVIEW}/${reviewId}`,
@@ -53,6 +63,7 @@ export const reviewApi = createApi({
 export const {
   useGetAllReviewsQuery,
   useGetReviewByIdQuery,
+  usePostReviewMutation,
   useUpdateReviewByIdMutation,
   useDeleteReviewByIdMutation
 } = reviewApi;

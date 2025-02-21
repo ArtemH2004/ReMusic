@@ -12,7 +12,7 @@ import { ShortUserInfo } from "@/store/reducers/user/types";
 import { getImgByName } from "@/common/helpers/getImgByName";
 import { Link } from "react-router-dom";
 
-const Item = styled("li")`
+const Item = styled("li")<{ $isAccentColor?: boolean }>`
   position: relative;
   width: 100%;
   max-width: 300px;
@@ -24,7 +24,8 @@ const Item = styled("li")`
   flex-direction: column;
   row-gap: 10px;
 
-  background-color: ${colors.blackCover};
+  background-color: ${(props) =>
+    props.$isAccentColor ? colors.whiteActive : colors.blackCover};
   border-radius: ${borders.smallBorderRadius};
 
   @media ${device.mobileL} {
@@ -54,13 +55,14 @@ const TitleLink = styled(Link)`
 const defaultArtistImg = "/public/images/default-user.svg";
 
 interface ArtistProps {
-  artist: ShortUserInfo
+  artist: ShortUserInfo,
+  isAccentColor?: boolean;
 }
 
-export const ArtistItem = ({artist}: ArtistProps) => {
+export const ArtistItem = ({artist, isAccentColor}: ArtistProps) => {
   const img = !!artist.photo ? getImgByName(artist.photo) : defaultArtistImg;
   return (
-    <Item>
+    <Item $isAccentColor={isAccentColor}>
       <ImgArtist
         img={img}
         artist={artist.username}

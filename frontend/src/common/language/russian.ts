@@ -16,6 +16,7 @@ export const RussianLanguage = {
   registrationError: 'Ошибка при регистрации',
   namingError: "Имя пользователя или Email уже существует",
   passwordDontMatch: "Пароли не совпадают",
+  requiredFields: "Пропущены обязательные поля",
 
   //Profile
   setImg: "Выбрать фото",

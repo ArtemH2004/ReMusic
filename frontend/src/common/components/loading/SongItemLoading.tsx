@@ -49,8 +49,17 @@ const ColumnWrapper = styled("div")`
 
 const Img = styled("img")`
   height: 100%;
+  max-height: 82px;
   aspect-ratio: 1;
   border-radius: ${borders.smallBorderRadius};
+
+  @media ${device.mobile} {
+    max-height: 70px;
+  }
+
+  @media ${device.mobileL} {
+    max-height: 60px;
+  }
 `;
 
 export const SongItemLoading = () => {

@@ -4,7 +4,7 @@ import styled from "styled-components";
 import { TextLoading } from "@/common/components/loading/styles";
 import { RaitingLoading } from "@/common/components/loading/RaitingLoading";
 
-const Item = styled("li")`
+const Item = styled("li")<{ $isAccentColor?: boolean }>`
   position: relative;
   width: 100%;
   max-width: 300px;
@@ -16,7 +16,8 @@ const Item = styled("li")`
   flex-direction: column;
   row-gap: 15px;
 
-  background-color: ${colors.blackCover};
+  background-color: ${(props) =>
+    props.$isAccentColor ? colors.whiteActive : colors.blackCover};
   border-radius: ${borders.smallBorderRadius};
 
   @media ${device.mobileL} {
@@ -36,10 +37,17 @@ const Img = styled("img")`
   box-shadow: ${shadows.defaultShadow};
 `;
 
-export const ArtistItemLoading = () => {
+interface ArtistItemProps {
+  isAccentColor?: boolean;
+}
+
+export const ArtistItemLoading = ({isAccentColor}: ArtistItemProps) => {
+  const img = '/public/images/default-user.svg';
+
+
   return (
-    <Item>
-      <Img src='/public/images/default-user.svg' />
+    <Item $isAccentColor={isAccentColor}>
+      <Img src={img} />
       <TextLoading $width={'75%'} $height={17} />
       <RaitingLoading />
     </Item>

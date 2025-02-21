@@ -41,7 +41,7 @@ export const ReviewRaiting = ({value}: ReviewRaitingProps) => {
   return (
     <Wrapper>
       <Svg src={getTrophyByValue(value)} alt="Rating" />
-      <Span $color={getColorByValue(value)}>{value}</Span>
+      <Span $color={getColorByValue(value, true)}>{value}</Span>
     </Wrapper>
   );
 };
