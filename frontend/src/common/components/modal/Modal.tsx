@@ -6,7 +6,6 @@ import {
   fonts,
   shadows,
 } from "@/common/styles/styleConstants";
-import { BlackWhiteButton } from "@/common/styles/tags/button/BlackWhiteButton";
 import { ButtonWithIcon } from "@/common/styles/tags/button/ButtonWithIcon";
 import { useEffect } from "react";
 import styled from "styled-components";
@@ -24,8 +23,8 @@ const ModalSection = styled("section")`
 `;
 
 const ModalContent = styled("div")`
-  width: 60%;
-  height: 80%;
+  width: auto;
+  height: auto;;
   padding: 30px;
   border-radius: ${borders.searchBorderRadius};
   background-color: ${colors.blackCover};
@@ -55,23 +54,11 @@ const ModalBody = styled("div")`
   width: 100%;
   max-height: 100%;
   overflow-y: auto;
-
-  display: flex;
-  flex-direction: column;
-  row-gap: 20px;
-  padding-inline: 10px;
 `;
 
 const ModalTitle = styled("h2")`
   text-align: center;
   ${clampText(fonts.sizes.subtitleMobile, fonts.sizes.subtitle)}
-`;
-
-const ModalButtonsWrapper = styled("div")`
-  ${flexCenter}
-
-  width: 75%;
-  column-gap: 20px;
 `;
 
 interface ModalProps {
@@ -112,10 +99,6 @@ export const Modal = ({ isOpen, setOpen, title, children }: ModalProps) => {
         </ModalHeader>
         <ModalBody>{children}</ModalBody>
 
-        <ModalButtonsWrapper>
-        <BlackWhiteButton color="black" title={language.cancel} />
-        <BlackWhiteButton color="white" title={language.save} />
-      </ModalButtonsWrapper>
       </ModalContent>
     </ModalSection>
   );

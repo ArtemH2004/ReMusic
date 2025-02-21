@@ -16,6 +16,7 @@ export const EnglishLanguage = {
   registrationError: 'Registration error',
   namingError: "Username or Email already exists",
   passwordDontMatch: "Passwords don't match",
+  requiredFields: "Missing required fields",
   
   // Profile
   setImg: "Set Image",

@@ -37,12 +37,14 @@ import { useGetAllSongsQuery } from "@/store/reducers/song/songApi";
 import { useGetAllAlbumsQuery } from "@/store/reducers/album/albumApi";
 import { changeTitle } from "@/common/helpers/changeTitle";
 import { useGetAllReviewsQuery } from "@/store/reducers/review/reviewApi";
+import { useAppSelector } from "@/common/hooks/useAppSelector";
 
 const defaultArtistImg = "/public/images/default-user.svg";
 
 export const ArtistPage = memo(() => {
   const [isModalReviewOpen, setModalReviewOpen] = useState(false);
   const { id } = useParams();
+  const { authorizedUser } = useAppSelector((state) => state.userReducer);
   const { data: artist, isLoading: isArtistLoading } = useGetUserByIdQuery(Number(id));
   const { data: song, isLoading: isSongLoading } = useGetAllSongsQuery();
   const { data: album, isLoading: isAlbumLoading } = useGetAllAlbumsQuery();
@@ -64,10 +66,10 @@ export const ArtistPage = memo(() => {
     <>
       {isModalReviewOpen && (
         <Modal
-          title={language.writeReview}
-          isOpen={isModalReviewOpen}
-          setOpen={setModalReviewOpen}
-          children={<ModalReview />}
+        title={language.writeReview}
+        isOpen={isModalReviewOpen}
+        setOpen={setModalReviewOpen}
+        children={<ModalReview setOpen={setModalReviewOpen}  user_id={authorizedUser.id} artist_id={Number(id)} />}
         />
       )}
       {isLoading ? (

@@ -75,7 +75,7 @@ const Span = styled("span")`
 const defaultAlbumImg = '/public/images/default-album.svg'
 
 interface AlbumItemProps {
-  album?: Album;
+  album: Album;
   isAccentColor?: boolean;
 }
 

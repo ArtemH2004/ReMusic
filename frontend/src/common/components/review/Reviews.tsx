@@ -18,14 +18,14 @@ import { useGetUserByIdQuery } from "@/store/reducers/user/userApi";
 import { getImgByName } from "@/common/helpers/getImgByName";
 import { getFullDate } from "@/common/helpers/getFullDate";
 
-const defaultUserImg = '/public/images/default-user.svg';
+const defaultUserImg = "/public/images/default-user.svg";
 
 interface ReviewProps {
   review: Review;
   isAccentColor?: boolean;
 }
-export const Reviews = ({review, isAccentColor}: ReviewProps) => {
-  const {data: user} = useGetUserByIdQuery(review.user_id);
+export const Reviews = ({ review, isAccentColor }: ReviewProps) => {
+  const { data: user } = useGetUserByIdQuery(review.user_id);
   const img = !!user?.photo ? getImgByName(user?.photo) : defaultUserImg;
   const date = getFullDate(review.created_at);
   const language = getLanguage();
@@ -34,10 +34,7 @@ export const Reviews = ({review, isAccentColor}: ReviewProps) => {
     <ReviewItem $isAccentColor={isAccentColor}>
       <ReviewHeader>
         <ReviewHeaderWrapper>
-          <ReviewAuthorImg
-            src={img}
-            alt={user?.username}
-          />
+          <ReviewAuthorImg src={img} alt={user?.username} />
           <ReviewAuthorColumnWrapper>
             <ReviewAuthorName>{user?.username}</ReviewAuthorName>
             <ReviewAuthorTime>{date}</ReviewAuthorTime>
@@ -53,7 +50,10 @@ export const Reviews = ({review, isAccentColor}: ReviewProps) => {
       <ReviewContentWrapper>
         <ReviewDescription>{review.description}</ReviewDescription>
 
-        <ReviewStatistic review={review} username={user?.username || ""} />
+        <ReviewStatistic
+          review={review}
+          username={user?.username || ""}
+        />
       </ReviewContentWrapper>
     </ReviewItem>
   );

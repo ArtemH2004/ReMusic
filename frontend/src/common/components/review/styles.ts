@@ -116,17 +116,26 @@ export const ReviewDescription = styled("p")`
   color: ${colors.whiteAccent};
 `;
 
-export const ReviewStatisticWrapper = styled("div")`
+export const ReviewStatisticWrapper = styled("div")<{$isSong?: boolean}>`  
   display: flex;
-  flex-direction: column;
+  width: ${(props) => props.$isSong ? '100%' : 'fit-content'};
+  flex-direction: ${(props) => props.$isSong ? 'row' : 'column'};
+  justify-content: ${(props) => props.$isSong && 'space-between'};
   row-gap: 15px;
+
+  @media ${device.tablet} {
+    width: 100%;
+  }
 `;
 
-export const ReviewStatisticHeaderWrapper = styled("div")`
+export const ReviewStatisticHeaderWrapper = styled("div")<{$isSong?: boolean}>`
   display: flex;
-  align-items: end;
+  align-items: center;
   justify-content: space-between;
   column-gap: 10px;
+
+  flex-direction: ${(props) => props.$isSong && 'column'};
+  row-gap: ${(props) => props.$isSong && '25px'};
 
   @media ${device.mobileL} {
     ${flexCenter}
@@ -168,8 +177,8 @@ export const ReviewStatisticList = styled("ul")`
   flex-direction: column;
   row-gap: 10px;
 
-  @media ${device.mobileM} {
-    width: 250px;
+  @media ${device.tablet} {
+    width: 100%;
   }
 `;
 
@@ -225,4 +234,8 @@ export const ReviewStatisticCoverWrapper = styled("div")`
   ${clampWidth(150, 200)}
   border-radius: ${borders.smallBorderRadius};
   box-shadow: ${shadows.defaultShadow};
+
+  @media ${device.tablet} {
+    width: fit-content;
+  }
 `;

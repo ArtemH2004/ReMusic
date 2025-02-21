@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import {
   ReviewStatisticItem,
   ReviewStatisticItemWrapper,
@@ -40,18 +40,19 @@ const Input = styled("input")`
 
 interface ReviewStatisticInputProps {
   title: string;
-  // value: number;
-  // onValueChange: (newValue: number) => void; // Добавляем проп для передачи нового значения
+  value: number;
+  isRequired?: boolean;
+  onValueChange: (newValue: number) => void; 
 }
 
-export const ReviewStatisticsInput = ({ title }: ReviewStatisticInputProps) => {
-  const [inputValue, setInputValue] = useState(0);
+export const ReviewStatisticsInput = ({ title, value, isRequired, onValueChange }: ReviewStatisticInputProps) => {
+  const [inputValue, setInputValue] = useState(!!value ? value : 0);
 
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const newValue = Number(event.target.value);
     if (newValue >= 0 && newValue <= 10) {
       setInputValue(newValue);
-      // onValueChange(newValue);
+      onValueChange(newValue);
     }
   };
 
@@ -64,9 +65,10 @@ export const ReviewStatisticsInput = ({ title }: ReviewStatisticInputProps) => {
             type="number"
             min="0"
             max="10"
-            // value={inputValue}
+            required={isRequired}
+            value={inputValue}
             onChange={handleInputChange}
-            style={{ width: "50px", textAlign: "center" }} // Стили для input
+            style={{ width: "50px", textAlign: "center" }}
           />
           / 10
         </ReviewStatisticTitle>

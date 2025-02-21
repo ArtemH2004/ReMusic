@@ -28,7 +28,7 @@ class ReviewController {
     try {
       const {
         description,
-        userid,
+        user_id,
         artist_id,
         album_id,
         song_id,
@@ -40,15 +40,17 @@ class ReviewController {
         atmosphere,
       } = req.body;
 
-      
-  // Проверка на наличие обязательных полей
-  if (!userid) {
-    return res.status(400).json({ error: "Missing required fields" });
-  }
+      if (!user_id) {
+        return res.status(401).json({ error: "Missing required fields" });
+      }
+
+      if (description === "") {
+        return res.status(400).json({ error: "Missing required fields" });
+      }
 
       const newReview = await db.query(QUERIES.CREATE_REVIEW, [
         description,
-        userid,
+        user_id,
         artist_id,
         album_id,
         song_id,
@@ -95,10 +97,10 @@ class ReviewController {
       const id = req.params.id;
       const {
         description,
-        userid,
-        artistid,
-        albumid,
-        songid,
+        user_id,
+        artist_id,
+        album_id,
+        song_id,
         rating,
         rhymes,
         rhythm,
@@ -114,10 +116,10 @@ class ReviewController {
 
       const updateReview = await db.query(QUERIES.UPDATE_REVIEW, [
         description,
-        userid,
-        artistid,
-        albumid,
-        songid,
+        user_id,
+        artist_id,
+        album_id,
+        song_id,
         rating,
         rhymes,
         rhythm,

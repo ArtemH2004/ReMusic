@@ -1,35 +1,36 @@
 import { colors } from "@/common/styles/styleConstants";
 
-export const getColorByValue = (value: number) => {
-  if (value > 10 && value < 100) {
-    value = (value - (value % 10)) / 10;
+export const getColorByValue = (value: number, isTotal?: boolean) => {
+  if (isTotal && value >= 10 && value <= 100) {
+    value = value - (value % 10);
+  } else if (!isTotal) {
+    value *= 10;
   }
-
-  if (value == 0) value = 1;
-  if (value == 100) value = 10;
 
   switch (value) {
-    case 1:
+    case !isTotal && 10:
       return colors.value1;
-    case 2:
+    case 20:
       return colors.value2;
-    case 3:
+    case 30:
       return colors.value3;
-    case 4:
+    case 40:
       return colors.value4;
-    case 5:
+    case 50:
       return colors.value5;
-    case 6:
+    case 60:
       return colors.value6;
-    case 7:
+    case 70:
       return colors.value7;
-    case 8:
+    case 80:
       return colors.value8;
-    case 9:
+    case 90:
       return colors.value9;
-    case 10:
+    case 100:
       return colors.value10;
     default:
-      return colors.blackTotal;
+      return colors.value0;
   }
+
+  console.log(value, isTotal);
 };
