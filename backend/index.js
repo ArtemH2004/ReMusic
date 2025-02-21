@@ -11,10 +11,15 @@ import authRouter from './routes/AuthRoutes.js';
 const PORT = 8081;
 const app = express()
 
+app.use(cors({
+    origin: 'http://localhost:5174',
+    methods: ['GET', 'POST', 'PUT', 'DELETE'], 
+    credentials: true
+}));
+
 app.use(express.json())
 app.use(express.static('uploads'))
 app.use(fileUpload())
-app.use(cors())
 
 app.use(session({
     secret: 'root',
