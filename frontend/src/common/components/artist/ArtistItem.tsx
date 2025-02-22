@@ -22,7 +22,7 @@ const Item = styled("li")<{ $isAccentColor?: boolean }>`
 
   ${flexCenter}
   flex-direction: column;
-  row-gap: 10px;
+  row-gap: 10px;;
 
   background-color: ${(props) =>
     props.$isAccentColor ? colors.whiteActive : colors.blackCover};
@@ -71,7 +71,7 @@ export const ArtistItem = ({artist, isAccentColor}: ArtistProps) => {
 
       <TitleLink to={`/artist/${artist.id}`}>{artist.username}</TitleLink>
 
-      <ReviewRaiting value={52} />
+      <ReviewRaiting value={artist.rating} />
 
     </Item>
   );

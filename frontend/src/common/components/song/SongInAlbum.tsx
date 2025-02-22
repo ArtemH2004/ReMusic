@@ -159,7 +159,7 @@ export const SongInAlbum = ({ index, song }: SongInAlbumProps) => {
                 />
               </>
             ) : (
-              <ReviewRaiting value={100} />
+              <ReviewRaiting value={song.rating} />
             )}
           </ButtonsWrapper>
           <Time>2:12</Time>

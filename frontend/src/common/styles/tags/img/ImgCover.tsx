@@ -144,6 +144,7 @@ interface ImgCoverProps {
   title: string;
   artist: string;
   year: number;
+  rating?: number;
   isButtonsActive: boolean;
   linkTo?: string;
 }
@@ -152,6 +153,7 @@ export const ImgCover = ({
   title,
   artist,
   year,
+  rating,
   isButtonsActive,
   linkTo,
 }: ImgCoverProps) => {
@@ -176,7 +178,7 @@ export const ImgCover = ({
       <Img src={img} alt={title} />
       {isButtonsActive && (
         <Logo>
-          <ReviewRaiting value={82} />
+          <ReviewRaiting value={rating || 0} />
         </Logo>
       )}
       <TextWrapper $accentColor={accentColor}>

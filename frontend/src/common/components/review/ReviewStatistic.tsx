@@ -17,9 +17,9 @@ import { useGetAlbumByIdQuery } from "@/store/reducers/album/albumApi";
 import { useGetSongByIdQuery } from "@/store/reducers/song/songApi";
 import { ArtistItem } from "@/common/components/artist/ArtistItem";
 import { SongItem } from "@/common/components/song/SongItem";
-import { ArtistItemLoading } from "../loading/ArtistItemLoading";
-import { AlbumItemLoading } from "../loading/AlbumItemLoading";
-import { SongItemLoading } from "../loading/SongItemLoading";
+import { ArtistItemLoading } from "@/common/components/loading/ArtistItemLoading";
+import { AlbumItemLoading } from "@/common/components/loading/AlbumItemLoading";
+import { SongItemLoading } from "@/common/components/loading/SongItemLoading";
 
 interface ReviewStatisticProps {
   review: Review;
@@ -37,6 +37,8 @@ export const ReviewStatistic = ({ review, username }: ReviewStatisticProps) => {
   const { data: song, isLoading: isSongLoading } = useGetSongByIdQuery(
     review.song_id
   );
+
+  const rating = !!artist ? artist.rating : !!album ? album.rating : !!song ? song.rating : 0;
 
   return (
     <ReviewStatisticWrapper>
@@ -68,8 +70,8 @@ export const ReviewStatistic = ({ review, username }: ReviewStatisticProps) => {
             <ReviewStatisticTitleRaiting>
               {language.albumRating}
             </ReviewStatisticTitleRaiting>
-            <ReviewStatisticRaiting $color={getColorByValue(82, true)}>
-              82
+            <ReviewStatisticRaiting $color={getColorByValue(rating, true)}>
+              {rating}
             </ReviewStatisticRaiting>
           </ReviewStatisticColumnWrapper>
 

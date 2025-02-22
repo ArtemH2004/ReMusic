@@ -169,7 +169,7 @@ export const SongItem = ({ song }: SongProps) => {
             />
           </>
         ) : (
-          <ReviewRaiting value={30} />
+          <ReviewRaiting value={song?.rating || 0} />
         )}
         <Time>2:12</Time>
       </Wrapper>

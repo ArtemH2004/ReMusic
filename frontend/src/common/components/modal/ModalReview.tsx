@@ -47,6 +47,7 @@ interface ModalReviewProps {
   artist_id?: number;
   album_id?: number;
   song_id?: number;
+  rating: number;
   setOpen: (isOpen: boolean) => void;
 }
 
@@ -55,12 +56,12 @@ export const ModalReview = ({
   artist_id,
   album_id,
   song_id,
+  rating,
   setOpen,
 }: ModalReviewProps) => {
   const language = getLanguage();
   const [review] = usePostReviewMutation();
   const [description, setDescription] = useState("");
-  const [rating, setRating] = useState(0);
   const [rhymes, setRhymes] = useState(0);
   const [rhythm, setRhythm] = useState(0);
   const [styles, setStyles] = useState(0);
@@ -94,6 +95,7 @@ export const ModalReview = ({
       }).unwrap();
 
       setOpen(false);
+      window.location.reload();
     } catch (error) {
       const apiError = error as { status: number };
       !!error && setErrorStatus({ status: apiError.status });
@@ -114,7 +116,8 @@ export const ModalReview = ({
         </CommentWrapper>
 
         <ReviewStatisticForm
-          review={{ rating, rhymes, rhythm, styles, individuality, atmosphere }}
+          review={{ rhymes, rhythm, styles, individuality, atmosphere }}
+          rating={rating}
           setRhymes={setRhymes}
           setRhythm={setRhythm}
           setStyles={setStyles}

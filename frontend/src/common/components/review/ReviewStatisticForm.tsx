@@ -15,6 +15,7 @@ import { getSumReviewStatistic } from "@/common/helpers/getSumReviewStatistic";
 
 interface ReviewStatisticFormProps {
   review: ReviewStatistics;
+  rating: number;
   setRhymes: (rhymes: number) => void;
   setRhythm: (rhythm: number) => void;
   setStyles: (styles: number) => void;
@@ -24,6 +25,7 @@ interface ReviewStatisticFormProps {
 
 export const ReviewStatisticForm = ({
   review,
+  rating,
   setRhymes,
   setRhythm,
   setStyles,
@@ -41,8 +43,8 @@ export const ReviewStatisticForm = ({
             <ReviewStatisticTitleRaiting>
               {language.albumRating}
             </ReviewStatisticTitleRaiting>
-            <ReviewStatisticRaiting $color={getColorByValue(82, true)}>
-              82
+            <ReviewStatisticRaiting $color={getColorByValue(rating, true)}>
+              {rating}
             </ReviewStatisticRaiting>
           </ReviewStatisticColumnWrapper>
 

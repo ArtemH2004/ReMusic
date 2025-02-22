@@ -4,4 +4,5 @@ export interface Album {
     photo: string;
     artist_id: number;
     created_at: string;
+    rating: number;
   }
