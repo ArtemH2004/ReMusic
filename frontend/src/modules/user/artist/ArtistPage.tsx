@@ -69,7 +69,7 @@ export const ArtistPage = memo(() => {
         title={language.writeReview}
         isOpen={isModalReviewOpen}
         setOpen={setModalReviewOpen}
-        children={<ModalReview setOpen={setModalReviewOpen}  user_id={authorizedUser.id} artist_id={Number(id)} />}
+        children={<ModalReview setOpen={setModalReviewOpen}  user_id={authorizedUser.id} artist_id={Number(id)} rating={artist?.rating || 0} />}
         />
       )}
       {isLoading ? (
@@ -112,7 +112,7 @@ export const ArtistPage = memo(() => {
               </ArtistPageInfoButtonsWrapper>
 
               <ArtistPageRaitingWrapper>
-                <ReviewRaiting value={95} />
+                <ReviewRaiting value={artist?.rating || 0} />
               </ArtistPageRaitingWrapper>
             </ArtistPageInfoWrapper>
 

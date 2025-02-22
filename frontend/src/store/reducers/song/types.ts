@@ -6,4 +6,5 @@ export interface Song {
   songname: string;
   album_id: number;
   created_at: string;
+  rating: number;
 }

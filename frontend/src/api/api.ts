@@ -48,4 +48,7 @@ export enum AlbumServiceEndpoints {
 
 export enum ReviewServiceEndpoints {
   REVIEW = `${reviewService}`,
+  ARTIST = `${reviewService}/user`,
+  ALBUM = `${reviewService}/album`,
+  SONG = `${reviewService}/song`,
 }

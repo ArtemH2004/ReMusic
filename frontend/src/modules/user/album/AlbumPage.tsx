@@ -70,7 +70,7 @@ export const AlbumPage = () => {
           title={language.writeReview}
           isOpen={isModalReviewOpen}
           setOpen={setModalReviewOpen}
-          children={<ModalReview setOpen={setModalReviewOpen}  user_id={authorizedUser.id} album_id={Number(id)} />}
+          children={<ModalReview setOpen={setModalReviewOpen}  user_id={authorizedUser.id} album_id={Number(id)} rating={album?.rating || 0} />}
         />
       )}
       {isLoading ? (
@@ -120,7 +120,7 @@ export const AlbumPage = () => {
               </AlbumPageInfoButtonsWrapper>
 
               <AlbumPageRaitingWrapper>
-                <ReviewRaiting value={82} />
+                <ReviewRaiting value={album?.rating || 0} />
               </AlbumPageRaitingWrapper>
             </AlbumPageInfoWrapper>
 

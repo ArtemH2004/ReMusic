@@ -33,7 +33,7 @@ import { useGetUserByIdQuery } from "@/store/reducers/user/userApi";
 import { getYearFromDate } from "@/common/helpers/getYearFromDate";
 import { SongPageLoading } from "@/common/components/loading/SongPageLoading";
 import { changeTitle } from "@/common/helpers/changeTitle";
-import { useGetAllReviewsQuery } from "@/store/reducers/review/reviewApi";
+import { useGetAllSongReviewsByIdQuery } from "@/store/reducers/review/reviewApi";
 import { useAppSelector } from "@/common/hooks/useAppSelector";
 
 const defaultSongImg = "/public/images/default-song.svg";
@@ -43,7 +43,7 @@ export const SongPage = () => {
   const { id } = useParams();
   const { authorizedUser } = useAppSelector((state) => state.userReducer);
   const { data: song, isLoading: isSongLoading } = useGetSongByIdQuery(Number(id));
-  const { data: review, isLoading: isReviewLoading } = useGetAllReviewsQuery();
+  const { data: review, isLoading: isReviewLoading } = useGetAllSongReviewsByIdQuery(Number(id));
   const reviewsList = review?.filter((review) => !!review.song_id && review.song_id === Number(id)) || [];
   const { data: artist } = useGetUserByIdQuery(song?.artist_id || 0);
   const year = getYearFromDate(song?.created_at);
@@ -64,7 +64,7 @@ export const SongPage = () => {
         title={language.writeReview}
         isOpen={isModalReviewOpen}
         setOpen={setModalReviewOpen}
-        children={<ModalReview setOpen={setModalReviewOpen}  user_id={authorizedUser.id} song_id={Number(id)} />}
+        children={<ModalReview setOpen={setModalReviewOpen}  user_id={authorizedUser.id} song_id={Number(id)} rating={song?.rating || 0} />}
         />
       )}
       {isLoading ? (
@@ -114,7 +114,7 @@ export const SongPage = () => {
               </SongPageInfoButtonsWrapper>
 
               <SongPageRaitingWrapper>
-                <ReviewRaiting value={30} />
+                <ReviewRaiting value={song?.rating || 0} />
               </SongPageRaitingWrapper>
             </SongPageInfoWrapper>
 

@@ -8,6 +8,12 @@ const QUERIES = {
     RETURNING *
   `,
   GET_ALL_REVIEWS: `SELECT * FROM review`,
+  GET_ALL_ARTIST_REVIEWS: `SELECT * FROM review WHERE artist_id = $1`,
+  UPDATE_ARTIST_RATING: `UPDATE users SET rating = $1 WHERE id = $2`,
+  GET_ALL_ALBUM_REVIEWS: `SELECT * FROM review WHERE album_id = $1`,
+  UPDATE_ALBUM_RATING: `UPDATE album SET rating = $1 WHERE id = $2`,
+  GET_ALL_SONG_REVIEWS: `SELECT * FROM review WHERE song_id = $1`,
+  UPDATE_SONG_RATING: `UPDATE song SET rating = $1 WHERE id = $2`,
   GET_REVIEW_BY_ID: `SELECT * FROM review WHERE id = $1`,
   UPDATE_REVIEW: `
     UPDATE review
@@ -41,7 +47,7 @@ class ReviewController {
       } = req.body;
 
       if (!user_id) {
-        return res.status(401).json({ error: "Missing required fields" });
+        return res.status(401).json({ error: "Problems with authorized user" });
       }
 
       if (description === "") {
@@ -61,6 +67,24 @@ class ReviewController {
         individuality,
         atmosphere,
       ]);
+
+      if (!!artist_id) {
+        const artistReviews = await db.query(QUERIES.GET_ALL_ARTIST_REVIEWS, [artist_id]);
+        const totalRating = artistReviews.rows.reduce((accum, review) => accum + review.rating, 0);
+        const newRating = Math.round(totalRating / artistReviews.rows.length);
+        await db.query(QUERIES.UPDATE_ARTIST_RATING, [newRating, artist_id]);
+      } else if (!!album_id) {
+        const albumReviews = await db.query(QUERIES.GET_ALL_ALBUM_REVIEWS, [album_id]);
+        const totalRating = albumReviews.rows.reduce((accum, review) => accum + review.rating, 0);
+        const newRating = Math.round(totalRating / albumReviews.rows.length);
+        await db.query(QUERIES.UPDATE_ALBUM_RATING, [newRating, album_id]);
+      } else if (!!song_id) {
+        const songReviews = await db.query(QUERIES.GET_ALL_SONG_REVIEWS, [song_id]);
+        const totalRating = songReviews.rows.reduce((accum, review) => accum + review.rating, 0);
+        const newRating = Math.round(totalRating / songReviews.rows.length);
+        await db.query(QUERIES.UPDATE_SONG_RATING, [newRating, song_id]);
+      }
+
       res.status(201).json(newReview.rows[0]);
     } catch (error) {
       console.error("Error creating review:", error);
@@ -71,6 +95,56 @@ class ReviewController {
   async getAll(req, res) {
     try {
       const reviews = await db.query(QUERIES.GET_ALL_REVIEWS);
+      res.json(reviews.rows);
+    } catch (error) {
+      console.error("Error fetching reviews:", error);
+      res.status(500).json({ error: "Internal Server Error" });
+    }
+  }
+
+  async getAllArtist(req, res) {
+    try {
+      const artist_id = req.params.id;
+      const reviews = await db.query(QUERIES.GET_ALL_ARTIST_REVIEWS, [
+        artist_id,
+      ]);
+      if (!reviews.rows[0]) {
+        return res
+          .status(404)
+          .json({ error: "No reviews found for this artist" });
+      }
+      res.json(reviews.rows);
+    } catch (error) {
+      console.error("Error fetching reviews:", error);
+      res.status(500).json({ error: "Internal Server Error" });
+    }
+  }
+
+  async getAllAlbum(req, res) {
+    try {
+      const album_id = req.params.id;
+      const reviews = await db.query(QUERIES.GET_ALL_ALBUM_REVIEWS, [album_id]);
+      if (!reviews.rows[0]) {
+        return res
+          .status(404)
+          .json({ error: "No reviews found for this album" });
+      }
+      res.json(reviews.rows);
+    } catch (error) {
+      console.error("Error fetching reviews:", error);
+      res.status(500).json({ error: "Internal Server Error" });
+    }
+  }
+
+  async getAllSong(req, res) {
+    try {
+      const song_id = req.params.id;
+      const reviews = await db.query(QUERIES.GET_ALL_SONG_REVIEWS, [song_id]);
+      if (!reviews.rows[0]) {
+        return res
+          .status(404)
+          .json({ error: "No reviews found for this song" });
+      }
       res.json(reviews.rows);
     } catch (error) {
       console.error("Error fetching reviews:", error);

@@ -91,6 +91,7 @@ export const AlbumItem = ({ album, isAccentColor }: AlbumItemProps) => {
         title={album?.name || ""}
         artist={artist?.username || ""}
         year={year}
+        rating={album.rating}
         isButtonsActive={true}
         linkTo={`/album/${album?.id}`}
       />

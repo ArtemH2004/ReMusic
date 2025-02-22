@@ -15,8 +15,44 @@ export const reviewApi = createApi({
       providesTags: ["Review"],
       transformResponse: (response: Review[]) => {
         return response
-          .sort((a, b) => new Date(b.created_at).getTime() - new Date(a.created_at).getTime()); // Сортируем по времени создания
+          .sort((a, b) => new Date(b.created_at).getTime() - new Date(a.created_at).getTime()); 
       },
+    }),
+
+    getAllArtistReviewsById: build.query<Review[], number>({
+      query: (artistId) => ({
+        url: `${ReviewServiceEndpoints.ARTIST}/${artistId}`,
+        method: "GET",
+      }),
+      providesTags: ["Review"],
+      transformResponse: (response: Review[]) => {
+        return response
+         .sort((a, b) => new Date(b.created_at).getTime() - new Date(a.created_at).getTime());
+      }
+    }),
+
+    getAllAlbumReviewsById: build.query<Review[], number>({
+      query: (albumId) => ({
+        url: `${ReviewServiceEndpoints.ALBUM}/${albumId}`,
+        method: "GET",
+      }),
+      providesTags: ["Review"],
+      transformResponse: (response: Review[]) => {
+        return response
+         .sort((a, b) => new Date(b.created_at).getTime() - new Date(a.created_at).getTime()); 
+      }
+    }),
+
+    getAllSongReviewsById: build.query<Review[], number>({
+      query: (songId) => ({
+        url: `${ReviewServiceEndpoints.SONG}/${songId}`,
+        method: "GET",
+      }),
+      providesTags: ["Review"],
+      transformResponse: (response: Review[]) => {
+        return response
+         .sort((a, b) => new Date(b.created_at).getTime() - new Date(a.created_at).getTime());
+      }
     }),
 
     getReviewById: build.query<Review, number>({
@@ -62,6 +98,9 @@ export const reviewApi = createApi({
 
 export const {
   useGetAllReviewsQuery,
+  useGetAllArtistReviewsByIdQuery,
+  useGetAllAlbumReviewsByIdQuery,
+  useGetAllSongReviewsByIdQuery,
   useGetReviewByIdQuery,
   usePostReviewMutation,
   useUpdateReviewByIdMutation,
