@@ -17,14 +17,14 @@ const QUERIES = {
 class AuthController {
   async registration(req, res) {
     await body("username")
-      .isAlphanumeric()
-      .withMessage("Username must be alphanumeric.")
+      .matches(/^[a-zA-Z0-9\s]+$/)
+      .withMessage("Username must contain only letters, numbers, and spaces.")
       .run(req);
     await body("email").isEmail().withMessage("Invalid email format.").run(req);
     await body("password")
       .isLength({ min: 4, max: 10 })
       .withMessage("Password must be at least 4 characters long.")
-      .run(req);
+      .run(req);  
 
     const errors = validationResult(req);
     if (!errors.isEmpty()) {

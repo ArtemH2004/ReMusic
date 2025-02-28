@@ -119,7 +119,7 @@ interface SongProps {
 export const SongItem = ({ song }: SongProps) => {
   const [isHover, setHover] = useState(false);
   const language = getLanguage();
-  const img = song.photo !== "" ? getImgByName(song.photo) : defaultSongImg;
+  const img = song.photo !== null ? getImgByName(song.photo) : defaultSongImg;
   const { data: artist } = useGetUserByIdQuery(song.artist_id);
 
   return (

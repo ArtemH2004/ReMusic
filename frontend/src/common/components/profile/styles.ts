@@ -58,6 +58,11 @@ export const ProfileName = styled("span")`
   color: ${colors.whiteTotal};
   ${clampText(fonts.sizes.mainMobile, fonts.sizes.main)};
   font-weight: ${fonts.weights.bold};
+
+    width: fit-content;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
 `;
 
 export const ProfileSvgWrapper = styled("div")<{ $isActive: boolean }>`

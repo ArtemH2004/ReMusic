@@ -48,7 +48,7 @@ export const SongPage = () => {
   const { data: artist } = useGetUserByIdQuery(song?.artist_id || 0);
   const year = getYearFromDate(song?.created_at);
   const isLoading = isSongLoading && isReviewLoading;
-  const img = song?.photo !== "" ? getImgByName(song?.photo || "") : defaultSongImg;
+  const img = song?.photo !== null ? getImgByName(song?.photo || "") : defaultSongImg;
   const accentColor = getImgAccentColor(img);
   const language = getLanguage();
 

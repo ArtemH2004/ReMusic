@@ -21,7 +21,7 @@ class AlbumController {
     }
 
     try {
-      const { name, artistid } = req.body;
+      const { name, artist_id } = req.body;
 
       let uploadedPhoto;
       if (req.files && req.files.photo) {
@@ -33,7 +33,7 @@ class AlbumController {
       const newAlbum = await db.query(QUERIES.CREATE_ALBUM, [
         name,
         uploadedPhoto,
-        artistid,
+        artist_id,
       ]);
       res.status(201).json(newAlbum.rows[0]);
     } catch (error) {

@@ -88,6 +88,7 @@ const ColumnWrapper = styled("div")`
 
 const TitleLink = styled(Link)`
   ${resetLink}
+  width: fit-content;
   ${clampText(fonts.sizes.mainMobile, fonts.sizes.main)}
   font-weight: ${fonts.weights.medium};
   color: ${colors.whiteTotal};
@@ -113,6 +114,8 @@ const NavLink = styled(Link)`
   ${flexCenter}
 `;
 
+const defaultSongImg = "/public/images/default-song.svg";
+
 interface SongInAlbumProps {
   index: number;
   song: Song;
@@ -121,7 +124,7 @@ interface SongInAlbumProps {
 export const SongInAlbum = ({ index, song }: SongInAlbumProps) => {
   const { data: artist } = useGetUserByIdQuery(song.artist_id);
   const [isHover, setHover] = useState(false);
-  const img = getImgByName(song.photo);
+  const img = song.photo !== null ? getImgByName(song.photo) : defaultSongImg;
   const language = getLanguage();
 
   return (

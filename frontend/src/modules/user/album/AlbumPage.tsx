@@ -50,10 +50,10 @@ export const AlbumPage = () => {
   const { data: artist } = useGetUserByIdQuery(album?.artist_id || 0);
   const { data: review, isLoading: isReviewLoading } = useGetAllReviewsQuery();
   const reviewsList = review?.filter((review) => !!review.album_id && review.album_id === Number(id)) || [];
-  const img = !!album?.photo ? getImgByName(album.photo) : defaultAlbumImg;
+  const img = album?.photo !== null ? getImgByName(album?.photo || "") : defaultAlbumImg;
   const accentColor = getImgAccentColor(img);
   const year = getYearFromDate(album?.created_at);
-  const songsList = song?.filter((song) => song.album_id === Number(id)) || [];
+  const songsList = song?.filter((song) => song.album_id === Number(id)).reverse() || [];
   const isLoading = isAlbumLoading && isSongLoading && isReviewLoading;
 
   const language = getLanguage();

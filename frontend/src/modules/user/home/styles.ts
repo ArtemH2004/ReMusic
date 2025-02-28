@@ -24,9 +24,9 @@ export const HomeNewTitle = styled("h2")`
   ${clampText(fonts.sizes.titleMobile, fonts.sizes.title)}
 `;
 
-export const HomeNewList = styled("ul")`
+export const HomeNewList = styled("ul")<{$columns: number}>`
   display: grid;
-  grid-template-columns: repeat(5, 1fr);
+  grid-template-columns: ${(props) => `repeat(${props.$columns}, 1fr)`};
   row-gap: 15px;
   column-gap: 30px;
   overflow-x: auto; 

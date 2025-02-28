@@ -16,7 +16,7 @@ const defaultUserImg = "/public/images/default-user.svg";
 
 export const Profile = memo(() => {
   const { authorizedUser } = useAppSelector((state) => state.userReducer);
-  const [isHover, setHover] = useState(true);
+  const [isHover, setHover] = useState(false);
   const img = !!authorizedUser.photo
     ? getImgByName(authorizedUser.photo)
     : defaultUserImg;
@@ -24,8 +24,8 @@ export const Profile = memo(() => {
   return (
     <>
       <ProfileDropdownWrapper
-        // onMouseEnter={() => setHover(true)}
-        // onMouseLeave={() => setHover(false)}
+        onMouseEnter={() => setHover(true)}
+        onMouseLeave={() => setHover(false)}
       >
         <ProfileDropdownButton $isActive={isHover}>
           <ProfileWrapper>

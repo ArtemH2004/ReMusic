@@ -43,7 +43,7 @@ export const ProfileDropdown = () => {
       reader.readAsDataURL(file);
     }
 
-    console.log(selectedFile)
+    // console.log(selectedFile)
 
     if (selectedFile) {
       try {
@@ -61,7 +61,7 @@ export const ProfileDropdown = () => {
 
   return (
     <ProfileDropdownList>
-      <ProfileDropdownItem>
+      {/* <ProfileDropdownItem>
         <ProfileDropdownLink>
           <input
             type="file"
@@ -71,7 +71,7 @@ export const ProfileDropdown = () => {
           />
           <label htmlFor="file-input">{language.setImg}</label>
         </ProfileDropdownLink>
-      </ProfileDropdownItem>
+      </ProfileDropdownItem> */}
       <ProfileDropdownItem>
         <ProfileDropdownLink
           onClick={() => handleChangeLanguage(lang === "Eng" ? "Рус" : "Eng")}

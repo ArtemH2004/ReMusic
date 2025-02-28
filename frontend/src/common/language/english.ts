@@ -81,7 +81,9 @@ export const EnglishLanguage = {
 
   // Review
   rating: "Rating",
+  artistRating: "Artist Rating:",
   albumRating: "Album Rating:",
+  songRating: "Song Rating:",
   yourRating: "Your's Rating:",
   rhymes: "Rhymes",
   rhythm: "Rhythm",

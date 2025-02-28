@@ -68,7 +68,7 @@ export const ReviewStatistic = ({ review, username }: ReviewStatisticProps) => {
         <ReviewStatisticWrapper $isSong={!!song}>
           <ReviewStatisticColumnWrapper>
             <ReviewStatisticTitleRaiting>
-              {language.albumRating}
+              {`${!!artist ? language.artistRating : !!album ? language.albumRating : language.songRating}`}
             </ReviewStatisticTitleRaiting>
             <ReviewStatisticRaiting $color={getColorByValue(rating, true)}>
               {rating}
