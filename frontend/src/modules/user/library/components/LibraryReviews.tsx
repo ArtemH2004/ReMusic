@@ -1,4 +1,4 @@
-import { Review } from "@/common/components/review/Reviews";
+import { Reviews } from "@/common/components/review/Reviews";
 import { getLanguage } from "@/common/helpers/getLanguage";
 import { LibraryPageReviewsList, LibraryPageCount, LibraryPageHeader, LibraryPageTitle } from "@/modules/user/library/styles";
 
@@ -13,11 +13,11 @@ export const LibraryReviews = () => {
       </LibraryPageHeader>
 
       <LibraryPageReviewsList>
+        {/* <Review />
         <Review />
         <Review />
         <Review />
-        <Review />
-        <Review />
+        <Review /> */}
       </LibraryPageReviewsList>
     </>
   );

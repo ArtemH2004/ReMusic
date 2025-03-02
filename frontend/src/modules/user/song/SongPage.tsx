@@ -35,6 +35,11 @@ import { SongPageLoading } from "@/common/components/loading/SongPageLoading";
 import { changeTitle } from "@/common/helpers/changeTitle";
 import { useGetAllSongReviewsByIdQuery } from "@/store/reducers/review/reviewApi";
 import { useAppSelector } from "@/common/hooks/useAppSelector";
+import {
+  useDeleteFavoriteSongMutation,
+  useGetFavoriteSongByIdAndUserIdQuery,
+  usePostFavoriteSongMutation,
+} from "@/store/reducers/favorite/favoriteSongApi";
 
 const defaultSongImg = "/public/images/default-song.svg";
 
@@ -42,15 +47,39 @@ export const SongPage = () => {
   const [isModalReviewOpen, setModalReviewOpen] = useState(false);
   const { id } = useParams();
   const { authorizedUser } = useAppSelector((state) => state.userReducer);
-  const { data: song, isLoading: isSongLoading } = useGetSongByIdQuery(Number(id));
-  const { data: review, isLoading: isReviewLoading } = useGetAllSongReviewsByIdQuery(Number(id));
-  const reviewsList = review?.filter((review) => !!review.song_id && review.song_id === Number(id)) || [];
+  const { data: song, isLoading: isSongLoading } = useGetSongByIdQuery(
+    Number(id)
+  );
+  const { data: review, isLoading: isReviewLoading } =
+    useGetAllSongReviewsByIdQuery(Number(id));
+  const reviewsList =
+    review?.filter(
+      (review) => !!review.song_id && review.song_id === Number(id)
+    ) || [];
   const { data: artist } = useGetUserByIdQuery(song?.artist_id || 0);
   const year = getYearFromDate(song?.created_at);
   const isLoading = isSongLoading && isReviewLoading;
-  const img = song?.photo !== null ? getImgByName(song?.photo || "") : defaultSongImg;
+  const img =
+    song?.photo !== null ? getImgByName(song?.photo || "") : defaultSongImg;
   const accentColor = getImgAccentColor(img);
   const language = getLanguage();
+  const { data: isFavorite } = useGetFavoriteSongByIdAndUserIdQuery({
+    user_id: authorizedUser.id,
+    song_id: Number(id),
+  });
+  const [isLike, setLike] = useState(!!isFavorite?.id ? true : false);
+  const [setFavorite] = usePostFavoriteSongMutation();
+  const [deleteFavorite] = useDeleteFavoriteSongMutation();
+
+  const handleFavoriteClick = () => {
+    if (!isLike) {
+      setLike(true);
+      setFavorite({ user_id: authorizedUser.id, song_id: Number(id) });
+    } else if (!!isFavorite && isLike) {
+      setLike(false);
+      deleteFavorite(isFavorite.id);
+    }
+  };
 
   useEffect(() => {
     scrollToTop();
@@ -61,10 +90,17 @@ export const SongPage = () => {
     <>
       {isModalReviewOpen && (
         <Modal
-        title={language.writeReview}
-        isOpen={isModalReviewOpen}
-        setOpen={setModalReviewOpen}
-        children={<ModalReview setOpen={setModalReviewOpen}  user_id={authorizedUser.id} song_id={Number(id)} rating={song?.rating || 0} />}
+          title={language.writeReview}
+          isOpen={isModalReviewOpen}
+          setOpen={setModalReviewOpen}
+          children={
+            <ModalReview
+              setOpen={setModalReviewOpen}
+              user_id={authorizedUser.id}
+              song_id={Number(id)}
+              rating={song?.rating || 0}
+            />
+          }
         />
       )}
       {isLoading ? (
@@ -102,8 +138,9 @@ export const SongPage = () => {
                 </SongPageButtonWrapper>
                 <ButtonWithIcon
                   size={60}
-                  icon={"player/add"}
+                  icon={isLike ? "player/delete" : "player/add"}
                   title={language.add}
+                  click={handleFavoriteClick}
                 />
                 <ButtonWithIcon
                   size={60}
@@ -118,16 +155,22 @@ export const SongPage = () => {
               </SongPageRaitingWrapper>
             </SongPageInfoWrapper>
 
-            {reviewsList.length !== 0 &&
+            {reviewsList.length !== 0 && (
               <SongPageContentSection>
                 <SongPageHeader>
                   <SongPageListTitle>{language.newReviews}</SongPageListTitle>
                   <ButtonSeeAll />
                 </SongPageHeader>
 
-                {reviewsList.map((review) => <Reviews key={review.id} review={review} isAccentColor={true} />)}
+                {reviewsList.map((review) => (
+                  <Reviews
+                    key={review.id}
+                    review={review}
+                    isAccentColor={true}
+                  />
+                ))}
               </SongPageContentSection>
-            }
+            )}
           </SongPageSongsWrapper>
         </SongPageSection>
       )}

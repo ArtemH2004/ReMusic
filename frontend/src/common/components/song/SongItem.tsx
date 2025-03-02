@@ -15,6 +15,12 @@ import { getLanguage } from "@/common/helpers/getLanguage";
 import { Song } from "@/store/reducers/song/types";
 import { useGetUserByIdQuery } from "@/store/reducers/user/userApi";
 import { getImgByName } from "@/common/helpers/getImgByName";
+import { useAppSelector } from "@/common/hooks/useAppSelector";
+import {
+  useDeleteFavoriteSongMutation,
+  useGetFavoriteSongByIdAndUserIdQuery,
+  usePostFavoriteSongMutation,
+} from "@/store/reducers/favorite/favoriteSongApi";
 
 const Item = styled("li")`
   ${clampWidth(300, 500)}
@@ -121,6 +127,26 @@ export const SongItem = ({ song }: SongProps) => {
   const language = getLanguage();
   const img = song.photo !== null ? getImgByName(song.photo) : defaultSongImg;
   const { data: artist } = useGetUserByIdQuery(song.artist_id);
+  const authorizedUserId = useAppSelector(
+    (state) => state.userReducer.authorizedUser.id
+  );
+  const { data: isFavorite } = useGetFavoriteSongByIdAndUserIdQuery({
+    user_id: authorizedUserId,
+    song_id: song.id,
+  });
+  const [isLike, setLike] = useState(!!isFavorite?.id ? true : false);
+  const [setFavorite] = usePostFavoriteSongMutation();
+  const [deleteFavorite] = useDeleteFavoriteSongMutation();
+
+  const handleFavoriteClick = () => {
+    if (!isLike) {
+      setLike(true);
+      setFavorite({ user_id: authorizedUserId, song_id: song.id });
+    } else if (!!isFavorite && isLike) {
+      setLike(false);
+      deleteFavorite(isFavorite.id);
+    }
+  };
 
   return (
     <Item
@@ -129,10 +155,7 @@ export const SongItem = ({ song }: SongProps) => {
     >
       <Wrapper>
         <ImgWrapper>
-          <Img
-            src={img}
-            alt={`"${song.name}" ${artist?.username}`}
-          />
+          <Img src={img} alt={`"${song.name}" ${artist?.username}`} />
           {isHover && (
             <ImgLink>
               <ButtonWithIcon
@@ -164,8 +187,9 @@ export const SongItem = ({ song }: SongProps) => {
             </Link>
             <ButtonWithIcon
               size={40}
-              icon={"player/add"}
+              icon={isLike ? "player/delete" : "player/add"}
               title={language.add}
+              click={handleFavoriteClick}
             />
           </>
         ) : (

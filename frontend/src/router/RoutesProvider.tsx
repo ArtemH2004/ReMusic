@@ -15,6 +15,7 @@ import { Register } from "@/modules/auth/components/Register";
 import { Login } from "@/modules/auth/components/Login";
 import { Error404 } from "@/common/components/error/Error404";
 import { SearchPage } from "@/modules/user/search/SearchPage";
+import { LibraryPage } from "@/modules/user/library/LibraryPage"; 
 import { useIsAuthorized } from "@/store/reducers/user/userSlice";
 
 export default function RoutesProvider() {
@@ -41,9 +42,9 @@ export default function RoutesProvider() {
           <Route index element={<Navigate to="/home" />} />
           <Route path="home" element={<HomePage />} />
           <Route path="search" element={<SearchPage />} />
-          {/* <Route path="library" element={<LibraryPage />}>
+          <Route path="library" element={<LibraryPage />}>
             <Route index element={<Navigate to="/library?foo=songs" />} />
-          </Route> */}
+          </Route>
           <Route path="album/:id" element={<AlbumPage />} />
           <Route path="artist/:id" element={<ArtistPage />} />
           <Route path="song/:id" element={<SongPage />} />
