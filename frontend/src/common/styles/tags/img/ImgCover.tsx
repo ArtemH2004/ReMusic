@@ -171,7 +171,7 @@ export const ImgCover = ({
           <ButtonWithIcon
             size={35}
             icon={isFavorite ? "player/delete" : "player/add"}
-            title={language.add}
+            title={isFavorite ? language.delete : language.add}
             click={setFavorite}
           />
           <ButtonWithIcon

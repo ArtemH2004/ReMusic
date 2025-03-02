@@ -36,6 +36,7 @@ export const RussianLanguage = {
   play: "Воспроизвести",
   stop: "Приостановить",
   add: "Добавить",
+  delete: "Удалить",
   goto: "Перейти",
   close: "Закрыть",
   repeat: "Повтор",

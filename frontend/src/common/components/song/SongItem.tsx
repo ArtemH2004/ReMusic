@@ -7,7 +7,7 @@ import {
 } from "@/common/styles/mixins";
 import { borders, colors, device, fonts } from "@/common/styles/styleConstants";
 import { ButtonWithIcon } from "@/common/styles/tags/button/ButtonWithIcon";
-import { useState } from "react";
+import { memo, useEffect, useState } from "react";
 import styled from "styled-components";
 import { ReviewRaiting } from "@/common/components/review/ReviewRaiting";
 import { NavLink } from "react-router-dom";
@@ -122,7 +122,7 @@ interface SongProps {
   song: Song;
 }
 
-export const SongItem = ({ song }: SongProps) => {
+export const SongItem = memo(({ song }: SongProps) => {
   const [isHover, setHover] = useState(false);
   const language = getLanguage();
   const img = song.photo !== null ? getImgByName(song.photo) : defaultSongImg;
@@ -147,6 +147,10 @@ export const SongItem = ({ song }: SongProps) => {
       deleteFavorite(isFavorite.id);
     }
   };
+
+  useEffect(() => {
+    !!isFavorite ? setLike(true) : setLike(false);
+  }, [isFavorite]);
 
   return (
     <Item
@@ -188,7 +192,7 @@ export const SongItem = ({ song }: SongProps) => {
             <ButtonWithIcon
               size={40}
               icon={isLike ? "player/delete" : "player/add"}
-              title={language.add}
+              title={isLike ? language.delete : language.add}
               click={handleFavoriteClick}
             />
           </>
@@ -199,4 +203,4 @@ export const SongItem = ({ song }: SongProps) => {
       </Wrapper>
     </Item>
   );
-};
+});

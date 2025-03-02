@@ -22,7 +22,7 @@ import {
 } from "@/modules/user/song/styles";
 import { ButtonSeeAll } from "@/common/styles/tags/button/ButtonSeeAll";
 import { Reviews } from "@/common/components/review/Reviews";
-import { useEffect, useState } from "react";
+import { memo, useEffect, useState } from "react";
 import { Modal } from "@/common/components/modal/Modal";
 import { ModalReview } from "@/common/components/modal/ModalReview";
 import { getLanguage } from "@/common/helpers/getLanguage";
@@ -43,7 +43,7 @@ import {
 
 const defaultSongImg = "/public/images/default-song.svg";
 
-export const SongPage = () => {
+export const SongPage = memo(() => {
   const [isModalReviewOpen, setModalReviewOpen] = useState(false);
   const { id } = useParams();
   const { authorizedUser } = useAppSelector((state) => state.userReducer);
@@ -80,6 +80,10 @@ export const SongPage = () => {
       deleteFavorite(isFavorite.id);
     }
   };
+
+  useEffect(() => {
+    !!isFavorite ? setLike(true) : setLike(false);
+  }, [isFavorite])
 
   useEffect(() => {
     scrollToTop();
@@ -139,7 +143,7 @@ export const SongPage = () => {
                 <ButtonWithIcon
                   size={60}
                   icon={isLike ? "player/delete" : "player/add"}
-                  title={language.add}
+                  title={isLike ? language.delete : language.add}
                   click={handleFavoriteClick}
                 />
                 <ButtonWithIcon
@@ -176,4 +180,4 @@ export const SongPage = () => {
       )}
     </>
   );
-};
+});

@@ -36,6 +36,7 @@ export const EnglishLanguage = {
   play: "Play",
   stop: "Stop",
   add: "Add",
+  delete: "Delete",
   goto: "Go To",
   close: "Close",
   repeat: "Repeat",

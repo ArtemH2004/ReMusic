@@ -9,7 +9,7 @@ import {
 } from "@/common/styles/mixins";
 import { borders, colors, device, fonts } from "@/common/styles/styleConstants";
 import { ButtonWithIcon } from "@/common/styles/tags/button/ButtonWithIcon";
-import { useState } from "react";
+import { memo, useEffect, useState } from "react";
 import styled from "styled-components";
 import { ReviewRaiting } from "@/common/components/review/ReviewRaiting";
 import { getLanguage } from "@/common/helpers/getLanguage";
@@ -127,14 +127,14 @@ interface SongInAlbumProps {
   song: Song;
 }
 
-export const SongInAlbum = ({ index, song }: SongInAlbumProps) => {
+export const SongInAlbum = memo(({ index, song }: SongInAlbumProps) => {
   const authorizedUserId = useAppSelector(
     (state) => state.userReducer.authorizedUser.id
   );
-  const { data: isFavorite } = useGetFavoriteSongByIdAndUserIdQuery(
-    {user_id: authorizedUserId,
-    song_id: song.id}
-  );
+  const { data: isFavorite } = useGetFavoriteSongByIdAndUserIdQuery({
+    user_id: authorizedUserId,
+    song_id: song.id,
+  });
 
   const { data: artist } = useGetUserByIdQuery(song.artist_id);
   const [isLike, setLike] = useState(!!isFavorite?.id ? true : false);
@@ -153,6 +153,10 @@ export const SongInAlbum = ({ index, song }: SongInAlbumProps) => {
       deleteFavorite(isFavorite.id);
     }
   };
+
+  useEffect(() => {
+    !!isFavorite ? setLike(true) : setLike(false);
+  }, [isFavorite]);
 
   return (
     <Item>
@@ -185,7 +189,7 @@ export const SongInAlbum = ({ index, song }: SongInAlbumProps) => {
                 <ButtonWithIcon
                   size={40}
                   icon={isLike ? "player/delete" : "player/add"}
-                  title={language.add}
+                  title={isLike ? language.delete : language.add}
                   click={handleFavoriteClick}
                 />
               </>
@@ -198,4 +202,4 @@ export const SongInAlbum = ({ index, song }: SongInAlbumProps) => {
       </Button>
     </Item>
   );
-};
+});
