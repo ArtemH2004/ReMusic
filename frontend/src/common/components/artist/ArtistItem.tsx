@@ -11,6 +11,13 @@ import { ReviewRaiting } from "@/common/components/review/ReviewRaiting";
 import { ShortUserInfo } from "@/store/reducers/user/types";
 import { getImgByName } from "@/common/helpers/getImgByName";
 import { Link } from "react-router-dom";
+import { useAppSelector } from "@/common/hooks/useAppSelector";
+import {
+  useDeleteFavoriteArtistMutation,
+  useGetFavoriteArtistByIdAndUserIdQuery,
+  usePostFavoriteArtistMutation,
+} from "@/store/reducers/favorite/favoriteArtistApi";
+import { memo, useEffect, useState } from "react";
 
 const Item = styled("li")<{ $isAccentColor?: boolean }>`
   position: relative;
@@ -22,7 +29,7 @@ const Item = styled("li")<{ $isAccentColor?: boolean }>`
 
   ${flexCenter}
   flex-direction: column;
-  row-gap: 10px;;
+  row-gap: 10px;
 
   background-color: ${(props) =>
     props.$isAccentColor ? colors.whiteActive : colors.blackCover};
@@ -55,24 +62,51 @@ const TitleLink = styled(Link)`
 const defaultArtistImg = "/public/images/default-user.svg";
 
 interface ArtistProps {
-  artist: ShortUserInfo,
+  artist: ShortUserInfo;
   isAccentColor?: boolean;
 }
 
-export const ArtistItem = ({artist, isAccentColor}: ArtistProps) => {
-  const img = artist.photo !== null ? getImgByName(artist.photo || "") : defaultArtistImg;
+export const ArtistItem = memo(({ artist, isAccentColor }: ArtistProps) => {
+  const img =
+    artist.photo !== null ? getImgByName(artist.photo || "") : defaultArtistImg;
+  const authorizedUserId = useAppSelector(
+    (state) => state.userReducer.authorizedUser.id
+  );
+  const { data: isFavorite } = useGetFavoriteArtistByIdAndUserIdQuery({
+    user_id: authorizedUserId,
+    artist_id: artist.id,
+  });
+  const [isLike, setLike] = useState(!!isFavorite ? true : false);
+  const [setFavorite] = usePostFavoriteArtistMutation();
+  const [deleteFavorite] = useDeleteFavoriteArtistMutation();
+
+  const handleFavoriteClick = () => {
+    if (!isLike) {
+      setLike(true);
+      setFavorite({ user_id: authorizedUserId, artist_id: artist.id });
+    } else if (!!isFavorite && isLike) {
+      setLike(false);
+      deleteFavorite(isFavorite.id);
+    }
+  };
+
+  useEffect(() => {
+    !!isFavorite ? setLike(true) : setLike(false);
+  }, [isFavorite]);
+
   return (
     <Item $isAccentColor={isAccentColor}>
       <ImgArtist
         img={img}
         artist={artist.username}
         artistId={artist.id}
+        isFavorite={isLike}
+        setFavorite={handleFavoriteClick}
       />
 
       <TitleLink to={`/artist/${artist.id}`}>{artist.username}</TitleLink>
 
       <ReviewRaiting value={artist.rating} />
-
     </Item>
   );
-};
+});

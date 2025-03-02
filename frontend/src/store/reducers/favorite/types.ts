@@ -9,3 +9,9 @@ export interface FavoriteAlbum {
     user_id: number;
     album_id: number;
 }
+
+export interface FavoriteArtist {
+    id: number;
+    user_id: number;
+    artist_id: number;
+}

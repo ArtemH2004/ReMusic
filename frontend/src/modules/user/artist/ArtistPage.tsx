@@ -38,6 +38,11 @@ import { useGetAllAlbumsQuery } from "@/store/reducers/album/albumApi";
 import { changeTitle } from "@/common/helpers/changeTitle";
 import { useGetAllReviewsQuery } from "@/store/reducers/review/reviewApi";
 import { useAppSelector } from "@/common/hooks/useAppSelector";
+import {
+  useDeleteFavoriteArtistMutation,
+  useGetFavoriteArtistByIdAndUserIdQuery,
+  usePostFavoriteArtistMutation,
+} from "@/store/reducers/favorite/favoriteArtistApi";
 
 const defaultArtistImg = "/public/images/default-user.svg";
 
@@ -45,16 +50,48 @@ export const ArtistPage = memo(() => {
   const [isModalReviewOpen, setModalReviewOpen] = useState(false);
   const { id } = useParams();
   const { authorizedUser } = useAppSelector((state) => state.userReducer);
-  const { data: artist, isLoading: isArtistLoading } = useGetUserByIdQuery(Number(id));
+  const { data: artist, isLoading: isArtistLoading } = useGetUserByIdQuery(
+    Number(id)
+  );
   const { data: song, isLoading: isSongLoading } = useGetAllSongsQuery();
   const { data: album, isLoading: isAlbumLoading } = useGetAllAlbumsQuery();
   const { data: review, isLoading: isReviewLoading } = useGetAllReviewsQuery();
-  const reviewsList = review?.filter((review) => !!review.artist_id && review.artist_id === Number(id)) || [];
+  const reviewsList =
+    review?.filter(
+      (review) => !!review.artist_id && review.artist_id === Number(id)
+    ) || [];
   const songsList = song?.filter((song) => song.artist_id === Number(id)) || [];
-  const albumsList = album?.filter((album) => album.artist_id === Number(id)) || [];
-  const img = artist?.photo !== null ? getImgByName(artist?.photo || "") : defaultArtistImg;
+  const albumsList =
+    album?.filter((album) => album.artist_id === Number(id)) || [];
+  const img =
+    artist?.photo !== null
+      ? getImgByName(artist?.photo || "")
+      : defaultArtistImg;
   const accentColor = getImgAccentColor(img);
-  const isLoading = isArtistLoading && isSongLoading && isAlbumLoading && isReviewLoading;
+  const isLoading =
+    isArtistLoading && isSongLoading && isAlbumLoading && isReviewLoading;
+  const { data: isFavorite } = useGetFavoriteArtistByIdAndUserIdQuery({
+    user_id: authorizedUser.id,
+    artist_id: Number(id),
+  });
+  const [isLike, setLike] = useState(false);
+  const [setFavorite] = usePostFavoriteArtistMutation();
+  const [deleteFavorite] = useDeleteFavoriteArtistMutation();
+
+  const handleFavoriteClick = () => {
+    if (!isLike) {
+      setLike(true);
+      setFavorite({ user_id: authorizedUser.id, artist_id: Number(id) });
+    } else if (!!isFavorite && isLike) {
+      setLike(false);
+      deleteFavorite(isFavorite.id);
+    }
+  };
+
+  useEffect(() => {
+    !!isFavorite ? setLike(true) : setLike(false);
+  }, [isFavorite])
+
   const language = getLanguage();
 
   useEffect(() => {
@@ -66,10 +103,17 @@ export const ArtistPage = memo(() => {
     <>
       {isModalReviewOpen && (
         <Modal
-        title={language.writeReview}
-        isOpen={isModalReviewOpen}
-        setOpen={setModalReviewOpen}
-        children={<ModalReview setOpen={setModalReviewOpen}  user_id={authorizedUser.id} artist_id={Number(id)} rating={artist?.rating || 0} />}
+          title={language.writeReview}
+          isOpen={isModalReviewOpen}
+          setOpen={setModalReviewOpen}
+          children={
+            <ModalReview
+              setOpen={setModalReviewOpen}
+              user_id={authorizedUser.id}
+              artist_id={Number(id)}
+              rating={artist?.rating || 0}
+            />
+          }
         />
       )}
       {isLoading ? (
@@ -100,8 +144,9 @@ export const ArtistPage = memo(() => {
                 </ArtistPageButtonWrapper>
                 <ButtonWithIcon
                   size={60}
-                  icon={"player/add"}
-                  title={language.add}
+                  icon={isLike ? "player/delete" : "player/add"}
+                  title={isLike ? language.delete : language.add}
+                  click={handleFavoriteClick}
                 />
                 <ButtonWithIcon
                   size={60}
@@ -120,7 +165,7 @@ export const ArtistPage = memo(() => {
               <ArtistPageContentSection>
                 <ArtistPageListTitle>{language.songs}</ArtistPageListTitle>
 
-                <ArtistPageList $columns={songsList.length / 2}>
+                <ArtistPageList $columns={Math.round(songsList.length / 2)}>
                   {songsList.map((song) => (
                     <SongItem key={song.id} song={song} />
                   ))}

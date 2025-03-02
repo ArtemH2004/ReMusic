@@ -11,7 +11,7 @@ import {
   usePostFavoriteAlbumMutation,
 } from "@/store/reducers/favorite/favoriteAlbumApi";
 import { useGetUserByIdQuery } from "@/store/reducers/user/userApi";
-import { useState } from "react";
+import { memo, useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
 
@@ -86,7 +86,7 @@ interface AlbumItemProps {
   isAccentColor?: boolean;
 }
 
-export const AlbumItem = ({ album, isAccentColor }: AlbumItemProps) => {
+export const AlbumItem = memo(({ album, isAccentColor }: AlbumItemProps) => {
   const { data: artist } = useGetUserByIdQuery(album?.artist_id || 0);
   const img =
     album?.photo !== null ? getImgByName(album?.photo || "") : defaultAlbumImg;
@@ -112,6 +112,10 @@ export const AlbumItem = ({ album, isAccentColor }: AlbumItemProps) => {
     }
   };
 
+  useEffect(() => {
+    !!isFavorite ? setLike(true) : setLike(false);
+  }, [isFavorite]);
+
   return (
     <Item $isAccentColor={isAccentColor}>
       <ImgCover
@@ -135,4 +139,4 @@ export const AlbumItem = ({ album, isAccentColor }: AlbumItemProps) => {
       </Wrapper>
     </Item>
   );
-};
+});

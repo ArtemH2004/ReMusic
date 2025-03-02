@@ -1,5 +1,5 @@
 import { AlbumItem } from "@/common/components/album/AlbumItem";
-import { ArtistItemLoading } from "@/common/components/loading/ArtistItemLoading";
+import { AlbumItemLoading } from "@/common/components/loading/AlbumItemLoading";
 import { getLanguage } from "@/common/helpers/getLanguage";
 import { useAppSelector } from "@/common/hooks/useAppSelector";
 import {
@@ -29,10 +29,10 @@ export const LibraryAlbums = () => {
       <LibraryPageAlbumsList>
         {isLoading ? (
           <>
-            <ArtistItemLoading />
-            <ArtistItemLoading />
-            <ArtistItemLoading />
-            <ArtistItemLoading />
+            <AlbumItemLoading />
+            <AlbumItemLoading />
+            <AlbumItemLoading />
+            <AlbumItemLoading />
           </>
         ) : (
           album?.map((album) => <AlbumItem key={album.id} album={album} />)

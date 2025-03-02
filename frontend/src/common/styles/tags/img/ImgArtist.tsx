@@ -34,7 +34,7 @@ const FlexWrapper = styled("div")<{ $accentColor: string }>`
 
   &:hover {
     background-color: ${(props) => props.$accentColor};
-    opacity: .9;
+    opacity: 0.9;
   }
 `;
 
@@ -58,22 +58,39 @@ interface ImgArtistProps {
   img: string;
   artist: string;
   artistId: number;
+  isFavorite: boolean;
+  setFavorite: () => void;
 }
-export const ImgArtist = ({ img, artist, artistId }: ImgArtistProps) => {
+export const ImgArtist = ({
+  img,
+  artist,
+  artistId,
+  isFavorite,
+  setFavorite,
+}: ImgArtistProps) => {
   const accentColor = getImgAccentColor(img);
   const language = getLanguage();
-  
+
   return (
     <Wrapper>
       <FlexWrapper $accentColor={accentColor}>
-        <ButtonWithIcon size={35} icon={"player/add"} title={language.add} />
+        <ButtonWithIcon
+          size={35}
+          icon={isFavorite ? "player/delete" : "player/add"}
+          title={isFavorite ? language.delete : language.add}
+          click={setFavorite}
+        />
         <ButtonWithIcon
           size={45}
           icon={"player/play-white"}
           title={language.play}
         />
         <Link to={`/artist/${artistId}`}>
-          <ButtonWithIcon size={35} icon={"player/open"} title={language.goto} />
+          <ButtonWithIcon
+            size={35}
+            icon={"player/open"}
+            title={language.goto}
+          />
         </Link>
       </FlexWrapper>
       <Img src={img} alt={artist} />
