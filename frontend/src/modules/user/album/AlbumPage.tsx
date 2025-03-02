@@ -38,23 +38,52 @@ import { useGetAllSongsQuery } from "@/store/reducers/song/songApi";
 import { changeTitle } from "@/common/helpers/changeTitle";
 import { useGetAllReviewsQuery } from "@/store/reducers/review/reviewApi";
 import { useAppSelector } from "@/common/hooks/useAppSelector";
+import {
+  useDeleteFavoriteAlbumMutation,
+  useGetFavoriteAlbumByIdAndUserIdQuery,
+  usePostFavoriteAlbumMutation,
+} from "@/store/reducers/favorite/favoriteAlbumApi";
 
 const defaultAlbumImg = "/public/images/default-album.svg";
 
 export const AlbumPage = () => {
   const [isModalReviewOpen, setModalReviewOpen] = useState(false);
   const { id } = useParams();
-  const {authorizedUser} = useAppSelector((state) => state.userReducer);
-  const { data: album, isLoading: isAlbumLoading } = useGetAlbumByIdQuery(Number(id));
+  const { authorizedUser } = useAppSelector((state) => state.userReducer);
+  const { data: album, isLoading: isAlbumLoading } = useGetAlbumByIdQuery(
+    Number(id)
+  );
   const { data: song, isLoading: isSongLoading } = useGetAllSongsQuery();
   const { data: artist } = useGetUserByIdQuery(album?.artist_id || 0);
   const { data: review, isLoading: isReviewLoading } = useGetAllReviewsQuery();
-  const reviewsList = review?.filter((review) => !!review.album_id && review.album_id === Number(id)) || [];
-  const img = album?.photo !== null ? getImgByName(album?.photo || "") : defaultAlbumImg;
+  const reviewsList =
+    review?.filter(
+      (review) => !!review.album_id && review.album_id === Number(id)
+    ) || [];
+  const img =
+    album?.photo !== null ? getImgByName(album?.photo || "") : defaultAlbumImg;
   const accentColor = getImgAccentColor(img);
   const year = getYearFromDate(album?.created_at);
-  const songsList = song?.filter((song) => song.album_id === Number(id)).reverse() || [];
+  const songsList =
+    song?.filter((song) => song.album_id === Number(id)).reverse() || [];
   const isLoading = isAlbumLoading && isSongLoading && isReviewLoading;
+  const { data: isFavorite } = useGetFavoriteAlbumByIdAndUserIdQuery({
+    user_id: authorizedUser.id,
+    album_id: Number(id),
+  });
+  const [isLike, setLike] = useState(!!isFavorite?.id ? true : false);
+  const [setFavorite] = usePostFavoriteAlbumMutation();
+  const [deleteFavorite] = useDeleteFavoriteAlbumMutation();
+
+  const handleFavoriteClick = () => {
+    if (!isLike) {
+      setLike(true);
+      setFavorite({ user_id: authorizedUser.id, album_id: Number(id) });
+    } else if (!!isFavorite && isLike) {
+      setLike(false);
+      deleteFavorite(isFavorite.id);
+    }
+  };
 
   const language = getLanguage();
 
@@ -70,7 +99,14 @@ export const AlbumPage = () => {
           title={language.writeReview}
           isOpen={isModalReviewOpen}
           setOpen={setModalReviewOpen}
-          children={<ModalReview setOpen={setModalReviewOpen}  user_id={authorizedUser.id} album_id={Number(id)} rating={album?.rating || 0} />}
+          children={
+            <ModalReview
+              setOpen={setModalReviewOpen}
+              user_id={authorizedUser.id}
+              album_id={Number(id)}
+              rating={album?.rating || 0}
+            />
+          }
         />
       )}
       {isLoading ? (
@@ -108,8 +144,9 @@ export const AlbumPage = () => {
                 </AlbumPageButtonWrapper>
                 <ButtonWithIcon
                   size={60}
-                  icon={"player/add"}
+                  icon={isLike ? "player/delete" : "player/add"}
                   title={language.add}
+                  click={handleFavoriteClick}
                 />
                 <ButtonWithIcon
                   size={60}
@@ -130,7 +167,7 @@ export const AlbumPage = () => {
               ))}
             </AlbumPageList>
 
-            {reviewsList.length !== 0 &&
+            {reviewsList.length !== 0 && (
               <AlbumPageContentSection>
                 <AlbumPageHeader>
                   <AlbumPageListTitle>{language.newReviews}</AlbumPageListTitle>
@@ -145,7 +182,7 @@ export const AlbumPage = () => {
                   />
                 ))}
               </AlbumPageContentSection>
-            }
+            )}
           </AlbumPageSongsWrapper>
         </AlbumPageSection>
       )}

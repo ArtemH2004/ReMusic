@@ -23,7 +23,7 @@ export const LibrarySongs = () => {
       <LibraryPageHeader>
         <LibraryPageTitle>
           {language.likedSongs}{" "}
-          <LibraryPageCount>{`(${song?.length})`}</LibraryPageCount>
+          <LibraryPageCount>{`(${!!song ? song?.length : 0})`}</LibraryPageCount>
         </LibraryPageTitle>
       </LibraryPageHeader>
 
