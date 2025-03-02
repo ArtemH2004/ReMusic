@@ -147,6 +147,8 @@ interface ImgCoverProps {
   rating?: number;
   isButtonsActive: boolean;
   linkTo?: string;
+  isFavorite?: boolean;
+  setFavorite?: () => void;
 }
 export const ImgCover = ({
   img,
@@ -156,6 +158,8 @@ export const ImgCover = ({
   rating,
   isButtonsActive,
   linkTo,
+  isFavorite,
+  setFavorite,
 }: ImgCoverProps) => {
   const accentColor = getImgAccentColor(img);
   const language = getLanguage();
@@ -164,14 +168,23 @@ export const ImgCover = ({
     <Wrapper $accentColor={accentColor}>
       {isButtonsActive && (
         <CoverWrapper $accentColor={accentColor}>
-          <ButtonWithIcon size={35} icon={"player/add"} title={language.add} />
+          <ButtonWithIcon
+            size={35}
+            icon={isFavorite ? "player/delete" : "player/add"}
+            title={language.add}
+            click={setFavorite}
+          />
           <ButtonWithIcon
             size={45}
             icon={"player/play-white"}
             title={language.play}
           />
           <Link to={linkTo || ""}>
-            <ButtonWithIcon size={35} icon={"player/open"} title={language.goto} />
+            <ButtonWithIcon
+              size={35}
+              icon={"player/open"}
+              title={language.goto}
+            />
           </Link>
         </CoverWrapper>
       )}
