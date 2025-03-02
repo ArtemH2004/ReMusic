@@ -11,6 +11,10 @@ const QUERIES = {
   // `,
   GET_ALL_USERS: `SELECT * FROM users`,
   GET_USER_BY_ID: `SELECT * FROM users WHERE id = $1`,
+  UPDATE_USER_PHOTO: `UPDATE users 
+  SET photo = $1 
+  WHERE id = $2 
+  RETURNING *`,
   UPDATE_USER: `
     UPDATE users
     SET username = $1, email = $2, password = $3, photo = $4, isartist = $5
@@ -69,37 +73,64 @@ class UserController {
     }
   }
 
-  async update(req, res) {
+  async updatePhoto(req, res) {
     try {
       const id = req.params.id;
-      const { username, email, password, isartist } = req.body;
 
       const user = await db.query(QUERIES.GET_USER_BY_ID, [id]);
       if (!user.rows[0]) {
         return res.status(404).json({ error: "User not found" });
       }
 
-      let uploadedPhoto;
+      let uploadedPhoto; 
       if (req.files && req.files.photo) {
-        uploadedPhoto = await uploadPhoto.saveFile(req.files.photo);
+          uploadedPhoto = await uploadPhoto.saveFile(req.files.photo);
       } else {
-        uploadedPhoto = user.rows[0].photo;
+          uploadedPhoto = user.rows[0].photo;
       }
 
-      const updatedUser = await db.query(QUERIES.UPDATE_USER, [
-        username,
-        email,
-        password,
-        uploadedPhoto, 
-        isartist,
+      const updateUserPhoto = await db.query(QUERIES.UPDATE_USER_PHOTO, [
+        uploadedPhoto,
         id,
       ]);
-      res.json(updatedUser.rows[0]);
+      res.json(updateUserPhoto.rows[0]);
     } catch (error) {
       console.error("Error updating user:", error);
       res.status(500).json({ error: "Internal Server Error" });
     }
   }
+
+  // async update(req, res) {
+  //   try {
+  //     const id = req.params.id;
+  //     const { username, email, password, isartist } = req.body;
+
+  //     const user = await db.query(QUERIES.GET_USER_BY_ID, [id]);
+  //     if (!user.rows[0]) {
+  //       return res.status(404).json({ error: "User not found" });
+  //     }
+
+  //     let uploadedPhoto;
+  //     if (req.files && req.files.photo) {
+  //       uploadedPhoto = await uploadPhoto.saveFile(req.files.photo);
+  //     } else {
+  //       uploadedPhoto = user.rows[0].photo;
+  //     }
+
+  //     const updatedUser = await db.query(QUERIES.UPDATE_USER, [
+  //       username,
+  //       email,
+  //       password,
+  //       uploadedPhoto,
+  //       isartist,
+  //       id,
+  //     ]);
+  //     res.json(updatedUser.rows[0]);
+  //   } catch (error) {
+  //     console.error("Error updating user:", error);
+  //     res.status(500).json({ error: "Internal Server Error" });
+  //   }
+  // }
 
   async delete(req, res) {
     try {

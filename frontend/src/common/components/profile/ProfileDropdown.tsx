@@ -5,16 +5,18 @@ import {
   ProfileDropdownList,
 } from "@/common/components/profile/styles";
 import { getLanguage } from "@/common/helpers/getLanguage";
+import { useAppSelector } from "@/common/hooks/useAppSelector";
 import { useActions } from "@/store/actions";
 import { useUpdateUserPhotoByIdMutation } from "@/store/reducers/user/userApi";
 import { useState } from "react";
 
 export const ProfileDropdown = () => {
+  const {authorizedUser} = useAppSelector((state) => state.userReducer)
   const lang = sessionStorage.getItem("language") || "Eng";
   const language = getLanguage();
-  const [selectedFile, setSelectedFile] = useState(null);
+  const [selectedFile, setSelectedFile] = useState<string | null>(null); // Изменили тип на string | null
   const { clearAuthorizedUser } = useActions();
-  const [updateUserPhoto] = useUpdateUserPhotoByIdMutation();
+  const [updateUserPhoto] = useUpdateUserPhotoByIdMutation<{ userId: number, photo: string }>(); // Изменили тип на string
 
   const handleChangeLanguage = (language: string) => {
     sessionStorage.setItem("language", language);
@@ -22,28 +24,34 @@ export const ProfileDropdown = () => {
   };
 
   const handleLogout = () => {
-    clearAuthorizedUser(); // Очистка авторизованного пользователя
-    // Дополнительно: перенаправьте пользователя на экран входа
+    clearAuthorizedUser();
   };
 
-  const handleFileChange = (event: any) => {
+  const handleUploadPhoto = async (event: any) => {
     const file = event.target.files[0];
     if (file) {
+      // Проверка на допустимый тип файла
+      if (!file.type.startsWith("image/")) {
+        alert("Пожалуйста, выберите изображение.");
+        return;
+      }
+
       const reader = new FileReader();
       reader.onloadend = () => {
-        setSelectedFile(reader.result); // Сохраняем изображение в состоянии
+        setSelectedFile(reader.result as string);
       };
-      reader.readAsDataURL(file); // Читаем файл как Data URL
+      reader.readAsDataURL(file);
     }
-  };
 
-  const handleUploadPhoto = async () => {
+    // console.log(selectedFile)
+
     if (selectedFile) {
       try {
-        // Замените userId на соответствующий идентификатор пользователя
-        const userId = 1; // пример, замените на нужный userId
+        const userId = authorizedUser.id; // Замените на актуальный userId
         await updateUserPhoto({ userId, photo: selectedFile });
+        console.log(userId, selectedFile)
         alert("Фото успешно обновлено!");
+        setSelectedFile(null); // Сброс состояния после успешной загрузки
       } catch (error) {
         console.error("Ошибка при обновлении фото:", error);
         alert("Не удалось обновить фото.");
@@ -53,18 +61,17 @@ export const ProfileDropdown = () => {
 
   return (
     <ProfileDropdownList>
-      <ProfileDropdownItem>
+      {/* <ProfileDropdownItem>
         <ProfileDropdownLink>
           <input
             type="file"
             accept="image/*"
-            onChange={handleFileChange}
-            style={{ display: "none" }}
+            onChange={handleUploadPhoto}
             id="file-input"
           />
           <label htmlFor="file-input">{language.setImg}</label>
         </ProfileDropdownLink>
-      </ProfileDropdownItem>
+      </ProfileDropdownItem> */}
       <ProfileDropdownItem>
         <ProfileDropdownLink
           onClick={() => handleChangeLanguage(lang === "Eng" ? "Рус" : "Eng")}

@@ -73,7 +73,7 @@ export const ArtistPageLoading = () => {
           <ArtistPageContentSection>
             <ArtistPageListTitle>{language.songs}</ArtistPageListTitle>
 
-            <ArtistPageList>
+            <ArtistPageList $columns={5}>
               <SongItemLoading />
               <SongItemLoading />
               <SongItemLoading />

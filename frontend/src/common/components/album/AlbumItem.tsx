@@ -81,7 +81,7 @@ interface AlbumItemProps {
 
 export const AlbumItem = ({ album, isAccentColor }: AlbumItemProps) => {
   const {data: artist} = useGetUserByIdQuery(album?.artist_id || 0);
-  const img = album?.photo !== "" ? getImgByName(album?.photo || "") : defaultAlbumImg;
+  const img = album?.photo !== null ? getImgByName(album?.photo || "") : defaultAlbumImg;
   const year = getYearFromDate(album?.created_at);
 
   return (

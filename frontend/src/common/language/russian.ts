@@ -81,7 +81,9 @@ export const RussianLanguage = {
 
   // Review
   rating: "Рейтинг",
+  artistRating: "Рейтинг Артиста:",
   albumRating: "Рейтинг Альбома:",
+  songRating: "Рейтинг песни:",
   yourRating: "Твой Рейтинг:",
   rhymes: "Рифмы",
   rhythm: "Ритм",

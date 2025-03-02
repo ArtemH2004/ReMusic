@@ -21,7 +21,7 @@ class SongController {
     }
 
     try {
-      const { name, artistid, songname, albumid } = req.body;
+      const { name, artist_id, songname, album_id } = req.body;
 
       let uploadedPhoto;
       if (req.files && req.files.photo) {
@@ -33,9 +33,9 @@ class SongController {
       const newSong = await db.query(QUERIES.CREATE_SONG, [
         name,
         uploadedPhoto,
-        artistid,
+        artist_id,
         songname,
-        albumid
+        album_id
       ]);
       res.status(201).json(newSong.rows[0]);
     } catch (error) {

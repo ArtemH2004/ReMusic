@@ -60,7 +60,7 @@ interface ArtistProps {
 }
 
 export const ArtistItem = ({artist, isAccentColor}: ArtistProps) => {
-  const img = !!artist.photo ? getImgByName(artist.photo) : defaultArtistImg;
+  const img = artist.photo !== null ? getImgByName(artist.photo || "") : defaultArtistImg;
   return (
     <Item $isAccentColor={isAccentColor}>
       <ImgArtist

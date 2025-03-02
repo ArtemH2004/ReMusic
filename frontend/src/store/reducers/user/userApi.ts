@@ -41,7 +41,7 @@ export const userApi = createApi({
 
     updateUserPhotoById: build.mutation<User, {userId: number, photo: string}>({
       query: ({userId, photo}) => ({
-        url: `${UserServiceEndpoints.USER}/${userId}`,
+        url: `${UserServiceEndpoints.USER_PHOTO}/${userId}`,
         method: "PUT",
         body: { photo: photo },
       }),

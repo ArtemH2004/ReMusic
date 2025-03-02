@@ -36,6 +36,7 @@ export enum RegisterServiceEndpoints {
 
 export enum UserServiceEndpoints {
   USER = `${userService}`,
+  USER_PHOTO = `${userService}/photo`,
 }
 
 export enum SongServiceEndpoints {

@@ -52,7 +52,7 @@ export const ArtistPage = memo(() => {
   const reviewsList = review?.filter((review) => !!review.artist_id && review.artist_id === Number(id)) || [];
   const songsList = song?.filter((song) => song.artist_id === Number(id)) || [];
   const albumsList = album?.filter((album) => album.artist_id === Number(id)) || [];
-  const img = !!artist?.photo ? getImgByName(artist?.photo) : defaultArtistImg;
+  const img = artist?.photo !== null ? getImgByName(artist?.photo || "") : defaultArtistImg;
   const accentColor = getImgAccentColor(img);
   const isLoading = isArtistLoading && isSongLoading && isAlbumLoading && isReviewLoading;
   const language = getLanguage();
@@ -120,7 +120,7 @@ export const ArtistPage = memo(() => {
               <ArtistPageContentSection>
                 <ArtistPageListTitle>{language.songs}</ArtistPageListTitle>
 
-                <ArtistPageList>
+                <ArtistPageList $columns={songsList.length / 2}>
                   {songsList.map((song) => (
                     <SongItem key={song.id} song={song} />
                   ))}

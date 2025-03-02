@@ -14,6 +14,11 @@ const userSlice = createSlice({
     clearAuthorizedUser(state) {
       state.authorizedUser = {} as ShortUserInfo;
     },
+    updateUserPhoto(state, action: PayloadAction<string>) {
+      if (state.authorizedUser) {
+        state.authorizedUser.photo = action.payload;
+      }
+    },
   },
 });
 
