@@ -16,7 +16,7 @@ export const HomeNew = () => {
   return (
     <HomeNewSection>
       <HomeNewTitle>{language.newSongs}</HomeNewTitle>
-      <HomeNewList $columns={!!data ? data?.length / 2 : 5}>
+      <HomeNewList $columns={!!data ? Math.round(data?.length / 2) : 5}>
         {isLoading ? (
           <>
             <SongItemLoading />

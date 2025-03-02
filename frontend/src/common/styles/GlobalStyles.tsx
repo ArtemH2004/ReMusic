@@ -112,6 +112,7 @@ export const GlobalStyles = createGlobalStyle`
 
     scrollbar-color: ${colors.grayScrollBar};
     scrollbar-width: thin;
+    overflow-y: scroll;
   } 
 
   a:hover,

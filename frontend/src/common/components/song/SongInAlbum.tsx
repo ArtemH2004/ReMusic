@@ -17,6 +17,12 @@ import { Song } from "@/store/reducers/song/types";
 import { getImgByName } from "@/common/helpers/getImgByName";
 import { useGetUserByIdQuery } from "@/store/reducers/user/userApi";
 import { Link } from "react-router-dom";
+import { useAppSelector } from "@/common/hooks/useAppSelector";
+import {
+  useDeleteFavoriteSongMutation,
+  useGetFavoriteSongByIdAndUserIdQuery,
+  usePostFavoriteSongMutation,
+} from "@/store/reducers/favorite/favoriteSongApi";
 
 const Item = styled("li")``;
 
@@ -122,10 +128,31 @@ interface SongInAlbumProps {
 }
 
 export const SongInAlbum = ({ index, song }: SongInAlbumProps) => {
+  const authorizedUserId = useAppSelector(
+    (state) => state.userReducer.authorizedUser.id
+  );
+  const { data: isFavorite } = useGetFavoriteSongByIdAndUserIdQuery(
+    {user_id: authorizedUserId,
+    song_id: song.id}
+  );
+
   const { data: artist } = useGetUserByIdQuery(song.artist_id);
+  const [isLike, setLike] = useState(!!isFavorite?.id ? true : false);
   const [isHover, setHover] = useState(false);
   const img = song.photo !== null ? getImgByName(song.photo) : defaultSongImg;
   const language = getLanguage();
+  const [setFavorite] = usePostFavoriteSongMutation();
+  const [deleteFavorite] = useDeleteFavoriteSongMutation();
+
+  const handleFavoriteClick = () => {
+    if (!isLike) {
+      setLike(true);
+      setFavorite({ user_id: authorizedUserId, song_id: song.id });
+    } else if (!!isFavorite && isLike) {
+      setLike(false);
+      deleteFavorite(isFavorite.id);
+    }
+  };
 
   return (
     <Item>
@@ -157,8 +184,9 @@ export const SongInAlbum = ({ index, song }: SongInAlbumProps) => {
                 </NavLink>
                 <ButtonWithIcon
                   size={40}
-                  icon={"player/add"}
+                  icon={isLike ? "player/delete" : "player/add"}
                   title={language.add}
+                  click={handleFavoriteClick}
                 />
               </>
             ) : (

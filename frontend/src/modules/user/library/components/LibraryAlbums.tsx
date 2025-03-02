@@ -12,6 +12,7 @@ export const LibraryAlbums = () => {
       </LibraryPageHeader>
 
       <LibraryPageAlbumsList>
+        {/* <AlbumItem />
         <AlbumItem />
         <AlbumItem />
         <AlbumItem />
@@ -23,8 +24,7 @@ export const LibraryAlbums = () => {
         <AlbumItem />
         <AlbumItem />
         <AlbumItem />
-        <AlbumItem />
-        <AlbumItem />
+        <AlbumItem /> */}
       </LibraryPageAlbumsList>
     </>
   );

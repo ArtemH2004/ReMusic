@@ -25,6 +25,7 @@ const userService = '/user';
 const songService = '/song';
 const albumService = '/album';
 const reviewService = '/review';
+const favoriteService = '/favorite';
 
 export enum LoginServiceEndpoints {
   LOGIN = `${loginService}`,
@@ -52,4 +53,9 @@ export enum ReviewServiceEndpoints {
   ARTIST = `${reviewService}/user`,
   ALBUM = `${reviewService}/album`,
   SONG = `${reviewService}/song`,
+}
+
+export enum FavoriteServiceEndpoints {
+  SONG = `${favoriteService}/song`,
+  ALL_SONGS_BY_USER_ID = `${favoriteService}/song/user`,
 }
