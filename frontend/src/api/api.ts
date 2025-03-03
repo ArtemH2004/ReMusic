@@ -59,7 +59,9 @@ export enum FavoriteServiceEndpoints {
   SONG = `${favoriteService}/song`,
   ALBUM = `${favoriteService}/album`,
   ARTIST = `${favoriteService}/artist`,
+  REVIEW = `${favoriteService}/review`,
   ALL_SONGS_BY_USER_ID = `${favoriteService}/song/user`,
   ALL_ALBUMS_BY_USER_ID = `${favoriteService}/album/user`,
   ALL_ARTISTS_BY_USER_ID = `${favoriteService}/artist/user`,
+  ALL_REVIEWS_BY_USER_ID = `${favoriteService}/review/user`,
 }

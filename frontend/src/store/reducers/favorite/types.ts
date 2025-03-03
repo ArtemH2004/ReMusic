@@ -15,3 +15,9 @@ export interface FavoriteArtist {
     user_id: number;
     artist_id: number;
 }
+
+export interface FavoriteReview {
+    id: number;
+    user_id: number;
+    review_id: number;
+}
