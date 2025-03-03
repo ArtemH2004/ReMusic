@@ -13,7 +13,6 @@ import { ReviewRaiting } from "@/common/components/review/ReviewRaiting";
 import { NavLink } from "react-router-dom";
 import { getLanguage } from "@/common/helpers/getLanguage";
 import { Song } from "@/store/reducers/song/types";
-import { useGetUserByIdQuery } from "@/store/reducers/user/userApi";
 import { getImgByName } from "@/common/helpers/getImgByName";
 import { useAppSelector } from "@/common/hooks/useAppSelector";
 import {
@@ -126,7 +125,6 @@ export const SongItem = memo(({ song }: SongProps) => {
   const [isHover, setHover] = useState(false);
   const language = getLanguage();
   const img = song.photo !== null ? getImgByName(song.photo) : defaultSongImg;
-  const { data: artist } = useGetUserByIdQuery(song.artist_id);
   const authorizedUserId = useAppSelector(
     (state) => state.userReducer.authorizedUser.id
   );
@@ -159,7 +157,7 @@ export const SongItem = memo(({ song }: SongProps) => {
     >
       <Wrapper>
         <ImgWrapper>
-          <Img src={img} alt={`"${song.name}" ${artist?.username}`} />
+          <Img src={img} alt={`"${song.name}" ${song.artist_name}`} />
           {isHover && (
             <ImgLink>
               <ButtonWithIcon
@@ -173,8 +171,8 @@ export const SongItem = memo(({ song }: SongProps) => {
 
         <ColumnWrapper>
           <Title to={`/song/${song.id}`}>{song.name}</Title>
-          <ArtistLink to={`/artist/${artist?.id}`}>
-            {artist?.username}
+          <ArtistLink to={`/artist/${song.artist_id}`}>
+            {song.artist_name}
           </ArtistLink>
         </ColumnWrapper>
       </Wrapper>

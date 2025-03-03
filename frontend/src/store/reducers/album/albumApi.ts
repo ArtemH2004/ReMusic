@@ -1,6 +1,6 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import { AlbumServiceEndpoints, baseUrl } from "@/api/api";
-import { Album } from "@/store/reducers/album/types";
+import { Album, AlbumFullInfo } from "@/store/reducers/album/types";
 
 export const albumApi = createApi({
   reducerPath: "albumApi",
@@ -13,28 +13,22 @@ export const albumApi = createApi({
         method: "GET",
       }),
       providesTags: ["Album"],
-      transformResponse: (response: Album[]) => {
-        return response.sort(
-          (a, b) =>
-            new Date(b.created_at).getTime() - new Date(a.created_at).getTime()
-        );
-      },
+      transformResponse: (response: Album[]) => response
     }),
 
-    getAlbumById: build.query<Album, number>({
+    getAlbumById: build.query<AlbumFullInfo, number>({
       query: (albumId) => ({
         url: `${AlbumServiceEndpoints.ALBUM}/${albumId}`,
         method: "GET",
       }),
       providesTags: ["Album"],
-      transformResponse: (response: Album) => response,
+      transformResponse: (response: AlbumFullInfo) => response,
     }),
 
     deleteAlbumById: build.mutation<Album, number>({
       query: (albumId) => ({
         url: `${AlbumServiceEndpoints.ALBUM}/${albumId}`,
         method: "DELETE",
-        transformResponse: (response: Album) => response,
       }),
       invalidatesTags: ["Album"],
     }),

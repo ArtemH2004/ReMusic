@@ -25,7 +25,16 @@ export const HomeReviews = () => {
         {isLoading ? (
           <ReviewLoading />
         ) : (
-          data?.map((review) => <Reviews key={review.id} review={review} />)
+          data?.map((item) => (!!item &&  
+            <Reviews
+              key={item.review.id}
+              review={item.review}
+              artist={item.artist}
+              album={item.album}
+              song={item.song}
+              isLoading={isLoading}
+            />
+          ))
         )}
       </ReviewList>
     </HomePageSection>

@@ -10,7 +10,6 @@ import {
   useGetFavoriteAlbumByIdAndUserIdQuery,
   usePostFavoriteAlbumMutation,
 } from "@/store/reducers/favorite/favoriteAlbumApi";
-import { useGetUserByIdQuery } from "@/store/reducers/user/userApi";
 import { memo, useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
@@ -87,7 +86,6 @@ interface AlbumItemProps {
 }
 
 export const AlbumItem = memo(({ album, isAccentColor }: AlbumItemProps) => {
-  const { data: artist } = useGetUserByIdQuery(album?.artist_id || 0);
   const img =
     album?.photo !== null ? getImgByName(album?.photo || "") : defaultAlbumImg;
   const year = getYearFromDate(album?.created_at);
@@ -121,7 +119,7 @@ export const AlbumItem = memo(({ album, isAccentColor }: AlbumItemProps) => {
       <ImgCover
         img={img}
         title={album?.name || ""}
-        artist={artist?.username || ""}
+        artist={album?.artist_name || ""}
         year={year}
         rating={album.rating}
         isButtonsActive={true}
@@ -132,8 +130,8 @@ export const AlbumItem = memo(({ album, isAccentColor }: AlbumItemProps) => {
 
       <Wrapper>
         <TitleLink to={`/album/${album?.id}`}>{album?.name}</TitleLink>
-        <SubtitleLink to={`/artist/${artist?.id}`}>
-          {artist?.username}
+        <SubtitleLink to={`/artist/${album?.artist_id}`}>
+          {album?.artist_name}
         </SubtitleLink>
         <Span>{year}</Span>
       </Wrapper>

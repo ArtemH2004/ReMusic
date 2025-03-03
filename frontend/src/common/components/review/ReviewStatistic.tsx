@@ -12,31 +12,26 @@ import { AlbumItem } from "@/common/components/album/AlbumItem";
 import { getColorByValue } from "@/common/helpers/getColorByValue";
 import { getLanguage } from "@/common/helpers/getLanguage";
 import { Review } from "@/store/reducers/review/types";
-import { useGetUserByIdQuery } from "@/store/reducers/user/userApi";
-import { useGetAlbumByIdQuery } from "@/store/reducers/album/albumApi";
-import { useGetSongByIdQuery } from "@/store/reducers/song/songApi";
 import { ArtistItem } from "@/common/components/artist/ArtistItem";
 import { SongItem } from "@/common/components/song/SongItem";
 import { ArtistItemLoading } from "@/common/components/loading/ArtistItemLoading";
 import { AlbumItemLoading } from "@/common/components/loading/AlbumItemLoading";
 import { SongItemLoading } from "@/common/components/loading/SongItemLoading";
+import { User } from "@/store/reducers/user/types";
+import { Album } from "@/store/reducers/album/types";
+import { Song } from "@/store/reducers/song/types";
 
 interface ReviewStatisticProps {
+  artist?: User;
+  album?: Album;
+  song?: Song;
+  isLoading: boolean;
   review: Review;
   username: string;
 }
 
-export const ReviewStatistic = ({ review, username }: ReviewStatisticProps) => {
+export const ReviewStatistic = ({ artist, album, song, isLoading, review, username }: ReviewStatisticProps) => {
   const language = getLanguage();
-  const { data: artist, isLoading: isArtistLoading } = useGetUserByIdQuery(
-    review.artist_id
-  );
-  const { data: album, isLoading: isAlbumLoading } = useGetAlbumByIdQuery(
-    review.album_id
-  );
-  const { data: song, isLoading: isSongLoading } = useGetSongByIdQuery(
-    review.song_id
-  );
 
   const rating = !!artist ? artist.rating : !!album ? album.rating : !!song ? song.rating : 0;
 
@@ -46,14 +41,14 @@ export const ReviewStatistic = ({ review, username }: ReviewStatisticProps) => {
         {!song ? (
           <ReviewStatisticCoverWrapper>
             {!!artist ? (
-              isArtistLoading ? (
+              isLoading ? (
                 <ArtistItemLoading isAccentColor={true} />
               ) : (
                 <ArtistItem isAccentColor={true} artist={artist} />
               )
             ) : (
               !!album &&
-              (isAlbumLoading ? (
+              (isLoading ? (
                 <AlbumItemLoading isAccentColor={true} />
               ) : (
                 <AlbumItem isAccentColor={true} album={album} />
@@ -62,7 +57,7 @@ export const ReviewStatistic = ({ review, username }: ReviewStatisticProps) => {
           </ReviewStatisticCoverWrapper>
         ) : (
           !!song &&
-          (isSongLoading ? <SongItemLoading /> : <SongItem song={song} />)
+          (isLoading ? <SongItemLoading /> : <SongItem song={song} />)
         )}
 
         <ReviewStatisticWrapper $isSong={!!song}>

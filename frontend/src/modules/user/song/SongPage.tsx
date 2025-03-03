@@ -29,7 +29,6 @@ import { getLanguage } from "@/common/helpers/getLanguage";
 import { useGetSongByIdQuery } from "@/store/reducers/song/songApi";
 import { useParams } from "react-router-dom";
 import { getImgByName } from "@/common/helpers/getImgByName";
-import { useGetUserByIdQuery } from "@/store/reducers/user/userApi";
 import { getYearFromDate } from "@/common/helpers/getYearFromDate";
 import { SongPageLoading } from "@/common/components/loading/SongPageLoading";
 import { changeTitle } from "@/common/helpers/changeTitle";
@@ -50,13 +49,8 @@ export const SongPage = memo(() => {
   const { data: song, isLoading: isSongLoading } = useGetSongByIdQuery(
     Number(id)
   );
-  const { data: review, isLoading: isReviewLoading } =
+  const { data: reviews, isLoading: isReviewLoading } =
     useGetAllSongReviewsByIdQuery(Number(id));
-  const reviewsList =
-    review?.filter(
-      (review) => !!review.song_id && review.song_id === Number(id)
-    ) || [];
-  const { data: artist } = useGetUserByIdQuery(song?.artist_id || 0);
   const year = getYearFromDate(song?.created_at);
   const isLoading = isSongLoading && isReviewLoading;
   const img =
@@ -115,7 +109,7 @@ export const SongPage = memo(() => {
             <ImgCover
               img={img}
               title={song?.name || ""}
-              artist={artist?.username || ""}
+              artist={song?.artist_name || ""}
               year={year}
               isButtonsActive={false}
             />
@@ -123,8 +117,8 @@ export const SongPage = memo(() => {
             <SongPageInnerWrapper>
               <SongPageSubtitle>{language.song}</SongPageSubtitle>
               <SongPageTitle>{song?.name}</SongPageTitle>
-              <SongPageSubtitleLink to={`/artist/${artist?.id}`}>
-                {artist?.username}
+              <SongPageSubtitleLink to={`/artist/${song?.artist_id}`}>
+                {song?.artist_name}
               </SongPageSubtitleLink>
               <SongPageDescription>2 minutes • 12 seconds</SongPageDescription>
             </SongPageInnerWrapper>
@@ -159,17 +153,19 @@ export const SongPage = memo(() => {
               </SongPageRaitingWrapper>
             </SongPageInfoWrapper>
 
-            {reviewsList.length !== 0 && (
+            {!!reviews && (
               <SongPageContentSection>
                 <SongPageHeader>
                   <SongPageListTitle>{language.newReviews}</SongPageListTitle>
                   <ButtonSeeAll />
                 </SongPageHeader>
 
-                {reviewsList.map((review) => (
+                {reviews.map((review) => (
                   <Reviews
                     key={review.id}
                     review={review}
+                    isLoading={isReviewLoading}
+                    song={song}
                     isAccentColor={true}
                   />
                 ))}

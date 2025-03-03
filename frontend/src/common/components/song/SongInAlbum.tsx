@@ -15,7 +15,6 @@ import { ReviewRaiting } from "@/common/components/review/ReviewRaiting";
 import { getLanguage } from "@/common/helpers/getLanguage";
 import { Song } from "@/store/reducers/song/types";
 import { getImgByName } from "@/common/helpers/getImgByName";
-import { useGetUserByIdQuery } from "@/store/reducers/user/userApi";
 import { Link } from "react-router-dom";
 import { useAppSelector } from "@/common/hooks/useAppSelector";
 import {
@@ -135,14 +134,14 @@ export const SongInAlbum = memo(({ index, song }: SongInAlbumProps) => {
     user_id: authorizedUserId,
     song_id: song.id,
   });
-
-  const { data: artist } = useGetUserByIdQuery(song.artist_id);
   const [isLike, setLike] = useState(!!isFavorite?.id ? true : false);
   const [isHover, setHover] = useState(false);
   const img = song.photo !== null ? getImgByName(song.photo) : defaultSongImg;
   const language = getLanguage();
   const [setFavorite] = usePostFavoriteSongMutation();
   const [deleteFavorite] = useDeleteFavoriteSongMutation();
+
+  console.log(song)
 
   const handleFavoriteClick = () => {
     if (!isLike) {
@@ -170,8 +169,8 @@ export const SongInAlbum = memo(({ index, song }: SongInAlbumProps) => {
 
           <ColumnWrapper>
             <TitleLink to={`/song/${song.id}`}>{song.name}</TitleLink>
-            <ArtistLink to={`/artist/${artist?.id}`}>
-              {artist?.username}
+            <ArtistLink to={`/artist/${song.artist_id}`}>
+              {song.artist_name}
             </ArtistLink>
           </ColumnWrapper>
         </Wrapper>

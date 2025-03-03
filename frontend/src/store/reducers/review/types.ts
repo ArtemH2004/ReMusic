@@ -1,7 +1,13 @@
+import { Album } from "@/store/reducers/album/types";
+import { Song } from "@/store/reducers/song/types";
+import { User } from "@/store/reducers/user/types";
+
 export interface Review {
   id: number;
   description: string;
   user_id: number;
+  user_name: string;
+  user_photo: string;
   artist_id: number;
   album_id: number;
   song_id: number;
@@ -14,7 +20,6 @@ export interface Review {
   created_at: string;
 }
 
-
 export interface ReviewStatistics {
   id?: number;
   rating?: number;
@@ -23,4 +28,11 @@ export interface ReviewStatistics {
   styles: number;
   individuality: number;
   atmosphere: number;
+}
+
+export interface ReviewArtistAlbumSong {
+  review: Review;
+  artist: User;
+  album: Album;
+  song: Song;
 }

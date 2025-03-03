@@ -1,3 +1,6 @@
+import { Album } from "@/store/reducers/album/types";
+import { Song } from "@/store/reducers/song/types";
+
 export interface User {
   id: number;
   username: string;
@@ -15,4 +18,10 @@ export interface ShortUserInfo extends User {
   username: string;
   photo?: string;
   rating: number;
+}
+
+export interface UserFullInfo {
+  artist: User;
+  songs: Song[];
+  albums: Album[];
 }
