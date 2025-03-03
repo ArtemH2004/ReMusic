@@ -13,7 +13,6 @@ import { ButtonWithIcon } from "@/common/styles/tags/button/ButtonWithIcon";
 import { ReviewStatistic } from "@/common/components/review/ReviewStatistic";
 import { getLanguage } from "@/common/helpers/getLanguage";
 import { Review } from "@/store/reducers/review/types";
-import { useGetUserByIdQuery } from "@/store/reducers/user/userApi";
 import { getImgByName } from "@/common/helpers/getImgByName";
 import { getFullDate } from "@/common/helpers/getFullDate";
 import { useAppSelector } from "@/common/hooks/useAppSelector";
@@ -23,16 +22,31 @@ import {
   usePostFavoriteReviewMutation,
 } from "@/store/reducers/favorite/favoriteReviewApi";
 import { useEffect, useState } from "react";
+import { User } from "@/store/reducers/user/types";
+import { Album } from "@/store/reducers/album/types";
+import { Song } from "@/store/reducers/song/types";
 
 const defaultUserImg = "/public/images/default-user.svg";
 
 interface ReviewProps {
   review: Review;
+  artist?: User;
+  album?: Album;
+  song?: Song;
+  isLoading: boolean;
   isAccentColor?: boolean;
 }
-export const Reviews = ({ review, isAccentColor }: ReviewProps) => {
-  const { data: user } = useGetUserByIdQuery(review.user_id);
-  const img = !!user?.photo ? getImgByName(user?.photo) : defaultUserImg;
+export const Reviews = ({
+  review,
+  artist,
+  album,
+  song,
+  isLoading,
+  isAccentColor,
+}: ReviewProps) => {
+  const img = !!review.user_photo
+    ? getImgByName(review.user_photo)
+    : defaultUserImg;
   const date = getFullDate(review.created_at);
   const language = getLanguage();
   const authorizedUserId = useAppSelector(
@@ -64,25 +78,32 @@ export const Reviews = ({ review, isAccentColor }: ReviewProps) => {
     <ReviewItem $isAccentColor={isAccentColor}>
       <ReviewHeader>
         <ReviewHeaderWrapper>
-          <ReviewAuthorImg src={img} alt={user?.username} />
+          <ReviewAuthorImg src={img} alt={review.user_name} />
           <ReviewAuthorColumnWrapper>
-            <ReviewAuthorName>{user?.username}</ReviewAuthorName>
+            <ReviewAuthorName>{review.user_name}</ReviewAuthorName>
             <ReviewAuthorTime>{date}</ReviewAuthorTime>
           </ReviewAuthorColumnWrapper>
         </ReviewHeaderWrapper>
 
-          <ButtonWithIcon
-            size={45}
-            icon={isLike ? "player/delete" : "player/add"}
-            title={isLike ? language.delete : language.add}
-            click={handleFavoriteClick}
-          />
+        <ButtonWithIcon
+          size={45}
+          icon={isLike ? "player/delete" : "player/add"}
+          title={isLike ? language.delete : language.add}
+          click={handleFavoriteClick}
+        />
       </ReviewHeader>
 
       <ReviewContentWrapper>
         <ReviewDescription>{review.description}</ReviewDescription>
 
-        <ReviewStatistic review={review} username={user?.username || ""} />
+        <ReviewStatistic
+          isLoading={isLoading}
+          artist={artist}
+          album={album}
+          song={song}
+          review={review}
+          username={review.user_name}
+        />
       </ReviewContentWrapper>
     </ReviewItem>
   );

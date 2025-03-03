@@ -13,12 +13,7 @@ export const songApi = createApi({
         method: "GET",
       }),
       providesTags: ["Song"],
-      transformResponse: (response: Song[]) => {
-        return response.sort(
-          (a, b) =>
-            new Date(b.created_at).getTime() - new Date(a.created_at).getTime()
-        );
-      },
+      transformResponse: (response: Song[]) => response
     }),
 
     getSongById: build.query<Song, number>({

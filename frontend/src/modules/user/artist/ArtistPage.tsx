@@ -33,10 +33,8 @@ import { useParams } from "react-router-dom";
 import { useGetUserByIdQuery } from "@/store/reducers/user/userApi";
 import { ArtistPageLoading } from "@/common/components/loading/ArtistPageLoading";
 import { getImgByName } from "@/common/helpers/getImgByName";
-import { useGetAllSongsQuery } from "@/store/reducers/song/songApi";
-import { useGetAllAlbumsQuery } from "@/store/reducers/album/albumApi";
 import { changeTitle } from "@/common/helpers/changeTitle";
-import { useGetAllReviewsQuery } from "@/store/reducers/review/reviewApi";
+import { useGetAllArtistReviewsByIdQuery } from "@/store/reducers/review/reviewApi";
 import { useAppSelector } from "@/common/hooks/useAppSelector";
 import {
   useDeleteFavoriteArtistMutation,
@@ -50,26 +48,18 @@ export const ArtistPage = memo(() => {
   const [isModalReviewOpen, setModalReviewOpen] = useState(false);
   const { id } = useParams();
   const { authorizedUser } = useAppSelector((state) => state.userReducer);
-  const { data: artist, isLoading: isArtistLoading } = useGetUserByIdQuery(
-    Number(id)
-  );
-  const { data: song, isLoading: isSongLoading } = useGetAllSongsQuery();
-  const { data: album, isLoading: isAlbumLoading } = useGetAllAlbumsQuery();
-  const { data: review, isLoading: isReviewLoading } = useGetAllReviewsQuery();
-  const reviewsList =
-    review?.filter(
-      (review) => !!review.artist_id && review.artist_id === Number(id)
-    ) || [];
-  const songsList = song?.filter((song) => song.artist_id === Number(id)) || [];
-  const albumsList =
-    album?.filter((album) => album.artist_id === Number(id)) || [];
+  const { data, isLoading: isArtistLoading } = useGetUserByIdQuery(Number(id));
+  const artist = data?.artist;
+  const songs = data?.songs;
+  const albums = data?.albums;
+  const { data: reviews, isLoading: isReviewLoading } =
+    useGetAllArtistReviewsByIdQuery(Number(id));
   const img =
     artist?.photo !== null
       ? getImgByName(artist?.photo || "")
       : defaultArtistImg;
   const accentColor = getImgAccentColor(img);
-  const isLoading =
-    isArtistLoading && isSongLoading && isAlbumLoading && isReviewLoading;
+  const isLoading = isArtistLoading && isReviewLoading;
   const { data: isFavorite } = useGetFavoriteArtistByIdAndUserIdQuery({
     user_id: authorizedUser.id,
     artist_id: Number(id),
@@ -90,7 +80,7 @@ export const ArtistPage = memo(() => {
 
   useEffect(() => {
     !!isFavorite ? setLike(true) : setLike(false);
-  }, [isFavorite])
+  }, [isFavorite]);
 
   const language = getLanguage();
 
@@ -127,7 +117,7 @@ export const ArtistPage = memo(() => {
               <ArtistPageSubtitle>{language.artist}</ArtistPageSubtitle>
               <ArtistPageTitle>{artist?.username}</ArtistPageTitle>
               <ArtistPageDescription>
-                {`${songsList.length} ${language.songs} • ${albumsList.length} ${language.albums}`}
+                {`${!!songs ? songs.length : 0} ${language.songs} • ${!!albums ? albums.length : 0} ${language.albums}`}
               </ArtistPageDescription>
             </ArtistPageInnerWrapper>
           </ArtistPageContentWrapper>
@@ -161,19 +151,19 @@ export const ArtistPage = memo(() => {
               </ArtistPageRaitingWrapper>
             </ArtistPageInfoWrapper>
 
-            {songsList.length !== 0 && (
+            {!!songs && (
               <ArtistPageContentSection>
                 <ArtistPageListTitle>{language.songs}</ArtistPageListTitle>
 
-                <ArtistPageList $columns={Math.round(songsList.length / 2)}>
-                  {songsList.map((song) => (
+                <ArtistPageList $columns={Math.round(songs.length / 2)}>
+                  {songs.map((song) => (
                     <SongItem key={song.id} song={song} />
                   ))}
                 </ArtistPageList>
               </ArtistPageContentSection>
             )}
 
-            {albumsList.length !== 0 && (
+            {!!albums && (
               <ArtistPageContentSection>
                 <ArtistPageHeader>
                   <ArtistPageListTitle>{language.albums}</ArtistPageListTitle>
@@ -181,7 +171,7 @@ export const ArtistPage = memo(() => {
                 </ArtistPageHeader>
 
                 <ArtistPageAlbumList>
-                  {albumsList.map((album) => (
+                  {albums.map((album) => (
                     <AlbumItem
                       key={album.id}
                       album={album}
@@ -192,16 +182,18 @@ export const ArtistPage = memo(() => {
               </ArtistPageContentSection>
             )}
 
-            {reviewsList.length !== 0 && (
+            {!!reviews && (
               <ArtistPageContentSection>
                 <ArtistPageHeader>
                   <ArtistPageListTitle>{language.reviews}</ArtistPageListTitle>
                   <ButtonSeeAll />
                 </ArtistPageHeader>
 
-                {reviewsList.map((review) => (
+                {reviews.map((review) => (
                   <Reviews
                     key={review.id}
+                    isLoading={isReviewLoading}
+                    artist={artist}
                     review={review}
                     isAccentColor={true}
                   />

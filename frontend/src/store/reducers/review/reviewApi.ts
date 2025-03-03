@@ -1,5 +1,5 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
-import { Review } from "@/store/reducers/review/types";
+import { Review, ReviewArtistAlbumSong } from "@/store/reducers/review/types";
 import { baseUrl, ReviewServiceEndpoints } from "@/api/api";
 
 export const reviewApi = createApi({
@@ -7,16 +7,13 @@ export const reviewApi = createApi({
   baseQuery: fetchBaseQuery({ baseUrl }),
   tagTypes: ["Review"],
   endpoints: (build) => ({
-    getAllReviews: build.query<Review[], void>({
+    getAllReviews: build.query<ReviewArtistAlbumSong[], void>({
       query: () => ({
         url: ReviewServiceEndpoints.REVIEW,
         method: "GET",
       }),
       providesTags: ["Review"],
-      transformResponse: (response: Review[]) => {
-        return response
-          .sort((a, b) => new Date(b.created_at).getTime() - new Date(a.created_at).getTime()); 
-      },
+      transformResponse: (response: ReviewArtistAlbumSong[]) => response
     }),
 
     getAllArtistReviewsById: build.query<Review[], number>({
@@ -37,10 +34,7 @@ export const reviewApi = createApi({
         method: "GET",
       }),
       providesTags: ["Review"],
-      transformResponse: (response: Review[]) => {
-        return response
-         .sort((a, b) => new Date(b.created_at).getTime() - new Date(a.created_at).getTime()); 
-      }
+      transformResponse: (response: Review[]) => response
     }),
 
     getAllSongReviewsById: build.query<Review[], number>({

@@ -1,5 +1,5 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
-import { User } from "@/store/reducers/user/types";
+import { User, UserFullInfo } from "@/store/reducers/user/types";
 import { baseUrl, UserServiceEndpoints } from "@/api/api";
 
 export const userApi = createApi({
@@ -30,13 +30,13 @@ export const userApi = createApi({
     }),
     
 
-    getUserById: build.query<User, number>({
+    getUserById: build.query<UserFullInfo, number>({
       query: (userId) => ({
         url: `${UserServiceEndpoints.USER}/${userId}`,
         method: "GET",
       }),
       providesTags: ["User"],
-      transformResponse: (response: User) => response,
+      transformResponse: (response: UserFullInfo) => response,
     }),
 
     updateUserPhotoById: build.mutation<User, {userId: number, photo: string}>({

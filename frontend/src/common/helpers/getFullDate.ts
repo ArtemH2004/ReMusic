@@ -5,9 +5,9 @@ export const getFullDate = (date?: string): string => {
       ? `0${data.getDate()}`
       : data.getDate();
   const mm =
-    data.getMonth() > 0 && data.getMonth() < 10
-      ? `0${data.getMonth()}`
-      : data.getMonth();
+    data.getMonth() + 1 > 0 && data.getMonth() + 1 < 10
+      ? `0${data.getMonth() + 1}`
+      : data.getMonth() + 1;
   const yyyy = data.getFullYear();
   return `${dd}.${mm}.${yyyy}`;
 };

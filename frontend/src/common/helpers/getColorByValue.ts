@@ -31,6 +31,4 @@ export const getColorByValue = (value: number, isTotal?: boolean) => {
     default:
       return colors.value0;
   }
-
-  console.log(value, isTotal);
 };
