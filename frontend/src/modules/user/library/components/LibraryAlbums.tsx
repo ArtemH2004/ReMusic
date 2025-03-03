@@ -6,6 +6,7 @@ import {
   LibraryPageAlbumsList,
   LibraryPageCount,
   LibraryPageHeader,
+  LibraryPageNotFound,
   LibraryPageTitle,
 } from "@/modules/user/library/styles";
 import { useGetAllFavoritesAlbumsByUserIdQuery } from "@/store/reducers/favorite/favoriteAlbumApi";
@@ -22,22 +23,29 @@ export const LibraryAlbums = () => {
     <>
       <LibraryPageHeader>
         <LibraryPageTitle>
-          {language.likedAlbums} <LibraryPageCount>{`(${!!album ? album?.length : 0})`}</LibraryPageCount>
+          {language.likedAlbums}{" "}
+          <LibraryPageCount>{`(${
+            !!album ? album?.length : 0
+          })`}</LibraryPageCount>
         </LibraryPageTitle>
       </LibraryPageHeader>
 
-      <LibraryPageAlbumsList>
-        {isLoading ? (
-          <>
-            <AlbumItemLoading />
-            <AlbumItemLoading />
-            <AlbumItemLoading />
-            <AlbumItemLoading />
-          </>
-        ) : (
-          album?.map((album) => <AlbumItem key={album.id} album={album} />)
-        )}
-      </LibraryPageAlbumsList>
+      {album?.length !== 0 ? (
+        <LibraryPageAlbumsList>
+          {isLoading ? (
+            <>
+              <AlbumItemLoading />
+              <AlbumItemLoading />
+              <AlbumItemLoading />
+              <AlbumItemLoading />
+            </>
+          ) : (
+            album?.map((album) => <AlbumItem key={album.id} album={album} />)
+          )}
+        </LibraryPageAlbumsList>
+      ) : (
+        <LibraryPageNotFound>{language.notFound}</LibraryPageNotFound>
+      )}
     </>
   );
 };
