@@ -9,6 +9,7 @@ import { userReducer } from "@/store/reducers/user/userSlice";
 import { favoriteSongApi } from "@/store/reducers/favorite/favoriteSongApi";
 import { favoriteAlbumApi } from "@/store//reducers/favorite/favoriteAlbumApi";
 import { favoriteArtistApi } from "@/store/reducers/favorite/favoriteArtistApi";
+import { favoriteReviewApi } from "@/store/reducers/favorite/favoriteReviewApi";
 
 const rememberedReducers = [
   authApi.reducerPath,
@@ -25,6 +26,7 @@ const rootReducer = combineReducers({
   [favoriteSongApi.reducerPath]: favoriteSongApi.reducer,
   [favoriteAlbumApi.reducerPath]: favoriteAlbumApi.reducer,
   [favoriteArtistApi.reducerPath]: favoriteArtistApi.reducer,
+  [favoriteReviewApi.reducerPath]: favoriteReviewApi.reducer,
 });
 
 const rememberedReducer = rememberReducer(rootReducer);
@@ -40,7 +42,8 @@ export const store = configureStore({
       .concat(reviewApi.middleware)
       .concat(favoriteSongApi.middleware)
       .concat(favoriteAlbumApi.middleware)
-      .concat(favoriteArtistApi.middleware),
+      .concat(favoriteArtistApi.middleware)
+      .concat(favoriteReviewApi.middleware),
   enhancers: (getDefaultEnhancer) =>
     getDefaultEnhancer().concat(
       rememberEnhancer(window.localStorage, rememberedReducers)

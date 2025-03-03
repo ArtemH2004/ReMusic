@@ -92,12 +92,6 @@ export const ReviewAuthorTime = styled("time")`
   color: ${colors.grayText};
 `;
 
-export const ReviewLikesCount = styled("span")`
-  ${clampText(fonts.sizes.smallMobile, fonts.sizes.small)}
-  font-weight: ${fonts.weights.medium};
-  color: ${colors.grayText};
-`;
-
 export const ReviewContentWrapper = styled("div")`
   display: grid;
   grid-template-columns: repeat(2, 1fr);

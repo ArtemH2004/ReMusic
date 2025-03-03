@@ -22,7 +22,6 @@ interface ReviewProps {
   isAccentColor?: boolean;
 }
 export const ReviewLoading = ({ isAccentColor }: ReviewProps) => {
-
   return (
     <ReviewItem $isAccentColor={isAccentColor}>
       <ReviewHeader>
@@ -34,22 +33,19 @@ export const ReviewLoading = ({ isAccentColor }: ReviewProps) => {
           </ColumnWrapper>
         </ReviewHeaderWrapper>
 
-        <ReviewHeaderWrapper>
-        <TextLoading $height={15} $width="40px" />
         <SquareLoading $size={45} />
-        </ReviewHeaderWrapper>
       </ReviewHeader>
 
       <ReviewContentWrapper>
         <TextColumnWrapper>
-        <TextLoading $height={18} $width="100%" />
-        <TextLoading $height={18} $width="100%" />
-        <TextLoading $height={18} $width="100%" />
-        <TextLoading $height={18} $width="100%" />
-        <TextLoading $height={18} $width="100%" />
-        <TextLoading $height={18} $width="100%" />
-        <TextLoading $height={18} $width="100%" />
-        <TextLoading $height={18} $width="75%" />
+          <TextLoading $height={18} $width="100%" />
+          <TextLoading $height={18} $width="100%" />
+          <TextLoading $height={18} $width="100%" />
+          <TextLoading $height={18} $width="100%" />
+          <TextLoading $height={18} $width="100%" />
+          <TextLoading $height={18} $width="100%" />
+          <TextLoading $height={18} $width="100%" />
+          <TextLoading $height={18} $width="75%" />
         </TextColumnWrapper>
 
         <ReviewStatisticLoading />
