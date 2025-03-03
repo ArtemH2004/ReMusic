@@ -7,6 +7,7 @@ import {
   LibraryPageCount,
   LibraryPageHeader,
   LibraryPageTitle,
+  LibraryPageNotFound,
 } from "@/modules/user/library/styles";
 import { useGetAllFavoritesReviewsByUserIdQuery } from "@/store/reducers/favorite/favoriteReviewApi";
 
@@ -22,7 +23,10 @@ export const LibraryReviews = () => {
     <>
       <LibraryPageHeader>
         <LibraryPageTitle>
-          {language.likedReviews} <LibraryPageCount>{`(${!!review ? review.length : 0})`}</LibraryPageCount>
+          {language.likedReviews}{" "}
+          <LibraryPageCount>{`(${
+            !!review ? review.length : 0
+          })`}</LibraryPageCount>
         </LibraryPageTitle>
       </LibraryPageHeader>
 
@@ -31,8 +35,10 @@ export const LibraryReviews = () => {
           <>
             <ReviewLoading />
           </>
-        ) : (
+        ) : review?.length !== 0 ? (
           review?.map((review) => <Reviews key={review.id} review={review} />)
+        ) : (
+          <LibraryPageNotFound>{language.notFound}</LibraryPageNotFound>
         )}
       </LibraryPageReviewsList>
     </>

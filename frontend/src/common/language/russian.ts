@@ -93,6 +93,6 @@ export const RussianLanguage = {
   atmosphere: "Атмосфера",
 
   // Error
-  notFound: "Страница Не Найдена",
+  notFound: "Не Найдено",
   goHome: "Вернуться На Главную",
 };

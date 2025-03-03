@@ -91,3 +91,9 @@ export const LibraryPageSongsList = styled("ul")`
   border-radius: ${borders.smallBorderRadius};
   background-color: ${colors.blackCover};
 `;
+
+export const LibraryPageNotFound = styled("span")`
+  margin-inline: auto;
+  ${clampText(fonts.sizes.mainMobile, fonts.sizes.main)}
+  font-weight: ${fonts.weights.medium};
+`;

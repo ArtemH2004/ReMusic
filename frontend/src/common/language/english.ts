@@ -93,6 +93,6 @@ export const EnglishLanguage = {
   atmosphere: "Atmosphere",
 
   // Error
-  notFound: "Page Not Found",
+  notFound: "Not Found",
   goHome: "Return To Home",
 };

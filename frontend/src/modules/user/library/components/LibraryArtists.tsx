@@ -6,6 +6,7 @@ import {
   LibraryPageAlbumsList,
   LibraryPageCount,
   LibraryPageHeader,
+  LibraryPageNotFound,
   LibraryPageTitle,
 } from "@/modules/user/library/styles";
 import { useGetAllFavoritesArtistsByUserIdQuery } from "@/store/reducers/favorite/favoriteArtistApi";
@@ -22,24 +23,31 @@ export const LibraryArtists = () => {
     <>
       <LibraryPageHeader>
         <LibraryPageTitle>
-          {language.likedArtists} <LibraryPageCount>{`(${!!artist ? artist.length : 0})`}</LibraryPageCount>
+          {language.likedArtists}{" "}
+          <LibraryPageCount>{`(${
+            !!artist ? artist.length : 0
+          })`}</LibraryPageCount>
         </LibraryPageTitle>
       </LibraryPageHeader>
 
-      <LibraryPageAlbumsList>
-        {isLoading ? (
-          <>
-            <ArtistItemLoading />
-            <ArtistItemLoading />
-            <ArtistItemLoading />
-            <ArtistItemLoading />
-          </>
-        ) : (
-          artist?.map((artist) => (
-            <ArtistItem key={artist.id} artist={artist} />
-          ))
-        )}
-      </LibraryPageAlbumsList>
+      {artist?.length !== 0 ? (
+        <LibraryPageAlbumsList>
+          {isLoading ? (
+            <>
+              <ArtistItemLoading />
+              <ArtistItemLoading />
+              <ArtistItemLoading />
+              <ArtistItemLoading />
+            </>
+          ) : (
+            artist?.map((artist) => (
+              <ArtistItem key={artist.id} artist={artist} />
+            ))
+          )}
+        </LibraryPageAlbumsList>
+      ) : (
+        <LibraryPageNotFound>{language.notFound}</LibraryPageNotFound>
+      )}
     </>
   );
 };

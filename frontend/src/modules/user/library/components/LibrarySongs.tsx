@@ -7,6 +7,7 @@ import {
   LibraryPageCount,
   LibraryPageHeader,
   LibraryPageTitle,
+  LibraryPageNotFound,
 } from "@/modules/user/library/styles";
 import { useGetAllFavoritesSongsByUserIdQuery } from "@/store/reducers/favorite/favoriteSongApi";
 
@@ -23,25 +24,31 @@ export const LibrarySongs = () => {
       <LibraryPageHeader>
         <LibraryPageTitle>
           {language.likedSongs}{" "}
-          <LibraryPageCount>{`(${!!song ? song?.length : 0})`}</LibraryPageCount>
+          <LibraryPageCount>{`(${
+            !!song ? song?.length : 0
+          })`}</LibraryPageCount>
         </LibraryPageTitle>
       </LibraryPageHeader>
 
-      <LibraryPageSongsList>
-        {isLoading ? (
-          <>
-            <SongInAlbumLoading />
-            <SongInAlbumLoading />
-            <SongInAlbumLoading />
-            <SongInAlbumLoading />
-            <SongInAlbumLoading />
-          </>
-        ) : (
-          song?.map((song, index) => (
-            <SongInAlbum key={song.id} index={index + 1} song={song} />
-          ))
-        )}
-      </LibraryPageSongsList>
+      {song?.length !== 0 ? (
+        <LibraryPageSongsList>
+          {isLoading ? (
+            <>
+              <SongInAlbumLoading />
+              <SongInAlbumLoading />
+              <SongInAlbumLoading />
+              <SongInAlbumLoading />
+              <SongInAlbumLoading />
+            </>
+          ) : (
+            song?.map((song, index) => (
+              <SongInAlbum key={song.id} index={index + 1} song={song} />
+            ))
+          )}
+        </LibraryPageSongsList>
+      ) : (
+        <LibraryPageNotFound>{language.notFound}</LibraryPageNotFound>
+      )}
     </>
   );
 };
