@@ -2,41 +2,171 @@ import {
   PlayerAdaptiveDisplayBlockWrapper,
   PlayerAdaptiveDisplayNoneWrapper,
   PlayerContentWrapper,
+  PlayerControlButtonLink,
   PlayerControlButtonsWrapper,
-  PlayerControlProgress,
+  PlayerControlProgressInput,
   PlayerControlProgressTime,
   PlayerControlProgressWrapper,
   PlayerControlWrapper,
   PlayerInfoArtistLink,
   PlayerInfoColumnWrapper,
   PlayerInfoSongImg,
-  PlayerInfoTitle,
+  PlayerInfoTitleLink,
   PlayerInfoWrapper,
   PlayerSection,
 } from "@/common/components/player/styles";
+import { formatDuration } from "@/common/helpers/formatDuration";
+import { getImgByName } from "@/common/helpers/getImgByName";
 import { getLanguage } from "@/common/helpers/getLanguage";
+import { getMusicByName } from "@/common/helpers/getMusicByName";
+import { useAppSelector } from "@/common/hooks/useAppSelector";
 import { ButtonWithIcon } from "@/common/styles/tags/button/ButtonWithIcon";
+import { useGetSongByIdQuery } from "@/store/reducers/song/songApi";
+import { songActions } from "@/store/reducers/song/songSlice";
+import { useEffect, useRef, useState } from "react";
+import { useDispatch } from "react-redux";
 
-interface PlayerProps {
-  setClose: (isOpen: boolean) => void;
-}
+const defaultSongImg = "/public/images/default-song.svg";
 
-export const Player = ({ setClose }: PlayerProps) => {
+export const Player = () => {
   const language = getLanguage();
+  const dispatch = useDispatch();
+  const { songList, songPlayer, songSettings } = useAppSelector(
+    (state) => state.songReducer
+  );
+  const img = !!songPlayer ? getImgByName(songPlayer.photo) : defaultSongImg;
+  const music = !!songPlayer && getMusicByName(songPlayer.music);
+
+  const [currentSongIndex, setCurrentSongIndex] = useState(songList.indexOf(songPlayer.id));
+  const [currentTime, setCurrentTime] = useState(0);
+  const [duration, setDuration] = useState(0);
+
+  const { data: currentSongData } = useGetSongByIdQuery(songList[currentSongIndex]);
+
+  const audioRef = useRef<HTMLAudioElement | null>(null);
+
+  const handleSeek = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const newTime = parseFloat(e.target.value);
+    audioRef.current!.currentTime = newTime;
+    setCurrentTime(newTime);
+  };
+
+  const handleTimeUpdate = () => {
+    if (audioRef.current) {
+      const current = audioRef.current.currentTime;
+      const totalDuration = audioRef.current.duration;
+
+      setCurrentTime(current);
+      setDuration(totalDuration);
+
+      if (current >= totalDuration && !songSettings.isRepeatable) {
+        handleNext();
+      }
+    }
+  };
+
+  const handlePlay = () => {
+    if (!songSettings.isPlaying) {
+      audioRef.current?.play();
+      dispatch(songActions.setPlaying(true));
+    }
+  };
+
+  const handlePause = () => {
+    audioRef.current?.pause();
+    dispatch(songActions.setPlaying(false));
+  };
+
+  const handlePlayPause = () => {
+    songSettings.isPlaying ? handlePause() : handlePlay();
+  };
+
+  const handlePrevious = () => {
+    const newIndex = currentSongIndex - 1 < 0 ? songList.length - 1 : currentSongIndex - 1;
+    setCurrentSongIndex(newIndex);
+  };
+  
+  const handleNext = () => {
+    const newIndex = (currentSongIndex + 1) % songList.length;
+    setCurrentSongIndex(newIndex);
+  };
+
+  const handleRepeat = () => {
+    if (!songSettings.isRepeatable) {
+      dispatch(songActions.updateSongSettingsRepeatable(true));
+    } else {
+      dispatch(songActions.updateSongSettingsRepeatable(false));
+    }
+  };
+
+  const handleShuffle = () => {
+    const id = songPlayer.id;
+    dispatch(songActions.updateSongSettingsShuffled());
+    setCurrentSongIndex(songList.indexOf(id));
+  };
+  
+
+  const handleClose = () => {
+    dispatch(songActions.clearSongPlayer());
+  };
+
+  useEffect(() => {
+    if (currentSongData) {
+      dispatch(songActions.updateSongPlayer(currentSongData));
+    }
+  }, [currentSongData, dispatch]);
+
+  useEffect(() => {
+    if (songSettings.isPlaying) {
+      audioRef.current?.play();
+    } else {
+      audioRef.current?.pause();
+    }
+  }, [songSettings.isPlaying]);
+
+  useEffect(() => {
+    const newIndex = songList.indexOf(songPlayer.id);
+    if (newIndex !== -1) {
+      setCurrentSongIndex(newIndex);
+    } else {
+        setCurrentSongIndex(0);
+    }
+  }, [songList, songPlayer.id]);
+  
+  
+
+  useEffect(() => {
+    audioRef.current?.addEventListener("timeupdate", handleTimeUpdate);
+
+    return () => {
+      audioRef.current?.removeEventListener("timeupdate", handleTimeUpdate);
+    };
+  }, [audioRef.current]);
+
+  useEffect(() => {
+    if (songPlayer) {
+      audioRef.current!.src = getMusicByName(songPlayer.music);
+      if (songSettings.isPlaying) {
+        audioRef.current?.play();
+      }
+    }
+  }, [songPlayer]);
+  
 
   return (
     <PlayerSection>
       <PlayerContentWrapper>
         <PlayerInfoWrapper>
           <PlayerAdaptiveDisplayBlockWrapper>
-            <PlayerInfoSongImg
-              src="https://i.pinimg.com/736x/2a/5e/a2/2a5ea249f33a3346e55319214ee8ec91.jpg"
-              alt="Song"
-            />
+            <PlayerInfoSongImg src={img} alt={songPlayer?.name} />
           </PlayerAdaptiveDisplayBlockWrapper>
           <PlayerInfoColumnWrapper>
-            <PlayerInfoTitle>Play It Safe</PlayerInfoTitle>
-            <PlayerInfoArtistLink>Julia Wolf</PlayerInfoArtistLink>
+            <PlayerInfoTitleLink to={`song/${songPlayer?.id}`}>
+              {songPlayer?.name}
+            </PlayerInfoTitleLink>
+            <PlayerInfoArtistLink to={`artist/${songPlayer?.artist_id}`}>
+              {songPlayer?.artist_name}
+            </PlayerInfoArtistLink>
           </PlayerInfoColumnWrapper>
         </PlayerInfoWrapper>
 
@@ -45,35 +175,63 @@ export const Player = ({ setClose }: PlayerProps) => {
             <PlayerControlButtonsWrapper>
               <ButtonWithIcon
                 size={35}
-                icon="player/shuffle"
+                icon={`player/shuffle-${songSettings.isShuffled ? "on" : "off"}`}
                 title={language.shuffle}
+                click={handleShuffle}
               />
               <ButtonWithIcon
                 size={35}
                 icon="player/before"
                 title={language.previous}
+                click={handlePrevious}
               />
               <ButtonWithIcon
                 size={35}
-                icon="player/play-white"
-                title={language.play}
+                icon={`player/${
+                  songSettings.isPlaying ? "pause" : "play"
+                }-white`}
+                title={songSettings.isPlaying ? language.stop : language.play}
+                click={handlePlayPause}
               />
               <ButtonWithIcon
                 size={35}
                 icon="player/after"
                 title={language.next}
+                click={handleNext}
               />
               <ButtonWithIcon
                 size={35}
-                icon="player/repeat"
+                icon={`player/repeat-${
+                  songSettings.isRepeatable ? "on" : "off"
+                }`}
                 title={language.repeat}
+                click={handleRepeat}
               />
             </PlayerControlButtonsWrapper>
 
             <PlayerControlProgressWrapper>
-              <PlayerControlProgressTime>2:39</PlayerControlProgressTime>
-              <PlayerControlProgress />
-              <PlayerControlProgressTime>4:22</PlayerControlProgressTime>
+              <PlayerControlProgressTime>
+                {formatDuration(currentTime)}
+              </PlayerControlProgressTime>
+              <audio
+                ref={audioRef}
+                src={music}
+                autoPlay={songSettings.isPlaying}
+                loop={songSettings.isRepeatable}
+                preload="metadata"
+              />
+              <PlayerControlProgressInput
+                type="range"
+                min={0}
+                max={duration}
+                value={currentTime}
+                onChange={handleSeek}
+                $trackWidth={(currentTime / duration) * 100}
+              />
+
+              <PlayerControlProgressTime>
+                {formatDuration(duration)}
+              </PlayerControlProgressTime>
             </PlayerControlProgressWrapper>
           </PlayerControlWrapper>
         </PlayerAdaptiveDisplayNoneWrapper>
@@ -82,16 +240,18 @@ export const Player = ({ setClose }: PlayerProps) => {
           <PlayerControlButtonsWrapper>
             <ButtonWithIcon size={40} icon="player/add" title={language.add} />
 
-            <ButtonWithIcon
-              size={40}
-              icon="player/open"
-              title={language.goto}
-            />
+            <PlayerControlButtonLink to={`song/${songPlayer?.id}`}>
+              <ButtonWithIcon
+                size={40}
+                icon="player/open"
+                title={language.goto}
+              />
+            </PlayerControlButtonLink>
             <ButtonWithIcon
               size={40}
               icon="close"
               title={language.close}
-              click={() => setClose(false)}
+              click={handleClose}
             />
           </PlayerControlButtonsWrapper>
         </PlayerAdaptiveDisplayNoneWrapper>

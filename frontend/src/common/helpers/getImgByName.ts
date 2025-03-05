@@ -1,5 +1,5 @@
-import { imgUrl } from "@/api/api";
+import { fileUrl } from "@/api/api";
 
 export const getImgByName = (name: string): string => {
-  return `${imgUrl}/${name}`;
+  return `${fileUrl}/images/${name}`;
 };

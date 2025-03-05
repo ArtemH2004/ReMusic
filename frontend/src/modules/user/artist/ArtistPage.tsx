@@ -41,6 +41,8 @@ import {
   useGetFavoriteArtistByIdAndUserIdQuery,
   usePostFavoriteArtistMutation,
 } from "@/store/reducers/favorite/favoriteArtistApi";
+import { useDispatch } from "react-redux";
+import { songActions } from "@/store/reducers/song/songSlice";
 
 const defaultArtistImg = "/public/images/default-user.svg";
 
@@ -64,7 +66,14 @@ export const ArtistPage = memo(() => {
     user_id: authorizedUser.id,
     artist_id: Number(id),
   });
+
+  const dispatch = useDispatch();
+  const { songPlayer, songSettings } = useAppSelector(
+    (state) => state.songReducer
+  );
+
   const [isLike, setLike] = useState(false);
+  const [isSongPlay, setSongPlay] = useState(false);
   const [setFavorite] = usePostFavoriteArtistMutation();
   const [deleteFavorite] = useDeleteFavoriteArtistMutation();
 
@@ -81,6 +90,27 @@ export const ArtistPage = memo(() => {
   useEffect(() => {
     !!isFavorite ? setLike(true) : setLike(false);
   }, [isFavorite]);
+
+  const handlePlayClick = () => {
+    if (
+      songs?.find((song) => song.id === songPlayer.id) &&
+      songSettings.isPlaying
+    ) {
+      dispatch(songActions.setPlaying(false));
+    } else {
+      if (!!songs) {
+        dispatch(songActions.setSongPlayer(songs[0]));
+        dispatch(songActions.setSongList(songs.map((song) => song.id)));
+      }
+      dispatch(songActions.setPlaying(true));
+    }
+  };
+
+  useEffect(() => {
+    isSongPlay &&
+      !!songs &&
+      dispatch(songActions.setSongList(songs.map((song) => song.id)));
+  }, [isSongPlay]);
 
   const language = getLanguage();
 
@@ -117,7 +147,9 @@ export const ArtistPage = memo(() => {
               <ArtistPageSubtitle>{language.artist}</ArtistPageSubtitle>
               <ArtistPageTitle>{artist?.username}</ArtistPageTitle>
               <ArtistPageDescription>
-                {`${!!songs ? songs.length : 0} ${language.songs} • ${!!albums ? albums.length : 0} ${language.albums}`}
+                {`${!!songs ? songs.length : 0} ${language.songs} • ${
+                  !!albums ? albums.length : 0
+                } ${language.albums}`}
               </ArtistPageDescription>
             </ArtistPageInnerWrapper>
           </ArtistPageContentWrapper>
@@ -128,8 +160,19 @@ export const ArtistPage = memo(() => {
                 <ArtistPageButtonWrapper $accentColor={accentColor}>
                   <ButtonWithIcon
                     size={60}
-                    icon={"player/play-white"}
-                    title={language.play}
+                    icon={`player/${
+                      songPlayer.artist_id === Number(id) &&
+                      songSettings.isPlaying
+                        ? "pause"
+                        : "play"
+                    }-white`}
+                    title={
+                      songPlayer.artist_id === Number(id) &&
+                      songSettings.isPlaying
+                        ? language.stop
+                        : language.play
+                    }
+                    click={handlePlayClick}
                   />
                 </ArtistPageButtonWrapper>
                 <ButtonWithIcon
@@ -151,19 +194,23 @@ export const ArtistPage = memo(() => {
               </ArtistPageRaitingWrapper>
             </ArtistPageInfoWrapper>
 
-            {!!songs && (
+            {!!songs && songs.length !== 0 && (
               <ArtistPageContentSection>
                 <ArtistPageListTitle>{language.songs}</ArtistPageListTitle>
 
                 <ArtistPageList $columns={Math.round(songs.length / 2)}>
                   {songs.map((song) => (
-                    <SongItem key={song.id} song={song} />
+                    <SongItem
+                      key={song.id}
+                      song={song}
+                      setSongPlay={setSongPlay}
+                    />
                   ))}
                 </ArtistPageList>
               </ArtistPageContentSection>
             )}
 
-            {!!albums && (
+            {!!albums && albums.length !== 0 && (
               <ArtistPageContentSection>
                 <ArtistPageHeader>
                   <ArtistPageListTitle>{language.albums}</ArtistPageListTitle>
@@ -182,7 +229,7 @@ export const ArtistPage = memo(() => {
               </ArtistPageContentSection>
             )}
 
-            {!!reviews && (
+            {!!reviews && reviews.length !== 0 && (
               <ArtistPageContentSection>
                 <ArtistPageHeader>
                   <ArtistPageListTitle>{language.reviews}</ArtistPageListTitle>

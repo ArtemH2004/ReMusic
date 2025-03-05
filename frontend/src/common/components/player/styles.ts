@@ -13,7 +13,9 @@ import {
   device,
   fonts,
   shadows,
+  transitions,
 } from "@/common/styles/styleConstants";
+import { Link } from "react-router-dom";
 import styled from "styled-components";
 
 export const PlayerSection = styled("section")`
@@ -69,12 +71,17 @@ export const PlayerInfoColumnWrapper = styled("div")`
   flex-direction: column;
 `;
 
-export const PlayerInfoTitle = styled("span")`
+export const PlayerInfoTitleLink = styled(Link)`
+  ${resetLink}
+
+  width: fit-content;
   ${clampText(fonts.sizes.mainMobile, fonts.sizes.main)}
   font-weight: ${fonts.weights.medium};
+
+  ${linkHoverActive}
 `;
 
-export const PlayerInfoArtistLink = styled("a")`
+export const PlayerInfoArtistLink = styled(Link)`
   ${resetLink}
 
   width: fit-content;
@@ -92,6 +99,9 @@ export const PlayerControlWrapper = styled("div")`
   ${flexCenter}
   flex-direction: column;
 `;
+
+export const PlayerControlButtonLink = styled(Link)`
+${flexCenter}`;
 
 export const PlayerControlButtonsWrapper = styled("div")`
   ${flexCenter}
@@ -111,12 +121,16 @@ export const PlayerControlProgressWrapper = styled("div")`
   column-gap: 8px;
 `;
 
-export const PlayerControlProgress = styled("div")`
-  position: relative;
+//TODO fix a lot of re-renders
+export const PlayerControlProgressInput = styled("input")<{$trackWidth: number}>`
   ${clampWidth(250, 500)}
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  outline: none;
   height: 5px;
   border-radius: ${borders.smallBorderRadius};
-  background-color: ${colors.grayPlaceholder};
+  background: ${colors.grayPlaceholder};
+  position: relative;
 
   &::after {
     content: "";
@@ -124,12 +138,40 @@ export const PlayerControlProgress = styled("div")`
     top: 0;
     left: 0;
     z-index: 1;
+    width: ${props => props.$trackWidth}%;
     height: 100%;
-    width: 45%;
-    border-radius: inherit;
     background-color: ${colors.whiteTotal};
+    border-radius: inherit;
+    transition: ${transitions.fastTransition};
+  }
+  
+  &::-webkit-slider-runnable-track {
+    height: 5px;
+    border-radius: ${borders.smallBorderRadius};
+    background: ${colors.grayPlaceholder};
+  }
+
+  &::-moz-range-track {
+    height: 5px;
+    border-radius: ${borders.smallBorderRadius};
+    background: ${colors.grayPlaceholder};
+  }
+
+  &::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    ${square(5)};
+    border-radius: ${borders.circleBorderRadius};
+    background: transparent; 
+  }
+
+  &::-moz-range-thumb {
+    ${square(5)};
+    border-radius: ${borders.circleBorderRadius};
+    background: transparent;
   }
 `;
+
 
 export const PlayerControlProgressTime = styled("span")`
   ${clampText(fonts.sizes.smallMobile, fonts.sizes.small)}

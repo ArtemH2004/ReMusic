@@ -22,10 +22,12 @@ import {
   useGetFavoriteSongByIdAndUserIdQuery,
   usePostFavoriteSongMutation,
 } from "@/store/reducers/favorite/favoriteSongApi";
+import { useDispatch } from "react-redux";
+import { songActions } from "@/store/reducers/song/songSlice";
 
 const Item = styled("li")``;
 
-const Button = styled("button")`
+const Button = styled("button")<{ $isActive: boolean }>`
   ${resetButton}
   width: 100%;
   height: 72px;
@@ -35,6 +37,8 @@ const Button = styled("button")`
   column-gap: 30px;
   padding-inline: 40px;
   border-radius: ${borders.smallBorderRadius};
+  background-color: ${(props) =>
+    props.$isActive ? colors.grayActive : "transparent"};
 
   ${hoverActive}
 
@@ -124,81 +128,98 @@ const defaultSongImg = "/public/images/default-song.svg";
 interface SongInAlbumProps {
   index: number;
   song: Song;
+  setSongPlay?: (isSongPlay: boolean) => void;
 }
 
-export const SongInAlbum = memo(({ index, song }: SongInAlbumProps) => {
-  const authorizedUserId = useAppSelector(
-    (state) => state.userReducer.authorizedUser.id
-  );
-  const { data: isFavorite } = useGetFavoriteSongByIdAndUserIdQuery({
-    user_id: authorizedUserId,
-    song_id: song.id,
-  });
-  const [isLike, setLike] = useState(!!isFavorite?.id ? true : false);
-  const [isHover, setHover] = useState(false);
-  const img = song.photo !== null ? getImgByName(song.photo) : defaultSongImg;
-  const language = getLanguage();
-  const [setFavorite] = usePostFavoriteSongMutation();
-  const [deleteFavorite] = useDeleteFavoriteSongMutation();
+export const SongInAlbum = memo(
+  ({ index, song, setSongPlay }: SongInAlbumProps) => {
+    const dispatch = useDispatch();
+    const authorizedUserId = useAppSelector(
+      (state) => state.userReducer.authorizedUser.id
+    );
+    const { songPlayer, songSettings } = useAppSelector(
+      (state) => state.songReducer
+    );
+    const { data: isFavorite } = useGetFavoriteSongByIdAndUserIdQuery({
+      user_id: authorizedUserId,
+      song_id: song.id,
+    });
+    const [isLike, setLike] = useState(!!isFavorite?.id ? true : false);
+    const [isHover, setHover] = useState(false);
+    const img = song.photo !== null ? getImgByName(song.photo) : defaultSongImg;
+    const language = getLanguage();
+    const [setFavorite] = usePostFavoriteSongMutation();
+    const [deleteFavorite] = useDeleteFavoriteSongMutation();
 
-  console.log(song)
+    const handleFavoriteClick = () => {
+      if (!isLike) {
+        setLike(true);
+        setFavorite({ user_id: authorizedUserId, song_id: song.id });
+      } else if (!!isFavorite && isLike) {
+        setLike(false);
+        deleteFavorite(isFavorite.id);
+      }
+    };
 
-  const handleFavoriteClick = () => {
-    if (!isLike) {
-      setLike(true);
-      setFavorite({ user_id: authorizedUserId, song_id: song.id });
-    } else if (!!isFavorite && isLike) {
-      setLike(false);
-      deleteFavorite(isFavorite.id);
-    }
-  };
+    const handlePlayClick = () => {
+      if (songPlayer.id === song.id && songSettings.isPlaying) {
+        dispatch(songActions.setPlaying(false));
+      } else {
+        !!setSongPlay && setSongPlay(true);
+        dispatch(songActions.setSongPlayer(song));
+        dispatch(songActions.setPlaying(true));
+      }
+    };
 
-  useEffect(() => {
-    !!isFavorite ? setLike(true) : setLike(false);
-  }, [isFavorite]);
+    useEffect(() => {
+      !!isFavorite ? setLike(true) : setLike(false);
+    }, [isFavorite]);
 
-  return (
-    <Item>
-      <Button
-        onMouseEnter={() => setHover(true)}
-        onMouseLeave={() => setHover(false)}
-      >
-        <Wrapper>
-          <Number>{index}</Number>
-          <Img src={img} alt={song.name} />
+    return (
+      <Item>
+        <Button
+          $isActive={songPlayer.id === song.id}
+          onMouseEnter={() => setHover(true)}
+          onMouseLeave={() => setHover(false)}
+          onClick={handlePlayClick}
+        >
+          <Wrapper>
+            <Number>{index}</Number>
+            <Img src={img} alt={song.name} />
 
-          <ColumnWrapper>
-            <TitleLink to={`/song/${song.id}`}>{song.name}</TitleLink>
-            <ArtistLink to={`/artist/${song.artist_id}`}>
-              {song.artist_name}
-            </ArtistLink>
-          </ColumnWrapper>
-        </Wrapper>
-        <Wrapper>
-          <ButtonsWrapper>
-            {isHover ? (
-              <>
-                <NavLink to={`/song/${song.id}`}>
+            <ColumnWrapper>
+              <TitleLink to={`/song/${song.id}`}>{song.name}</TitleLink>
+              <ArtistLink to={`/artist/${song.artist_id}`}>
+                {song.artist_name}
+              </ArtistLink>
+            </ColumnWrapper>
+          </Wrapper>
+          <Wrapper>
+            <ButtonsWrapper>
+              {isHover ? (
+                <>
+                  <NavLink to={`/song/${song.id}`}>
+                    <ButtonWithIcon
+                      size={40}
+                      icon={"player/open"}
+                      title={language.goto}
+                    />
+                  </NavLink>
                   <ButtonWithIcon
                     size={40}
-                    icon={"player/open"}
-                    title={language.goto}
+                    icon={isLike ? "player/delete" : "player/add"}
+                    title={isLike ? language.delete : language.add}
+                    click={handleFavoriteClick}
                   />
-                </NavLink>
-                <ButtonWithIcon
-                  size={40}
-                  icon={isLike ? "player/delete" : "player/add"}
-                  title={isLike ? language.delete : language.add}
-                  click={handleFavoriteClick}
-                />
-              </>
-            ) : (
-              <ReviewRaiting value={song.rating} />
-            )}
-          </ButtonsWrapper>
-          <Time>2:12</Time>
-        </Wrapper>
-      </Button>
-    </Item>
-  );
-});
+                </>
+              ) : (
+                <ReviewRaiting value={song.rating} />
+              )}
+            </ButtonsWrapper>
+            <Time>2:12</Time>
+          </Wrapper>
+        </Button>
+      </Item>
+    );
+  }
+);

@@ -20,6 +20,9 @@ import { SongItemLoading } from "@/common/components/loading/SongItemLoading";
 import { User } from "@/store/reducers/user/types";
 import { Album } from "@/store/reducers/album/types";
 import { Song } from "@/store/reducers/song/types";
+import { memo, useEffect, useState } from "react";
+import { useDispatch } from "react-redux";
+import { songActions } from "@/store/reducers/song/songSlice";
 
 interface ReviewStatisticProps {
   artist?: User;
@@ -30,10 +33,15 @@ interface ReviewStatisticProps {
   username: string;
 }
 
-export const ReviewStatistic = ({ artist, album, song, isLoading, review, username }: ReviewStatisticProps) => {
+export const ReviewStatistic = memo(({ artist, album, song, isLoading, review, username }: ReviewStatisticProps) => {
   const language = getLanguage();
-
+  const dispatch = useDispatch();
+  const [isSongPlay, setSongPlay] = useState(false)
   const rating = !!artist ? artist.rating : !!album ? album.rating : !!song ? song.rating : 0;
+
+  useEffect(() => {
+    isSongPlay && !!song && dispatch(songActions.setSongList([song.id]))
+  })
 
   return (
     <ReviewStatisticWrapper>
@@ -57,7 +65,7 @@ export const ReviewStatistic = ({ artist, album, song, isLoading, review, userna
           </ReviewStatisticCoverWrapper>
         ) : (
           !!song &&
-          (isLoading ? <SongItemLoading /> : <SongItem song={song} />)
+          (isLoading ? <SongItemLoading /> : <SongItem song={song} setSongPlay={setSongPlay} />)
         )}
 
         <ReviewStatisticWrapper $isSong={!!song}>
@@ -94,4 +102,4 @@ export const ReviewStatistic = ({ artist, album, song, isLoading, review, userna
       </ReviewStatisticList>
     </ReviewStatisticWrapper>
   );
-};
+});
