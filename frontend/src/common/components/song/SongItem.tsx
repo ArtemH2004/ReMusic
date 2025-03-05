@@ -20,6 +20,9 @@ import {
   useGetFavoriteSongByIdAndUserIdQuery,
   usePostFavoriteSongMutation,
 } from "@/store/reducers/favorite/favoriteSongApi";
+import { useDispatch } from "react-redux";
+import { songActions } from "@/store/reducers/song/songSlice";
+import { BarsLoading } from "../loading/BarsLoading";
 
 const Item = styled("li")`
   ${clampWidth(300, 500)}
@@ -119,14 +122,19 @@ const defaultSongImg = "/public/images/default-song.svg";
 
 interface SongProps {
   song: Song;
+  setSongPlay?: (isSongPlay: boolean) => void;
 }
 
-export const SongItem = memo(({ song }: SongProps) => {
+export const SongItem = memo(({ song, setSongPlay }: SongProps) => {
+  const dispatch = useDispatch();
   const [isHover, setHover] = useState(false);
   const language = getLanguage();
   const img = song.photo !== null ? getImgByName(song.photo) : defaultSongImg;
   const authorizedUserId = useAppSelector(
     (state) => state.userReducer.authorizedUser.id
+  );
+  const { songPlayer, songSettings } = useAppSelector(
+    (state) => state.songReducer
   );
   const { data: isFavorite } = useGetFavoriteSongByIdAndUserIdQuery({
     user_id: authorizedUserId,
@@ -150,6 +158,17 @@ export const SongItem = memo(({ song }: SongProps) => {
     !!isFavorite ? setLike(true) : setLike(false);
   }, [isFavorite]);
 
+  const handlePlayClick = () => {
+    if (songPlayer.id === song.id && songSettings.isPlaying) {
+      dispatch(songActions.setPlaying(false)); 
+    } else {
+      !!setSongPlay && setSongPlay(true);
+      dispatch(songActions.setSongPlayer(song)); 
+      dispatch(songActions.setPlaying(true));
+    }
+  };
+  
+
   return (
     <Item
       onMouseEnter={() => setHover(true)}
@@ -158,12 +177,18 @@ export const SongItem = memo(({ song }: SongProps) => {
       <Wrapper>
         <ImgWrapper>
           <Img src={img} alt={`"${song.name}" ${song.artist_name}`} />
+          {!isHover && songPlayer.id === song.id && songSettings.isPlaying && (
+            <ImgLink>
+              <BarsLoading />
+            </ImgLink>
+          )}
           {isHover && (
             <ImgLink>
               <ButtonWithIcon
                 size={50}
-                icon={"player/play-white"}
-                title={language.play}
+                icon={`player/${songPlayer.id === song.id && songSettings.isPlaying ? "pause" : "play"}-white`}
+                title={songPlayer.id === song.id && songSettings.isPlaying ? language.stop : language.play}
+                click={handlePlayClick}
               />
             </ImgLink>
           )}

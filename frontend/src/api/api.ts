@@ -1,6 +1,6 @@
 const backendUrl = `localhost:8081`;
 export const baseUrl = `http://${backendUrl}/api`;
-export const imgUrl = `http://${backendUrl}`;
+export const fileUrl = `http://${backendUrl}`;
 
 export enum MutationCacheKeys {
   LOGIN = 'login',

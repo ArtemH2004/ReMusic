@@ -41,6 +41,8 @@ import {
   usePostFavoriteAlbumMutation,
 } from "@/store/reducers/favorite/favoriteAlbumApi";
 import { useGetAllAlbumReviewsByIdQuery } from "@/store/reducers/review/reviewApi";
+import { useDispatch } from "react-redux";
+import { songActions } from "@/store/reducers/song/songSlice";
 
 const defaultAlbumImg = "/public/images/default-album.svg";
 
@@ -48,13 +50,12 @@ export const AlbumPage = memo(() => {
   const [isModalReviewOpen, setModalReviewOpen] = useState(false);
   const { id } = useParams();
   const { authorizedUser } = useAppSelector((state) => state.userReducer);
-  const { data, isLoading: isAlbumLoading } = useGetAlbumByIdQuery(
-    Number(id)
-  );
+  const { data, isLoading: isAlbumLoading } = useGetAlbumByIdQuery(Number(id));
   const album = data?.album;
   const songs = data?.songs;
 
-  const {data: reviews, isLoading: isReviewLoading} = useGetAllAlbumReviewsByIdQuery(Number(id));
+  const { data: reviews, isLoading: isReviewLoading } =
+    useGetAllAlbumReviewsByIdQuery(Number(id));
 
   const img =
     album?.photo !== null ? getImgByName(album?.photo || "") : defaultAlbumImg;
@@ -64,7 +65,14 @@ export const AlbumPage = memo(() => {
     user_id: authorizedUser.id,
     album_id: Number(id),
   });
+
+  const dispatch = useDispatch();
+  const { songPlayer, songSettings } = useAppSelector(
+    (state) => state.songReducer
+  );
+
   const [isLike, setLike] = useState(!!isFavorite?.id ? true : false);
+  const [isSongPlay, setSongPlay] = useState(false);
   const [setFavorite] = usePostFavoriteAlbumMutation();
   const [deleteFavorite] = useDeleteFavoriteAlbumMutation();
 
@@ -78,6 +86,21 @@ export const AlbumPage = memo(() => {
     }
   };
 
+  const handlePlayClick = () => {
+    if (
+      songs?.find((song) => song.id === songPlayer.id) &&
+      songSettings.isPlaying
+    ) {
+      dispatch(songActions.setPlaying(false));
+    } else {
+      if (!!songs) {
+        dispatch(songActions.setSongPlayer(songs[0]));
+        dispatch(songActions.setSongList(songs.map((song) => song.id)));
+      }
+      dispatch(songActions.setPlaying(true));
+    }
+  };
+
   useEffect(() => {
     !!isFavorite ? setLike(true) : setLike(false);
   }, [isFavorite]);
@@ -88,6 +111,12 @@ export const AlbumPage = memo(() => {
     scrollToTop();
     changeTitle("album");
   }, []);
+
+  useEffect(() => {
+    isSongPlay &&
+      !!songs &&
+      dispatch(songActions.setSongList(songs.map((song) => song.id)));
+  }, [isSongPlay]);
 
   return (
     <>
@@ -135,8 +164,19 @@ export const AlbumPage = memo(() => {
                 <AlbumPageButtonWrapper $accentColor={accentColor}>
                   <ButtonWithIcon
                     size={60}
-                    icon={"player/play-white"}
-                    title={language.play}
+                    icon={`player/${
+                      songPlayer.album_id === Number(id) &&
+                      songSettings.isPlaying
+                        ? "pause"
+                        : "play"
+                    }-white`}
+                    title={
+                      songPlayer.album_id === Number(id) &&
+                      songSettings.isPlaying
+                        ? language.stop
+                        : language.play
+                    }
+                    click={handlePlayClick}
                   />
                 </AlbumPageButtonWrapper>
                 <ButtonWithIcon
@@ -160,11 +200,11 @@ export const AlbumPage = memo(() => {
 
             <AlbumPageList>
               {songs?.map((song, index) => (
-                <SongInAlbum key={song.id} index={index + 1} song={song} />
+                <SongInAlbum key={song.id} index={index + 1} song={song} setSongPlay={setSongPlay} />
               ))}
             </AlbumPageList>
 
-            {!!reviews && (
+            {!!reviews && reviews.length !== 0 && (
               <AlbumPageContentSection>
                 <AlbumPageHeader>
                   <AlbumPageListTitle>{language.newReviews}</AlbumPageListTitle>

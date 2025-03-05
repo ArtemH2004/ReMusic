@@ -39,10 +39,16 @@ import {
   useGetFavoriteSongByIdAndUserIdQuery,
   usePostFavoriteSongMutation,
 } from "@/store/reducers/favorite/favoriteSongApi";
+import { useDispatch } from "react-redux";
+import { songActions } from "@/store/reducers/song/songSlice";
 
 const defaultSongImg = "/public/images/default-song.svg";
 
 export const SongPage = memo(() => {
+  const dispatch = useDispatch();
+  const { songPlayer, songSettings } = useAppSelector(
+    (state) => state.songReducer
+  );
   const [isModalReviewOpen, setModalReviewOpen] = useState(false);
   const { id } = useParams();
   const { authorizedUser } = useAppSelector((state) => state.userReducer);
@@ -77,12 +83,24 @@ export const SongPage = memo(() => {
 
   useEffect(() => {
     !!isFavorite ? setLike(true) : setLike(false);
-  }, [isFavorite])
+  }, [isFavorite]);
 
   useEffect(() => {
     scrollToTop();
     changeTitle("song");
   }, []);
+
+  const handlePlayClick = () => {
+    if (songPlayer.id === Number(id) && songSettings.isPlaying) {
+      dispatch(songActions.setPlaying(false));
+    } else {
+      if (!!song) {
+        dispatch(songActions.setSongPlayer(song));
+        dispatch(songActions.setSongList([Number(id)]));
+      }
+      dispatch(songActions.setPlaying(true));
+    }
+  };
 
   return (
     <>
@@ -130,8 +148,9 @@ export const SongPage = memo(() => {
                 <SongPageButtonWrapper $accentColor={accentColor}>
                   <ButtonWithIcon
                     size={60}
-                    icon={"player/play-white"}
-                    title={language.play}
+                    icon={`player/${songPlayer.id === Number(id) && songSettings.isPlaying ? "pause" : "play"}-white`}
+                    title={songPlayer.id === Number(id) && songSettings.isPlaying ? language.stop : language.play}
+                    click={handlePlayClick}
                   />
                 </SongPageButtonWrapper>
                 <ButtonWithIcon
@@ -153,7 +172,7 @@ export const SongPage = memo(() => {
               </SongPageRaitingWrapper>
             </SongPageInfoWrapper>
 
-            {!!reviews && (
+            {!!reviews && reviews.length !== 0 && (
               <SongPageContentSection>
                 <SongPageHeader>
                   <SongPageListTitle>{language.newReviews}</SongPageListTitle>

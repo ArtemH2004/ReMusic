@@ -10,14 +10,17 @@ import { favoriteSongApi } from "@/store/reducers/favorite/favoriteSongApi";
 import { favoriteAlbumApi } from "@/store//reducers/favorite/favoriteAlbumApi";
 import { favoriteArtistApi } from "@/store/reducers/favorite/favoriteArtistApi";
 import { favoriteReviewApi } from "@/store/reducers/favorite/favoriteReviewApi";
+import { songReducer } from "@/store/reducers/song/songSlice";
 
 const rememberedReducers = [
   authApi.reducerPath,
   'userReducer',
+  'songReducer',
 ];
 
 const rootReducer = combineReducers({
   userReducer,
+  songReducer,
   [authApi.reducerPath]: authApi.reducer,
   [userApi.reducerPath]: userApi.reducer,
   [songApi.reducerPath]: songApi.reducer,

@@ -1,8 +1,8 @@
 import { Header } from "@/common/components/header/Header";
 import { NavPanel } from "@/common/components/navPanel/NavPanel";
 import { Player } from "@/common/components/player/Player";
+import { useAppSelector } from "@/common/hooks/useAppSelector";
 import { colors, device } from "@/common/styles/styleConstants";
-import { useState } from "react";
 import { Outlet } from "react-router-dom";
 import styled from "styled-components";
 
@@ -60,16 +60,17 @@ export const Section = styled("section")`
 `;
 
 export const PageWrapper = () => {
-  const [isPlayerOpen, setPlayerOpen] = useState(true);
+  const songSettings = useAppSelector((state) => state.songReducer.songSettings)
+
   return (
-    <Wrapper $isPlayer={isPlayerOpen}>
+    <Wrapper $isPlayer={!!songSettings && !songSettings.isClose}>
       <NavPanel />
       <ContentWrapper>
         <Header />
         <Outlet />
       </ContentWrapper>
 
-      {isPlayerOpen && <Player setClose={setPlayerOpen} />}
+      {!!songSettings && !songSettings.isClose && <Player />}
     </Wrapper>
   );
 };
