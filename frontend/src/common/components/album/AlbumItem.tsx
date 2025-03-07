@@ -1,13 +1,11 @@
 import { getImgByName } from "@/common/helpers/getImgByName";
 import { getYearFromDate } from "@/common/helpers/getYearFromDate";
-import { useAppSelector } from "@/common/hooks/useAppSelector";
 import { clampText, linkHoverActive, resetLink } from "@/common/styles/mixins";
 import { borders, colors, device, fonts } from "@/common/styles/styleConstants";
 import { ImgCover } from "@/common/styles/tags/img/ImgCover";
 import { Album } from "@/store/reducers/album/types";
 import {
   useDeleteFavoriteAlbumMutation,
-  useGetFavoriteAlbumByIdAndUserIdQuery,
   usePostFavoriteAlbumMutation,
 } from "@/store/reducers/favorite/favoriteAlbumApi";
 import { memo, useEffect, useState } from "react";
@@ -89,30 +87,21 @@ export const AlbumItem = memo(({ album, isAccentColor }: AlbumItemProps) => {
   const img =
     album?.photo !== null ? getImgByName(album?.photo || "") : defaultAlbumImg;
   const year = getYearFromDate(album?.created_at);
-  const authorizedUserId = useAppSelector(
-    (state) => state.userReducer.authorizedUser.id
-  );
-  const { data: isFavorite } = useGetFavoriteAlbumByIdAndUserIdQuery({
-    user_id: authorizedUserId,
-    album_id: album.id,
-  });
-  const [isLike, setLike] = useState(!!isFavorite?.id ? true : false);
+  const [liked, setLiked] = useState(album.liked);
   const [setFavorite] = usePostFavoriteAlbumMutation();
   const [deleteFavorite] = useDeleteFavoriteAlbumMutation();
 
+  useEffect(() => {
+    setLiked(album.liked);
+  }, [album.liked]);
+
   const handleFavoriteClick = () => {
-    if (!isLike) {
-      setLike(true);
-      setFavorite({ user_id: authorizedUserId, album_id: album.id });
-    } else if (!!isFavorite && isLike) {
-      setLike(false);
-      deleteFavorite(isFavorite.id);
+    if (!liked) {
+      setFavorite(album.id).then(() => setLiked(true));
+    } else {
+      deleteFavorite(album.id).then(() => setLiked(false));
     }
   };
-
-  useEffect(() => {
-    !!isFavorite ? setLike(true) : setLike(false);
-  }, [isFavorite]);
 
   return (
     <Item $isAccentColor={isAccentColor}>
@@ -124,7 +113,7 @@ export const AlbumItem = memo(({ album, isAccentColor }: AlbumItemProps) => {
         rating={album.rating}
         isButtonsActive={true}
         linkTo={`/album/${album?.id}`}
-        isFavorite={isLike}
+        isFavorite={liked}
         setFavorite={handleFavoriteClick}
       />
 

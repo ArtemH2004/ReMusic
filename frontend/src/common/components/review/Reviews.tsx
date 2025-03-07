@@ -15,16 +15,15 @@ import { getLanguage } from "@/common/helpers/getLanguage";
 import { Review } from "@/store/reducers/review/types";
 import { getImgByName } from "@/common/helpers/getImgByName";
 import { getFullDate } from "@/common/helpers/getFullDate";
-import { useAppSelector } from "@/common/hooks/useAppSelector";
 import {
   useDeleteFavoriteReviewMutation,
-  useGetFavoriteReviewByIdAndUserIdQuery,
   usePostFavoriteReviewMutation,
 } from "@/store/reducers/favorite/favoriteReviewApi";
 import { useEffect, useState } from "react";
 import { User } from "@/store/reducers/user/types";
 import { Album } from "@/store/reducers/album/types";
 import { Song } from "@/store/reducers/song/types";
+import { useAppSelector } from "@/common/hooks/useAppSelector";
 
 const defaultUserImg = "/public/images/default-user.svg";
 
@@ -47,32 +46,26 @@ export const Reviews = ({
   const img = !!review.user_photo
     ? getImgByName(review.user_photo)
     : defaultUserImg;
+  const authorizedUser = useAppSelector(
+    (state) => state.userReducer.authorizedUser
+  );
   const date = getFullDate(review.created_at);
   const language = getLanguage();
-  const authorizedUserId = useAppSelector(
-    (state) => state.userReducer.authorizedUser.id
-  );
-  const { data: isFavorite } = useGetFavoriteReviewByIdAndUserIdQuery({
-    user_id: authorizedUserId,
-    review_id: review.id,
-  });
-  const [isLike, setLike] = useState(!!isFavorite?.id ? true : false);
+  const [liked, setLiked] = useState(review.liked);
   const [setFavorite] = usePostFavoriteReviewMutation();
   const [deleteFavorite] = useDeleteFavoriteReviewMutation();
 
+  useEffect(() => {
+    setLiked(review.liked);
+  }, [review.liked]);
+
   const handleFavoriteClick = () => {
-    if (!isLike) {
-      setLike(true);
-      setFavorite({ user_id: authorizedUserId, review_id: review.id });
-    } else if (!!isFavorite && isLike) {
-      setLike(false);
-      deleteFavorite(isFavorite.id);
+    if (!liked) {
+      setFavorite(review.id).then(() => setLiked(true));
+    } else {
+      deleteFavorite(review.id).then(() => setLiked(false));
     }
   };
-
-  useEffect(() => {
-    !!isFavorite ? setLike(true) : setLike(false);
-  }, [isFavorite]);
 
   return (
     <ReviewItem $isAccentColor={isAccentColor}>
@@ -85,12 +78,30 @@ export const Reviews = ({
           </ReviewAuthorColumnWrapper>
         </ReviewHeaderWrapper>
 
-        <ButtonWithIcon
-          size={45}
-          icon={isLike ? "player/delete" : "player/add"}
-          title={isLike ? language.delete : language.add}
-          click={handleFavoriteClick}
-        />
+        <ReviewHeaderWrapper>
+          {authorizedUser.id === review.user_id && (
+            <>
+              <ButtonWithIcon
+                size={45}
+                icon="player/edit"
+                title={language.edit}
+                // click={handleFavoriteClick}
+              />
+              <ButtonWithIcon
+                size={45}
+                icon="player/bin"
+                title={language.delete}
+                // click={handleFavoriteClick}
+              />
+            </>
+          )}
+          <ButtonWithIcon
+            size={45}
+            icon={liked ? "player/delete" : "player/add"}
+            title={liked ? language.delete : language.add}
+            click={handleFavoriteClick}
+          />
+        </ReviewHeaderWrapper>
       </ReviewHeader>
 
       <ReviewContentWrapper>

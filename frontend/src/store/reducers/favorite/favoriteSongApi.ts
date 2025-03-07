@@ -5,51 +5,23 @@ import { Song } from "@/store/reducers/song/types";
 
 export const favoriteSongApi = createApi({
   reducerPath: "favoriteSongApi",
-  baseQuery: fetchBaseQuery({ baseUrl }),
+  baseQuery: fetchBaseQuery({ baseUrl, credentials: "include" }),
   tagTypes: ["FavoriteSong"],
   endpoints: (build) => ({
-    getAllFavoritesSongs: build.query<FavoriteSong[], void>({
+    getAllFavoritesSongsByUserId: build.query<Song[], void>({
       query: () => ({
         url: FavoriteServiceEndpoints.SONG,
-        method: "GET",
-      }),
-      providesTags: ["FavoriteSong"],
-      transformResponse: (response: FavoriteSong[]) => response,
-    }),
-
-    getFavoriteSongById: build.query<FavoriteSong, number>({
-      query: (id) => ({
-        url: `${FavoriteServiceEndpoints.SONG}/${id}`,
-        method: "GET",
-      }),
-      providesTags: ["FavoriteSong"],
-      transformResponse: (response: FavoriteSong) => response,
-    }),
-
-    getAllFavoritesSongsByUserId: build.query<Song[], number>({
-      query: (userId) => ({
-        url: `${FavoriteServiceEndpoints.ALL_SONGS_BY_USER_ID}/${userId}`,
         method: "GET",
       }),
       providesTags: ["FavoriteSong"],
       transformResponse: (response: Song[]) => response,
     }),
 
-    getFavoriteSongByIdAndUserId: build.query<FavoriteSong, {user_id: number, song_id: number}>({
-      query: ({user_id, song_id}) => ({
-        url: `${FavoriteServiceEndpoints.SONG}/${song_id}/user/${user_id}`,
-        method: "GET",
-      }),
-      providesTags: ["FavoriteSong"],
-      transformResponse: (response: FavoriteSong) => response,
-    }),
-
-    postFavoriteSong: build.mutation<FavoriteSong, {user_id: number, song_id: number}>({
-      query: ({user_id, song_id}) => ({
+    postFavoriteSong: build.mutation<FavoriteSong, number>({
+      query: (song_id) => ({
         url: FavoriteServiceEndpoints.SONG,
         method: "POST",
         body: {
-            user_id: user_id,
             song_id: song_id,
         },
       }),
@@ -58,8 +30,8 @@ export const favoriteSongApi = createApi({
     }),
 
     deleteFavoriteSong: build.mutation<FavoriteSong, number>({
-        query: (id) => ({
-            url: `${FavoriteServiceEndpoints.SONG}/${id}`,
+        query: (song_id) => ({
+            url: `${FavoriteServiceEndpoints.SONG}/${song_id}`,
             method: "DELETE",
             transformResponse: (response: FavoriteSong) => response,
         }),
@@ -69,10 +41,7 @@ export const favoriteSongApi = createApi({
 });
 
 export const {
-  useGetAllFavoritesSongsQuery,
-  useGetFavoriteSongByIdQuery,
   useGetAllFavoritesSongsByUserIdQuery,
-  useGetFavoriteSongByIdAndUserIdQuery,
   usePostFavoriteSongMutation,
   useDeleteFavoriteSongMutation,
 } = favoriteSongApi;

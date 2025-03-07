@@ -1,7 +1,6 @@
 import { ReviewLoading } from "@/common/components/loading/ReviewLoading";
 import { Reviews } from "@/common/components/review/Reviews";
 import { getLanguage } from "@/common/helpers/getLanguage";
-import { useAppSelector } from "@/common/hooks/useAppSelector";
 import {
   LibraryPageReviewsList,
   LibraryPageCount,
@@ -13,20 +12,14 @@ import { useGetAllFavoritesReviewsByUserIdQuery } from "@/store/reducers/favorit
 
 export const LibraryReviews = () => {
   const language = getLanguage();
-  const authorizedUserId = useAppSelector(
-    (state) => state.userReducer.authorizedUser.id
-  );
-  const { data: review, isLoading } =
-    useGetAllFavoritesReviewsByUserIdQuery(authorizedUserId);
+  const { data, isLoading } = useGetAllFavoritesReviewsByUserIdQuery();
 
   return (
     <>
       <LibraryPageHeader>
         <LibraryPageTitle>
           {language.likedReviews}{" "}
-          <LibraryPageCount>{`(${
-            !!review ? review.length : 0
-          })`}</LibraryPageCount>
+          <LibraryPageCount>{`(${!!data ? data.length : 0})`}</LibraryPageCount>
         </LibraryPageTitle>
       </LibraryPageHeader>
 
@@ -35,8 +28,17 @@ export const LibraryReviews = () => {
           <>
             <ReviewLoading />
           </>
-        ) : review?.length !== 0 ? (
-          review?.map((review) => <Reviews key={review.id} review={review} />)
+        ) : data?.length !== 0 ? (
+          data?.map((data) => (
+            <Reviews
+              key={data.review.id}
+              review={data.review}
+              artist={data.artist}
+              album={data.album}
+              song={data.song}
+              isLoading={isLoading}
+            />
+          ))
         ) : (
           <LibraryPageNotFound>{language.notFound}</LibraryPageNotFound>
         )}

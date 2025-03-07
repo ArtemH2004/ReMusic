@@ -38,7 +38,6 @@ import { useGetAllArtistReviewsByIdQuery } from "@/store/reducers/review/reviewA
 import { useAppSelector } from "@/common/hooks/useAppSelector";
 import {
   useDeleteFavoriteArtistMutation,
-  useGetFavoriteArtistByIdAndUserIdQuery,
   usePostFavoriteArtistMutation,
 } from "@/store/reducers/favorite/favoriteArtistApi";
 import { useDispatch } from "react-redux";
@@ -62,34 +61,29 @@ export const ArtistPage = memo(() => {
       : defaultArtistImg;
   const accentColor = getImgAccentColor(img);
   const isLoading = isArtistLoading && isReviewLoading;
-  const { data: isFavorite } = useGetFavoriteArtistByIdAndUserIdQuery({
-    user_id: authorizedUser.id,
-    artist_id: Number(id),
-  });
-
   const dispatch = useDispatch();
   const { songPlayer, songSettings } = useAppSelector(
     (state) => state.songReducer
   );
 
-  const [isLike, setLike] = useState(false);
+  const [liked, setLiked] = useState(artist?.liked);
   const [isSongPlay, setSongPlay] = useState(false);
   const [setFavorite] = usePostFavoriteArtistMutation();
   const [deleteFavorite] = useDeleteFavoriteArtistMutation();
 
+  useEffect(() => {
+    setLiked(artist?.liked);
+  }, [artist?.liked]);
+
   const handleFavoriteClick = () => {
-    if (!isLike) {
-      setLike(true);
-      setFavorite({ user_id: authorizedUser.id, artist_id: Number(id) });
-    } else if (!!isFavorite && isLike) {
-      setLike(false);
-      deleteFavorite(isFavorite.id);
+    if (!!artist) {
+      if (!liked) {
+        setFavorite(artist.id).then(() => setLiked(true));
+      } else {
+        deleteFavorite(artist.id).then(() => setLiked(false));
+      }
     }
   };
-
-  useEffect(() => {
-    !!isFavorite ? setLike(true) : setLike(false);
-  }, [isFavorite]);
 
   const handlePlayClick = () => {
     if (
@@ -177,8 +171,8 @@ export const ArtistPage = memo(() => {
                 </ArtistPageButtonWrapper>
                 <ButtonWithIcon
                   size={60}
-                  icon={isLike ? "player/delete" : "player/add"}
-                  title={isLike ? language.delete : language.add}
+                  icon={liked ? "player/delete" : "player/add"}
+                  title={liked ? language.delete : language.add}
                   click={handleFavoriteClick}
                 />
                 <ButtonWithIcon

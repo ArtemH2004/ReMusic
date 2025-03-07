@@ -1,7 +1,6 @@
 import { AlbumItem } from "@/common/components/album/AlbumItem";
 import { AlbumItemLoading } from "@/common/components/loading/AlbumItemLoading";
 import { getLanguage } from "@/common/helpers/getLanguage";
-import { useAppSelector } from "@/common/hooks/useAppSelector";
 import {
   LibraryPageAlbumsList,
   LibraryPageCount,
@@ -13,11 +12,8 @@ import { useGetAllFavoritesAlbumsByUserIdQuery } from "@/store/reducers/favorite
 
 export const LibraryAlbums = () => {
   const language = getLanguage();
-  const authorizedUserId = useAppSelector(
-    (state) => state.userReducer.authorizedUser.id
-  );
   const { data: album, isLoading } =
-    useGetAllFavoritesAlbumsByUserIdQuery(authorizedUserId);
+    useGetAllFavoritesAlbumsByUserIdQuery();
 
   return (
     <>

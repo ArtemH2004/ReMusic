@@ -9,6 +9,7 @@ export interface Album {
     artist_name: string,
     created_at: string;
     rating: number;
+    liked: boolean;
   }
 
   export interface AlbumFullInfo {

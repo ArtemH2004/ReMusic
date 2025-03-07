@@ -5,51 +5,23 @@ import { Album } from "@/store/reducers/album/types";
 
 export const favoriteAlbumApi = createApi({
   reducerPath: "favoriteAlbumApi",
-  baseQuery: fetchBaseQuery({ baseUrl }),
+  baseQuery: fetchBaseQuery({ baseUrl, credentials: "include" }),
   tagTypes: ["FavoriteAlbum"],
   endpoints: (build) => ({
-    getAllFavoritesAlbums: build.query<FavoriteAlbum[], void>({
+    getAllFavoritesAlbumsByUserId: build.query<Album[], void>({
       query: () => ({
         url: FavoriteServiceEndpoints.ALBUM,
-        method: "GET",
-      }),
-      providesTags: ["FavoriteAlbum"],
-      transformResponse: (response: FavoriteAlbum[]) => response,
-    }),
-
-    getFavoriteAlbumById: build.query<FavoriteAlbum, number>({
-      query: (id) => ({
-        url: `${FavoriteServiceEndpoints.ALBUM}/${id}`,
-        method: "GET",
-      }),
-      providesTags: ["FavoriteAlbum"],
-      transformResponse: (response: FavoriteAlbum) => response,
-    }),
-
-    getAllFavoritesAlbumsByUserId: build.query<Album[], number>({
-      query: (userId) => ({
-        url: `${FavoriteServiceEndpoints.ALL_ALBUMS_BY_USER_ID}/${userId}`,
         method: "GET",
       }),
       providesTags: ["FavoriteAlbum"],
       transformResponse: (response: Album[]) => response,
     }),
 
-    getFavoriteAlbumByIdAndUserId: build.query<FavoriteAlbum, {user_id: number, album_id: number}>({
-      query: ({user_id, album_id}) => ({
-        url: `${FavoriteServiceEndpoints.ALBUM}/${album_id}/user/${user_id}`,
-        method: "GET",
-      }),
-      providesTags: ["FavoriteAlbum"],
-      transformResponse: (response: FavoriteAlbum) => response,
-    }),
-
-    postFavoriteAlbum: build.mutation<FavoriteAlbum, {user_id: number, album_id: number}>({
-      query: ({user_id, album_id}) => ({
+    postFavoriteAlbum: build.mutation<FavoriteAlbum, number>({
+      query: (album_id) => ({
         url: FavoriteServiceEndpoints.ALBUM,
         method: "POST",
         body: {
-            user_id: user_id,
             album_id: album_id,
         },
       }),
@@ -58,8 +30,8 @@ export const favoriteAlbumApi = createApi({
     }),
 
     deleteFavoriteAlbum: build.mutation<FavoriteAlbum, number>({
-        query: (id) => ({
-            url: `${FavoriteServiceEndpoints.ALBUM}/${id}`,
+        query: (album_id) => ({
+            url: `${FavoriteServiceEndpoints.ALBUM}/${album_id}`,
             method: "DELETE",
             transformResponse: (response: FavoriteAlbum) => response,
         }),
@@ -69,10 +41,7 @@ export const favoriteAlbumApi = createApi({
 });
 
 export const {
-  useGetAllFavoritesAlbumsQuery,
-  useGetFavoriteAlbumByIdQuery,
   useGetAllFavoritesAlbumsByUserIdQuery,
-  useGetFavoriteAlbumByIdAndUserIdQuery,
   usePostFavoriteAlbumMutation,
   useDeleteFavoriteAlbumMutation,
 } = favoriteAlbumApi;

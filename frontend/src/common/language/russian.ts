@@ -30,6 +30,7 @@ export const RussianLanguage = {
   library: "Библиотека",
 
   // ButtonWithIcon
+  edit: "Редактировать",
   back: "Назад",
   forward: "Вперед",
   seeAll: "Еще",
@@ -84,7 +85,7 @@ export const RussianLanguage = {
   rating: "Рейтинг",
   artistRating: "Рейтинг Артиста:",
   albumRating: "Рейтинг Альбома:",
-  songRating: "Рейтинг песни:",
+  songRating: "Рейтинг Песни:",
   yourRating: "Твой Рейтинг:",
   rhymes: "Рифмы",
   rhythm: "Ритм",

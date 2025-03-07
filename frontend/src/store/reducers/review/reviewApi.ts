@@ -4,7 +4,7 @@ import { baseUrl, ReviewServiceEndpoints } from "@/api/api";
 
 export const reviewApi = createApi({
   reducerPath: "reviewApi",
-  baseQuery: fetchBaseQuery({ baseUrl }),
+  baseQuery: fetchBaseQuery({ baseUrl, credentials: "include" }),
   tagTypes: ["Review"],
   endpoints: (build) => ({
     getAllReviews: build.query<ReviewArtistAlbumSong[], void>({

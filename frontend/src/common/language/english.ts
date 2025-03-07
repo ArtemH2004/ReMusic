@@ -30,6 +30,7 @@ export const EnglishLanguage = {
   library: "Library",
 
   // ButtonWithIcon
+  edit: "Edit",
   back: "Back",
   forward: "Forward",
   seeAll: "See All",

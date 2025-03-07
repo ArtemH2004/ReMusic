@@ -4,7 +4,7 @@ import { baseUrl, UserServiceEndpoints } from "@/api/api";
 
 export const userApi = createApi({
   reducerPath: "userApi",
-  baseQuery: fetchBaseQuery({ baseUrl }),
+  baseQuery: fetchBaseQuery({ baseUrl, credentials: "include" }),
   tagTypes: ["User"],
   endpoints: (build) => ({
     getAllUsers: build.query<User[], void>({
@@ -15,21 +15,7 @@ export const userApi = createApi({
       providesTags: ["User"],
       transformResponse: (response: User[]) => response,
     }),
-
-    getAllArtistsUsers: build.query<User[], void>({
-      query: () => ({
-        url: UserServiceEndpoints.USER,
-        method: "GET",
-      }),
-      providesTags: ["User"],
-      transformResponse: (response: User[]) => {
-        return response
-          .filter(user => user.isartist)
-          .sort((a, b) => new Date(b.created_at).getTime() - new Date(a.created_at).getTime()); // Сортируем по времени создания
-      },
-    }),
     
-
     getUserById: build.query<UserFullInfo, number>({
       query: (userId) => ({
         url: `${UserServiceEndpoints.USER}/${userId}`,
@@ -54,6 +40,5 @@ export const userApi = createApi({
 export const {
   useGetAllUsersQuery,
   useGetUserByIdQuery,
-  useGetAllArtistsUsersQuery,
   useUpdateUserPhotoByIdMutation,
 } = userApi;

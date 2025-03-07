@@ -1,4 +1,5 @@
 import {
+  absCenter,
   clampText,
   flexCenter,
   hoverActive,
@@ -19,11 +20,11 @@ import { Link } from "react-router-dom";
 import { useAppSelector } from "@/common/hooks/useAppSelector";
 import {
   useDeleteFavoriteSongMutation,
-  useGetFavoriteSongByIdAndUserIdQuery,
   usePostFavoriteSongMutation,
 } from "@/store/reducers/favorite/favoriteSongApi";
 import { useDispatch } from "react-redux";
 import { songActions } from "@/store/reducers/song/songSlice";
+import { BarsLoading } from "../loading/BarsLoading";
 
 const Item = styled("li")``;
 
@@ -83,6 +84,17 @@ const Time = styled("time")`
   color: ${colors.whiteTotal};
 `;
 
+const ImgWrapper = styled("div")`
+  ${flexCenter}
+  position: relative
+`;
+
+const ImgLoader = styled("div")`
+  ${absCenter}
+  z-index: 1;
+  transform: scale(.75);
+`;
+
 const Img = styled("img")`
   ${square(42)}
   object-fit: cover;
@@ -134,30 +146,25 @@ interface SongInAlbumProps {
 export const SongInAlbum = memo(
   ({ index, song, setSongPlay }: SongInAlbumProps) => {
     const dispatch = useDispatch();
-    const authorizedUserId = useAppSelector(
-      (state) => state.userReducer.authorizedUser.id
-    );
     const { songPlayer, songSettings } = useAppSelector(
       (state) => state.songReducer
     );
-    const { data: isFavorite } = useGetFavoriteSongByIdAndUserIdQuery({
-      user_id: authorizedUserId,
-      song_id: song.id,
-    });
-    const [isLike, setLike] = useState(!!isFavorite?.id ? true : false);
     const [isHover, setHover] = useState(false);
+    const [liked, setLiked] = useState(song.liked);
     const img = song.photo !== null ? getImgByName(song.photo) : defaultSongImg;
     const language = getLanguage();
     const [setFavorite] = usePostFavoriteSongMutation();
     const [deleteFavorite] = useDeleteFavoriteSongMutation();
 
+    useEffect(() => {
+      setLiked(song.liked);
+    }, [song.liked]);
+
     const handleFavoriteClick = () => {
-      if (!isLike) {
-        setLike(true);
-        setFavorite({ user_id: authorizedUserId, song_id: song.id });
-      } else if (!!isFavorite && isLike) {
-        setLike(false);
-        deleteFavorite(isFavorite.id);
+      if (!liked) {
+        setFavorite(song.id).then(() => setLiked(true));
+      } else {
+        deleteFavorite(song.id).then(() => setLiked(false));
       }
     };
 
@@ -171,10 +178,6 @@ export const SongInAlbum = memo(
       }
     };
 
-    useEffect(() => {
-      !!isFavorite ? setLike(true) : setLike(false);
-    }, [isFavorite]);
-
     return (
       <Item>
         <Button
@@ -185,7 +188,14 @@ export const SongInAlbum = memo(
         >
           <Wrapper>
             <Number>{index}</Number>
-            <Img src={img} alt={song.name} />
+            <ImgWrapper>
+              {songSettings.isPlaying && songPlayer.id === song.id && (
+                <ImgLoader>
+                  <BarsLoading />
+                </ImgLoader>
+              )}
+              <Img src={img} alt={song.name} />
+            </ImgWrapper>
 
             <ColumnWrapper>
               <TitleLink to={`/song/${song.id}`}>{song.name}</TitleLink>
@@ -207,8 +217,8 @@ export const SongInAlbum = memo(
                   </NavLink>
                   <ButtonWithIcon
                     size={40}
-                    icon={isLike ? "player/delete" : "player/add"}
-                    title={isLike ? language.delete : language.add}
+                    icon={liked ? "player/delete" : "player/add"}
+                    title={liked ? language.delete : language.add}
                     click={handleFavoriteClick}
                   />
                 </>

@@ -8,6 +8,7 @@ export interface Song {
   album_id: number;
   created_at: string;
   rating: number;
+  liked: boolean;
 }
 
 export interface SongPlayer extends Song {

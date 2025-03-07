@@ -131,6 +131,7 @@ export const PlayerControlProgressInput = styled("input")<{$trackWidth: number}>
   border-radius: ${borders.smallBorderRadius};
   background: ${colors.grayPlaceholder};
   position: relative;
+  cursor: pointer;
 
   &::after {
     content: "";

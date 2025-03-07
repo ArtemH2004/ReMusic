@@ -18,6 +18,7 @@ export interface Review {
   individuality: number;
   atmosphere: number;
   created_at: string;
+  liked: boolean;
 }
 
 export interface ReviewStatistics {
