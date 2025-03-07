@@ -4,7 +4,7 @@ import { Album, AlbumFullInfo } from "@/store/reducers/album/types";
 
 export const albumApi = createApi({
   reducerPath: "albumApi",
-  baseQuery: fetchBaseQuery({ baseUrl }),
+  baseQuery: fetchBaseQuery({ baseUrl, credentials: "include" }),
   tagTypes: ["Album"],
   endpoints: (build) => ({
     getAllAlbums: build.query<Album[], void>({

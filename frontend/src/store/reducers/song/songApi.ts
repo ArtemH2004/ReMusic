@@ -4,7 +4,7 @@ import { baseUrl, SongServiceEndpoints } from "@/api/api";
 
 export const songApi = createApi({
   reducerPath: "songApi",
-  baseQuery: fetchBaseQuery({ baseUrl }),
+  baseQuery: fetchBaseQuery({ baseUrl, credentials: "include" }),
   tagTypes: ["Song"],
   endpoints: (build) => ({
     getAllSongs: build.query<Song[], void>({

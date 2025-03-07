@@ -11,10 +11,8 @@ import { ReviewRaiting } from "@/common/components/review/ReviewRaiting";
 import { ShortUserInfo } from "@/store/reducers/user/types";
 import { getImgByName } from "@/common/helpers/getImgByName";
 import { Link } from "react-router-dom";
-import { useAppSelector } from "@/common/hooks/useAppSelector";
 import {
   useDeleteFavoriteArtistMutation,
-  useGetFavoriteArtistByIdAndUserIdQuery,
   usePostFavoriteArtistMutation,
 } from "@/store/reducers/favorite/favoriteArtistApi";
 import { memo, useEffect, useState } from "react";
@@ -69,30 +67,21 @@ interface ArtistProps {
 export const ArtistItem = memo(({ artist, isAccentColor }: ArtistProps) => {
   const img =
     artist.photo !== null ? getImgByName(artist.photo || "") : defaultArtistImg;
-  const authorizedUserId = useAppSelector(
-    (state) => state.userReducer.authorizedUser.id
-  );
-  const { data: isFavorite } = useGetFavoriteArtistByIdAndUserIdQuery({
-    user_id: authorizedUserId,
-    artist_id: artist.id,
-  });
-  const [isLike, setLike] = useState(!!isFavorite ? true : false);
+  const [liked, setLiked] = useState(artist.liked);
   const [setFavorite] = usePostFavoriteArtistMutation();
   const [deleteFavorite] = useDeleteFavoriteArtistMutation();
 
+  useEffect(() => {
+    setLiked(artist.liked);
+  }, [artist.liked]);
+
   const handleFavoriteClick = () => {
-    if (!isLike) {
-      setLike(true);
-      setFavorite({ user_id: authorizedUserId, artist_id: artist.id });
-    } else if (!!isFavorite && isLike) {
-      setLike(false);
-      deleteFavorite(isFavorite.id);
+    if (!liked) {
+      setFavorite(artist.id).then(() => setLiked(true));
+    } else {
+      deleteFavorite(artist.id).then(() => setLiked(false));
     }
   };
-
-  useEffect(() => {
-    !!isFavorite ? setLike(true) : setLike(false);
-  }, [isFavorite]);
 
   return (
     <Item $isAccentColor={isAccentColor}>
@@ -100,7 +89,7 @@ export const ArtistItem = memo(({ artist, isAccentColor }: ArtistProps) => {
         img={img}
         artist={artist.username}
         artistId={artist.id}
-        isFavorite={isLike}
+        isFavorite={liked}
         setFavorite={handleFavoriteClick}
       />
 

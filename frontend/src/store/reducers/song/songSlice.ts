@@ -13,8 +13,8 @@ function shuffleArray(array: number[]): number[] {
 const songSlice = createSlice({
   name: "song",
   initialState: {
-    songList: {} as number[],
-    originalSongList: {} as number[],
+    songList: [] as number[],
+    originalSongList: [] as number[],
     songPlayer: {} as SongPlayer,
     songSettings: {
       isRepeatable: false,

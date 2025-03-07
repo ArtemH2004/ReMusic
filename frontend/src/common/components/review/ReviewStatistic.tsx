@@ -79,7 +79,7 @@ export const ReviewStatistic = memo(({ artist, album, song, isLoading, review, u
           </ReviewStatisticColumnWrapper>
 
           <ReviewStatisticColumnWrapper>
-            <ReviewStatisticTitleRaiting>{`${username} ${language.rating}:`}</ReviewStatisticTitleRaiting>
+            <ReviewStatisticTitleRaiting>{`${language.rating} ${username}:`}</ReviewStatisticTitleRaiting>
             <ReviewStatisticRaiting $color={getColorByValue(review.rating, true)}>
               {review.rating}
             </ReviewStatisticRaiting>

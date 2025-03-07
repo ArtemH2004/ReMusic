@@ -21,6 +21,10 @@ import { getLanguage } from "@/common/helpers/getLanguage";
 import { getMusicByName } from "@/common/helpers/getMusicByName";
 import { useAppSelector } from "@/common/hooks/useAppSelector";
 import { ButtonWithIcon } from "@/common/styles/tags/button/ButtonWithIcon";
+import {
+  useDeleteFavoriteArtistMutation,
+  usePostFavoriteArtistMutation,
+} from "@/store/reducers/favorite/favoriteArtistApi";
 import { useGetSongByIdQuery } from "@/store/reducers/song/songApi";
 import { songActions } from "@/store/reducers/song/songSlice";
 import { useEffect, useRef, useState } from "react";
@@ -37,11 +41,18 @@ export const Player = () => {
   const img = !!songPlayer ? getImgByName(songPlayer.photo) : defaultSongImg;
   const music = !!songPlayer && getMusicByName(songPlayer.music);
 
-  const [currentSongIndex, setCurrentSongIndex] = useState(songList.indexOf(songPlayer.id));
+  const [currentSongIndex, setCurrentSongIndex] = useState(
+    songList.indexOf(songPlayer.id)
+  );
   const [currentTime, setCurrentTime] = useState(0);
   const [duration, setDuration] = useState(0);
+  const [liked, setLiked] = useState(songPlayer.liked);
+  const [setFavorite] = usePostFavoriteArtistMutation();
+  const [deleteFavorite] = useDeleteFavoriteArtistMutation();
 
-  const { data: currentSongData } = useGetSongByIdQuery(songList[currentSongIndex]);
+  const { data: currentSongData } = useGetSongByIdQuery(
+    songList[currentSongIndex]
+  );
 
   const audioRef = useRef<HTMLAudioElement | null>(null);
 
@@ -82,10 +93,11 @@ export const Player = () => {
   };
 
   const handlePrevious = () => {
-    const newIndex = currentSongIndex - 1 < 0 ? songList.length - 1 : currentSongIndex - 1;
+    const newIndex =
+      currentSongIndex - 1 < 0 ? songList.length - 1 : currentSongIndex - 1;
     setCurrentSongIndex(newIndex);
   };
-  
+
   const handleNext = () => {
     const newIndex = (currentSongIndex + 1) % songList.length;
     setCurrentSongIndex(newIndex);
@@ -104,10 +116,23 @@ export const Player = () => {
     dispatch(songActions.updateSongSettingsShuffled());
     setCurrentSongIndex(songList.indexOf(id));
   };
-  
 
   const handleClose = () => {
     dispatch(songActions.clearSongPlayer());
+  };
+
+  useEffect(() => {
+    setLiked(songPlayer.liked);
+  }, [songPlayer.liked]);
+
+  const handleFavoriteClick = () => {
+    if (!!songPlayer) {
+      if (!liked) {
+        setFavorite(songPlayer.id).then(() => setLiked(true));
+      } else {
+        deleteFavorite(songPlayer.id).then(() => setLiked(false));
+      }
+    }
   };
 
   useEffect(() => {
@@ -129,11 +154,9 @@ export const Player = () => {
     if (newIndex !== -1) {
       setCurrentSongIndex(newIndex);
     } else {
-        setCurrentSongIndex(0);
+      setCurrentSongIndex(0);
     }
   }, [songList, songPlayer.id]);
-  
-  
 
   useEffect(() => {
     audioRef.current?.addEventListener("timeupdate", handleTimeUpdate);
@@ -151,7 +174,6 @@ export const Player = () => {
       }
     }
   }, [songPlayer]);
-  
 
   return (
     <PlayerSection>
@@ -175,7 +197,9 @@ export const Player = () => {
             <PlayerControlButtonsWrapper>
               <ButtonWithIcon
                 size={35}
-                icon={`player/shuffle-${songSettings.isShuffled ? "on" : "off"}`}
+                icon={`player/shuffle-${
+                  songSettings.isShuffled ? "on" : "off"
+                }`}
                 title={language.shuffle}
                 click={handleShuffle}
               />
@@ -238,7 +262,12 @@ export const Player = () => {
 
         <PlayerAdaptiveDisplayNoneWrapper>
           <PlayerControlButtonsWrapper>
-            <ButtonWithIcon size={40} icon="player/add" title={language.add} />
+            <ButtonWithIcon
+              size={40}
+              icon={liked ? "player/delete" : "player/add"}
+              title={liked ? language.delete : language.add}
+              click={handleFavoriteClick}
+            />
 
             <PlayerControlButtonLink to={`song/${songPlayer?.id}`}>
               <ButtonWithIcon
@@ -258,7 +287,12 @@ export const Player = () => {
 
         <PlayerAdaptiveDisplayBlockWrapper>
           <PlayerControlButtonsWrapper>
-            <ButtonWithIcon size={32} icon="player/add" title={language.add} />
+            <ButtonWithIcon
+              size={32}
+              icon={liked ? "player/delete" : "player/add"}
+              title={liked ? language.delete : language.add}
+              click={handleFavoriteClick}
+            />
             <ButtonWithIcon
               size={32}
               icon="player/play-white"

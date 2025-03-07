@@ -36,7 +36,6 @@ import { useGetAllSongReviewsByIdQuery } from "@/store/reducers/review/reviewApi
 import { useAppSelector } from "@/common/hooks/useAppSelector";
 import {
   useDeleteFavoriteSongMutation,
-  useGetFavoriteSongByIdAndUserIdQuery,
   usePostFavoriteSongMutation,
 } from "@/store/reducers/favorite/favoriteSongApi";
 import { useDispatch } from "react-redux";
@@ -63,27 +62,24 @@ export const SongPage = memo(() => {
     song?.photo !== null ? getImgByName(song?.photo || "") : defaultSongImg;
   const accentColor = getImgAccentColor(img);
   const language = getLanguage();
-  const { data: isFavorite } = useGetFavoriteSongByIdAndUserIdQuery({
-    user_id: authorizedUser.id,
-    song_id: Number(id),
-  });
-  const [isLike, setLike] = useState(!!isFavorite?.id ? true : false);
+
+  const [liked, setLiked] = useState(song?.liked);
   const [setFavorite] = usePostFavoriteSongMutation();
   const [deleteFavorite] = useDeleteFavoriteSongMutation();
 
+  useEffect(() => {
+    setLiked(song?.liked);
+  }, [song?.liked]);
+
   const handleFavoriteClick = () => {
-    if (!isLike) {
-      setLike(true);
-      setFavorite({ user_id: authorizedUser.id, song_id: Number(id) });
-    } else if (!!isFavorite && isLike) {
-      setLike(false);
-      deleteFavorite(isFavorite.id);
+    if (!!song) {
+      if (!liked) {
+        setFavorite(song?.id).then(() => setLiked(true));
+      } else {
+        deleteFavorite(song?.id).then(() => setLiked(false));
+      }
     }
   };
-
-  useEffect(() => {
-    !!isFavorite ? setLike(true) : setLike(false);
-  }, [isFavorite]);
 
   useEffect(() => {
     scrollToTop();
@@ -148,15 +144,23 @@ export const SongPage = memo(() => {
                 <SongPageButtonWrapper $accentColor={accentColor}>
                   <ButtonWithIcon
                     size={60}
-                    icon={`player/${songPlayer.id === Number(id) && songSettings.isPlaying ? "pause" : "play"}-white`}
-                    title={songPlayer.id === Number(id) && songSettings.isPlaying ? language.stop : language.play}
+                    icon={`player/${
+                      songPlayer.id === Number(id) && songSettings.isPlaying
+                        ? "pause"
+                        : "play"
+                    }-white`}
+                    title={
+                      songPlayer.id === Number(id) && songSettings.isPlaying
+                        ? language.stop
+                        : language.play
+                    }
                     click={handlePlayClick}
                   />
                 </SongPageButtonWrapper>
                 <ButtonWithIcon
                   size={60}
-                  icon={isLike ? "player/delete" : "player/add"}
-                  title={isLike ? language.delete : language.add}
+                  icon={liked ? "player/delete" : "player/add"}
+                  title={liked ? language.delete : language.add}
                   click={handleFavoriteClick}
                 />
                 <ButtonWithIcon

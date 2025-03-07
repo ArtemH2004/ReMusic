@@ -10,6 +10,7 @@ export interface User {
   rating: number;
   isAuthorizedUser: boolean;
   created_at: string;
+  liked: boolean;
 }
 
 export interface ShortUserInfo extends User {
@@ -18,6 +19,7 @@ export interface ShortUserInfo extends User {
   username: string;
   photo?: string;
   rating: number;
+  liked: boolean;
 }
 
 export interface UserFullInfo {

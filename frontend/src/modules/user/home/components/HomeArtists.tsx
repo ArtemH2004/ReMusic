@@ -8,11 +8,10 @@ import {
   HomePageSection,
   HomePageTitle,
 } from "@/modules/user/home/styles";
-import { useGetAllArtistsUsersQuery } from "@/store/reducers/user/userApi";
+import { useGetAllUsersQuery } from "@/store/reducers/user/userApi";
 
 export const HomeArtists = () => {
-  const { data, isLoading } = useGetAllArtistsUsersQuery();
-
+  const { data, isLoading } = useGetAllUsersQuery();
   const language = getLanguage();
 
   return (

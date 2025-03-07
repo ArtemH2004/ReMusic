@@ -37,7 +37,6 @@ import { changeTitle } from "@/common/helpers/changeTitle";
 import { useAppSelector } from "@/common/hooks/useAppSelector";
 import {
   useDeleteFavoriteAlbumMutation,
-  useGetFavoriteAlbumByIdAndUserIdQuery,
   usePostFavoriteAlbumMutation,
 } from "@/store/reducers/favorite/favoriteAlbumApi";
 import { useGetAllAlbumReviewsByIdQuery } from "@/store/reducers/review/reviewApi";
@@ -61,28 +60,27 @@ export const AlbumPage = memo(() => {
     album?.photo !== null ? getImgByName(album?.photo || "") : defaultAlbumImg;
   const accentColor = getImgAccentColor(img);
   const year = getYearFromDate(album?.created_at);
-  const { data: isFavorite } = useGetFavoriteAlbumByIdAndUserIdQuery({
-    user_id: authorizedUser.id,
-    album_id: Number(id),
-  });
-
   const dispatch = useDispatch();
   const { songPlayer, songSettings } = useAppSelector(
     (state) => state.songReducer
   );
 
-  const [isLike, setLike] = useState(!!isFavorite?.id ? true : false);
+  const [liked, setLiked] = useState(album?.liked);
   const [isSongPlay, setSongPlay] = useState(false);
   const [setFavorite] = usePostFavoriteAlbumMutation();
   const [deleteFavorite] = useDeleteFavoriteAlbumMutation();
 
+  useEffect(() => {
+    setLiked(album?.liked);
+  }, [album?.liked]);
+
   const handleFavoriteClick = () => {
-    if (!isLike) {
-      setLike(true);
-      setFavorite({ user_id: authorizedUser.id, album_id: Number(id) });
-    } else if (!!isFavorite && isLike) {
-      setLike(false);
-      deleteFavorite(isFavorite.id);
+    if (!!album) {
+      if (!liked) {
+        setFavorite(album.id).then(() => setLiked(true));
+      } else {
+        deleteFavorite(album.id).then(() => setLiked(false));
+      }
     }
   };
 
@@ -100,10 +98,6 @@ export const AlbumPage = memo(() => {
       dispatch(songActions.setPlaying(true));
     }
   };
-
-  useEffect(() => {
-    !!isFavorite ? setLike(true) : setLike(false);
-  }, [isFavorite]);
 
   const language = getLanguage();
 
@@ -181,8 +175,8 @@ export const AlbumPage = memo(() => {
                 </AlbumPageButtonWrapper>
                 <ButtonWithIcon
                   size={60}
-                  icon={isLike ? "player/delete" : "player/add"}
-                  title={isLike ? language.delete : language.add}
+                  icon={liked ? "player/delete" : "player/add"}
+                  title={liked ? language.delete : language.add}
                   click={handleFavoriteClick}
                 />
                 <ButtonWithIcon
@@ -200,7 +194,12 @@ export const AlbumPage = memo(() => {
 
             <AlbumPageList>
               {songs?.map((song, index) => (
-                <SongInAlbum key={song.id} index={index + 1} song={song} setSongPlay={setSongPlay} />
+                <SongInAlbum
+                  key={song.id}
+                  index={index + 1}
+                  song={song}
+                  setSongPlay={setSongPlay}
+                />
               ))}
             </AlbumPageList>
 

@@ -3,7 +3,7 @@ import { baseUrl, LoginServiceEndpoints, RegisterServiceEndpoints } from "@/api/
 
 export const authApi = createApi({
   reducerPath: 'authApi',
-  baseQuery: fetchBaseQuery({ baseUrl }),
+  baseQuery: fetchBaseQuery({ baseUrl, credentials: "include" }),
   endpoints: (build) => ({
     register: build.mutation({
       query: (userData) => ({
