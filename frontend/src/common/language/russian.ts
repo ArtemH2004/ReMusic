@@ -74,6 +74,8 @@ export const RussianLanguage = {
 
   // Modal
   writeReview: "Написать Обзор",
+  deleteReview: "Удалить Обзор",
+  deleteReviewText: "Вы действительно хотите удалить данный обзор?",
   cancel: "Отмена",
   save: "Сохранить",
 
