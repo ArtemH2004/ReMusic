@@ -80,8 +80,8 @@ export const reviewApi = createApi({
     
 
     deleteReviewById: build.mutation<Review, number>({
-      query: (reviwId) => ({
-        url: `${ReviewServiceEndpoints.REVIEW}/${reviwId}`,
+      query: (reviewId) => ({
+        url: `${ReviewServiceEndpoints.REVIEW}/${reviewId}`,
         method: "DELETE",
         transformResponse: (response: Review) => response,
       }),

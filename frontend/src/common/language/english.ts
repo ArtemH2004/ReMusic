@@ -74,6 +74,8 @@ export const EnglishLanguage = {
 
   // Modal
   writeReview: "Write Review",
+  deleteReview: "Delete Review",
+  deleteReviewText: "Are you sure you want to delete this review?",
   cancel: "Cancel",
   save: "Save",
 

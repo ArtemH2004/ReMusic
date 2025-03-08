@@ -24,6 +24,9 @@ import { User } from "@/store/reducers/user/types";
 import { Album } from "@/store/reducers/album/types";
 import { Song } from "@/store/reducers/song/types";
 import { useAppSelector } from "@/common/hooks/useAppSelector";
+import { useDeleteReviewByIdMutation } from "@/store/reducers/review/reviewApi";
+import { Modal } from "@/common/components/modal/Modal";
+import { ModalConfirm } from "@/common/components/modal/ModalConfirm";
 
 const defaultUserImg = "/public/images/default-user.svg";
 
@@ -54,6 +57,9 @@ export const Reviews = ({
   const [liked, setLiked] = useState(review.liked);
   const [setFavorite] = usePostFavoriteReviewMutation();
   const [deleteFavorite] = useDeleteFavoriteReviewMutation();
+  const [deleteReview] = useDeleteReviewByIdMutation();
+
+  const [isModalDeleteOpen, setModalDeleteOpen] = useState(false);
 
   useEffect(() => {
     setLiked(review.liked);
@@ -67,55 +73,87 @@ export const Reviews = ({
     }
   };
 
+  const handleDeleteReview = () => {
+    setModalDeleteOpen(true);
+  };
+
+  const handleModalDeleteCancel = () => {
+    setModalDeleteOpen(false);
+  }
+
+  const handleModalDeleteConfirm = () => {
+    setModalDeleteOpen(false);
+    deleteReview(review.id);
+    window.location.reload();
+  }
+
   return (
-    <ReviewItem $isAccentColor={isAccentColor}>
-      <ReviewHeader>
-        <ReviewHeaderWrapper>
-          <ReviewAuthorImg src={img} alt={review.user_name} />
-          <ReviewAuthorColumnWrapper>
-            <ReviewAuthorName>{review.user_name}</ReviewAuthorName>
-            <ReviewAuthorTime>{date}</ReviewAuthorTime>
-          </ReviewAuthorColumnWrapper>
-        </ReviewHeaderWrapper>
-
-        <ReviewHeaderWrapper>
-          {authorizedUser.id === review.user_id && (
-            <>
-              <ButtonWithIcon
-                size={45}
-                icon="player/edit"
-                title={language.edit}
-                // click={handleFavoriteClick}
-              />
-              <ButtonWithIcon
-                size={45}
-                icon="player/bin"
-                title={language.delete}
-                // click={handleFavoriteClick}
-              />
-            </>
-          )}
-          <ButtonWithIcon
-            size={45}
-            icon={liked ? "player/delete" : "player/add"}
-            title={liked ? language.delete : language.add}
-            click={handleFavoriteClick}
-          />
-        </ReviewHeaderWrapper>
-      </ReviewHeader>
-
-      <ReviewContentWrapper>
-        <ReviewDescription>{review.description}</ReviewDescription>
-
-        <ReviewStatistic
-          isLoading={isLoading}
-          artist={artist}
-          album={album}
-          song={song}
-          review={review}
-          username={review.user_name}
+    <>
+      {isModalDeleteOpen && (
+        <Modal
+          title={language.deleteReview}
+          isOpen={isModalDeleteOpen}
+          setOpen={setModalDeleteOpen}
+          children={
+            <ModalConfirm
+            text={language.deleteReviewText}
+            buttonOneTitle={language.cancel}
+            buttonTwoTitle={language.delete}
+            onButtonOneClick={handleModalDeleteCancel}
+            onButtonTwoClick={handleModalDeleteConfirm}
+            />
+          }
         />
-      </ReviewContentWrapper>
-    </ReviewItem>
+      )}
+      <ReviewItem $isAccentColor={isAccentColor}>
+        <ReviewHeader>
+          <ReviewHeaderWrapper>
+            <ReviewAuthorImg src={img} alt={review.user_name} />
+            <ReviewAuthorColumnWrapper>
+              <ReviewAuthorName>{review.user_name}</ReviewAuthorName>
+              <ReviewAuthorTime>{date}</ReviewAuthorTime>
+            </ReviewAuthorColumnWrapper>
+          </ReviewHeaderWrapper>
+
+          <ReviewHeaderWrapper>
+            {authorizedUser.id === review.user_id && (
+              <>
+                <ButtonWithIcon
+                  size={45}
+                  icon="player/edit"
+                  title={language.edit}
+                  // click={handleFavoriteClick}
+                />
+                <ButtonWithIcon
+                  size={45}
+                  icon="player/bin"
+                  title={language.delete}
+                  click={handleDeleteReview}
+                />
+              </>
+            )}
+            <ButtonWithIcon
+              size={45}
+              icon={liked ? "player/delete" : "player/add"}
+              title={liked ? language.delete : language.add}
+              click={handleFavoriteClick}
+            />
+          </ReviewHeaderWrapper>
+        </ReviewHeader>
+
+        <ReviewContentWrapper>
+          <ReviewDescription>{review.description}</ReviewDescription>
+
+          <ReviewStatistic
+            isLoading={isLoading}
+            artist={artist}
+            album={album}
+            song={song}
+            review={review}
+            username={review.user_name}
+          />
+        </ReviewContentWrapper>
+      </ReviewItem>
+    </>
   );
 };
