@@ -1,10 +1,11 @@
-import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
+import { createApi } from "@reduxjs/toolkit/query/react";
 import { Song } from "@/store/reducers/song/types";
-import { baseUrl, SongServiceEndpoints } from "@/api/api";
+import { SongServiceEndpoints } from "@/api/api";
+import { baseQueryWithAuth } from "@/store/middleware/baseQueryWithAuth";
 
 export const songApi = createApi({
   reducerPath: "songApi",
-  baseQuery: fetchBaseQuery({ baseUrl, credentials: "include" }),
+  baseQuery: baseQueryWithAuth,
   tagTypes: ["Song"],
   endpoints: (build) => ({
     getAllSongs: build.query<Song[], void>({

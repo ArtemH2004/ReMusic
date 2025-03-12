@@ -242,6 +242,7 @@ export const Player = () => {
                 src={music}
                 autoPlay={songSettings.isPlaying}
                 loop={songSettings.isRepeatable}
+                muted={!songSettings.isPlaying}
                 preload="metadata"
               />
               <PlayerControlProgressInput

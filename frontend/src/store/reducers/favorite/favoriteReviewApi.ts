@@ -1,11 +1,12 @@
-import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
-import { baseUrl, FavoriteServiceEndpoints } from "@/api/api";
+import { createApi } from "@reduxjs/toolkit/query/react";
+import { FavoriteServiceEndpoints } from "@/api/api";
 import { FavoriteReview } from "@/store/reducers/favorite/types";
 import { ReviewArtistAlbumSong } from "@/store/reducers/review/types";
+import { baseQueryWithAuth } from "@/store/middleware/baseQueryWithAuth";
 
 export const favoriteReviewApi = createApi({
   reducerPath: "favoriteReviewApi",
-  baseQuery: fetchBaseQuery({ baseUrl, credentials: "include" }),
+  baseQuery: baseQueryWithAuth,
   tagTypes: ["FavoriteReview"],
   endpoints: (build) => ({
     getAllFavoritesReviewsByUserId: build.query<ReviewArtistAlbumSong[], void>({

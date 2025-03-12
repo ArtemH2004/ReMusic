@@ -1,10 +1,11 @@
-import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
-import { AlbumServiceEndpoints, baseUrl } from "@/api/api";
+import { createApi } from "@reduxjs/toolkit/query/react";
+import { AlbumServiceEndpoints } from "@/api/api";
 import { Album, AlbumFullInfo } from "@/store/reducers/album/types";
+import { baseQueryWithAuth } from "@/store/middleware/baseQueryWithAuth";
 
 export const albumApi = createApi({
   reducerPath: "albumApi",
-  baseQuery: fetchBaseQuery({ baseUrl, credentials: "include" }),
+  baseQuery: baseQueryWithAuth,
   tagTypes: ["Album"],
   endpoints: (build) => ({
     getAllAlbums: build.query<Album[], void>({
