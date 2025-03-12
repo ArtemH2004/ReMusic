@@ -1,10 +1,11 @@
-import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
+import { createApi } from "@reduxjs/toolkit/query/react";
 import { Review, ReviewArtistAlbumSong } from "@/store/reducers/review/types";
-import { baseUrl, ReviewServiceEndpoints } from "@/api/api";
+import { ReviewServiceEndpoints } from "@/api/api";
+import { baseQueryWithAuth } from "@/store/middleware/baseQueryWithAuth";
 
 export const reviewApi = createApi({
   reducerPath: "reviewApi",
-  baseQuery: fetchBaseQuery({ baseUrl, credentials: "include" }),
+  baseQuery: baseQueryWithAuth,
   tagTypes: ["Review"],
   endpoints: (build) => ({
     getAllReviews: build.query<ReviewArtistAlbumSong[], void>({

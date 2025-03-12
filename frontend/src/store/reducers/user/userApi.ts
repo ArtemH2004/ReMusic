@@ -1,10 +1,11 @@
-import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
+import { createApi } from "@reduxjs/toolkit/query/react";
 import { User, UserFullInfo } from "@/store/reducers/user/types";
-import { baseUrl, UserServiceEndpoints } from "@/api/api";
+import { UserServiceEndpoints } from "@/api/api";
+import { baseQueryWithAuth } from "@/store/middleware/baseQueryWithAuth";
 
 export const userApi = createApi({
   reducerPath: "userApi",
-  baseQuery: fetchBaseQuery({ baseUrl, credentials: "include" }),
+  baseQuery: baseQueryWithAuth,
   tagTypes: ["User"],
   endpoints: (build) => ({
     getAllUsers: build.query<User[], void>({
