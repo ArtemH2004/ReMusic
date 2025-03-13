@@ -13,12 +13,15 @@ import { useNavigate } from "react-router-dom";
 
 export const ProfileDropdown = () => {
   const navigate = useNavigate();
-  const {authorizedUser} = useAppSelector((state) => state.userReducer)
+  const { authorizedUser } = useAppSelector((state) => state.userReducer);
   const lang = sessionStorage.getItem("language") || "Eng";
   const language = getLanguage();
   const [selectedFile, setSelectedFile] = useState<string | null>(null); // Изменили тип на string | null
   const { clearAuthorizedUser } = useActions();
-  const [updateUserPhoto] = useUpdateUserPhotoByIdMutation<{ userId: number, photo: string }>(); // Изменили тип на string
+  const [updateUserPhoto] = useUpdateUserPhotoByIdMutation<{
+    userId: number;
+    photo: string;
+  }>(); // Изменили тип на string
 
   const handleChangeLanguage = (language: string) => {
     sessionStorage.setItem("language", language);
@@ -51,7 +54,7 @@ export const ProfileDropdown = () => {
       try {
         const userId = authorizedUser.id; // Замените на актуальный userId
         await updateUserPhoto({ userId, photo: selectedFile });
-        console.log(userId, selectedFile)
+        console.log(userId, selectedFile);
         alert("Фото успешно обновлено!");
         setSelectedFile(null); // Сброс состояния после успешной загрузки
       } catch (error) {
@@ -74,8 +77,19 @@ export const ProfileDropdown = () => {
           <label htmlFor="file-input">{language.setImg}</label>
         </ProfileDropdownLink>
       </ProfileDropdownItem> */}
+      {authorizedUser.isartist && (
+        <ProfileDropdownItem>
+          <ProfileDropdownLink
+            onClick={() => navigate(`/artist/${authorizedUser.id}`)}
+          >
+            {language.profile}
+          </ProfileDropdownLink>
+        </ProfileDropdownItem>
+      )}
       <ProfileDropdownItem>
-        <ProfileDropdownLink onClick={() => navigate(`/user/${authorizedUser.id}/reviews`)}>
+        <ProfileDropdownLink
+          onClick={() => navigate(`/user/${authorizedUser.id}/reviews`)}
+        >
           {language.yourReviews}
         </ProfileDropdownLink>
       </ProfileDropdownItem>

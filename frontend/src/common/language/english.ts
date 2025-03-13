@@ -19,6 +19,7 @@ export const EnglishLanguage = {
   requiredFields: "Missing required fields",
   
   // Profile
+  profile: "Profile",
   setImg: "Set Image",
   language: "Language",
   yourReviews: "Your reviews",
