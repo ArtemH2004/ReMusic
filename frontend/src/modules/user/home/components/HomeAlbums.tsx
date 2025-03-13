@@ -19,7 +19,7 @@ export const HomeAlbums = () => {
     <HomePageSection>
       <HomePageHeader>
         <HomePageTitle>{language.newAlbums}</HomePageTitle>
-        <ButtonSeeAll />
+        <ButtonSeeAll linkTo="/all/albums" />
       </HomePageHeader>
 
       <HomePageList>
@@ -31,7 +31,7 @@ export const HomeAlbums = () => {
             <AlbumItemLoading />
           </>
         ) : (
-          data?.map((album) => <AlbumItem key={album.id} album={album} />)
+          data?.slice(0, 5).map((album) => <AlbumItem key={album.id} album={album} />)
         )}
       </HomePageList>
     </HomePageSection>

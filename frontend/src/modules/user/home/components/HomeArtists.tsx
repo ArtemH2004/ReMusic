@@ -18,7 +18,7 @@ export const HomeArtists = () => {
     <HomePageSection>
       <HomePageHeader>
         <HomePageTitle>{language.newArtists}</HomePageTitle>
-        <ButtonSeeAll />
+        <ButtonSeeAll linkTo="/all/artists" />
       </HomePageHeader>
 
       <HomePageList>
@@ -30,7 +30,7 @@ export const HomeArtists = () => {
             <ArtistItemLoading />
           </>
         ) : (
-          data?.map((artist) => <ArtistItem key={artist.id} artist={artist} />)
+          data?.slice(0, 5).map((artist) => <ArtistItem key={artist.id} artist={artist} />)
         )}
       </HomePageList>
     </HomePageSection>

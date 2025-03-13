@@ -180,18 +180,16 @@ export const SongPage = memo(() => {
               <SongPageContentSection>
                 <SongPageHeader>
                   <SongPageListTitle>{language.newReviews}</SongPageListTitle>
-                  <ButtonSeeAll />
+                  <ButtonSeeAll linkTo={`/song/${id}/reviews`} />
                 </SongPageHeader>
 
-                {reviews.map((review) => (
                   <Reviews
-                    key={review.id}
-                    review={review}
+                    key={reviews[0].id}
+                    review={reviews[0]}
                     isLoading={isReviewLoading}
                     song={song}
                     isAccentColor={true}
                   />
-                ))}
               </SongPageContentSection>
             )}
           </SongPageSongsWrapper>

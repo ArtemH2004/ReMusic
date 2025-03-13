@@ -6,8 +6,9 @@ import {
 } from "@/common/styles/mixins";
 import { colors, fonts } from "@/common/styles/styleConstants";
 import { getLanguage } from "@/common/helpers/getLanguage";
+import { Link } from "react-router-dom";
 
-const Button = styled("button")`
+const ButtonLink = styled(Link)`
   ${resetButton}
   ${linkHoverActive}
   ${clampText(fonts.sizes.mainMobile, fonts.sizes.main)};
@@ -16,8 +17,8 @@ const Button = styled("button")`
   color: ${colors.grayText};
 `;
 
-export const ButtonSeeAll = () => {
+export const ButtonSeeAll = ({ linkTo }: { linkTo: string }) => {
   const language = getLanguage();
 
-  return <Button>{language.seeAll}</Button>;
+  return <ButtonLink to={linkTo}>{language.seeAll}</ButtonLink>;
 };
