@@ -18,23 +18,21 @@ export const HomeReviews = () => {
     <HomePageSection>
       <HomePageHeader>
         <HomePageTitle>{language.newReviews}</HomePageTitle>
-        <ButtonSeeAll />
+        <ButtonSeeAll linkTo="/all/reviews" />
       </HomePageHeader>
 
       <ReviewList>
         {isLoading ? (
           <ReviewLoading />
-        ) : (
-          data?.map((item) => (!!item &&  
-            <Reviews
-              key={item.review.id}
-              review={item.review}
-              artist={item.artist}
-              album={item.album}
-              song={item.song}
-              isLoading={isLoading}
-            />
-          ))
+        ) :  data && data.length > 0 && (
+          <Reviews
+            key={data[0].review.id}
+            review={data[0].review}
+            artist={data[0].artist}
+            album={data[0].album}
+            song={data[0].song}
+            isLoading={isLoading}
+          />
         )}
       </ReviewList>
     </HomePageSection>

@@ -207,18 +207,16 @@ export const AlbumPage = memo(() => {
               <AlbumPageContentSection>
                 <AlbumPageHeader>
                   <AlbumPageListTitle>{language.newReviews}</AlbumPageListTitle>
-                  <ButtonSeeAll />
+                  <ButtonSeeAll linkTo={`/album/${id}/reviews`} />
                 </AlbumPageHeader>
 
-                {reviews.map((review) => (
                   <Reviews
-                    key={review.id}
+                    key={reviews[0].id}
                     isLoading={isReviewLoading}
                     album={album}
-                    review={review}
+                    review={reviews[0]}
                     isAccentColor={true}
                   />
-                ))}
               </AlbumPageContentSection>
             )}
           </AlbumPageSongsWrapper>

@@ -208,11 +208,11 @@ export const ArtistPage = memo(() => {
               <ArtistPageContentSection>
                 <ArtistPageHeader>
                   <ArtistPageListTitle>{language.albums}</ArtistPageListTitle>
-                  <ButtonSeeAll />
+                  <ButtonSeeAll linkTo={`/artist/${id}/albums`} />
                 </ArtistPageHeader>
 
                 <ArtistPageAlbumList>
-                  {albums.map((album) => (
+                  {albums.slice(0, 5).map((album) => (
                     <AlbumItem
                       key={album.id}
                       album={album}
@@ -227,18 +227,16 @@ export const ArtistPage = memo(() => {
               <ArtistPageContentSection>
                 <ArtistPageHeader>
                   <ArtistPageListTitle>{language.reviews}</ArtistPageListTitle>
-                  <ButtonSeeAll />
+                  <ButtonSeeAll linkTo={`/artist/${id}/reviews`} />
                 </ArtistPageHeader>
 
-                {reviews.map((review) => (
                   <Reviews
-                    key={review.id}
+                    key={reviews[0].id}
                     isLoading={isReviewLoading}
                     artist={artist}
-                    review={review}
+                    review={reviews[0]}
                     isAccentColor={true}
                   />
-                ))}
               </ArtistPageContentSection>
             )}
           </ArtistPageSongsWrapper>
