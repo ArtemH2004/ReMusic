@@ -26,8 +26,8 @@ import { memo, useEffect, useState } from "react";
 import { Modal } from "@/common/components/modal/Modal";
 import { ModalReview } from "@/common/components/modal/ModalReview";
 import { getLanguage } from "@/common/helpers/getLanguage";
-import { useGetSongByIdQuery } from "@/store/reducers/song/songApi";
-import { useParams } from "react-router-dom";
+import { useDeleteSongByIdMutation, useGetSongByIdQuery } from "@/store/reducers/song/songApi";
+import { useNavigate, useParams } from "react-router-dom";
 import { getImgByName } from "@/common/helpers/getImgByName";
 import { getYearFromDate } from "@/common/helpers/getYearFromDate";
 import { SongPageLoading } from "@/common/components/loading/SongPageLoading";
@@ -40,6 +40,7 @@ import {
 } from "@/store/reducers/favorite/favoriteSongApi";
 import { useDispatch } from "react-redux";
 import { songActions } from "@/store/reducers/song/songSlice";
+import { ModalConfirm } from "@/common/components/modal/ModalConfirm";
 
 const defaultSongImg = "/public/images/default-song.svg";
 
@@ -66,6 +67,10 @@ export const SongPage = memo(() => {
   const [liked, setLiked] = useState(song?.liked);
   const [setFavorite] = usePostFavoriteSongMutation();
   const [deleteFavorite] = useDeleteFavoriteSongMutation();
+    const [deleteSong] = useDeleteSongByIdMutation();
+
+  const [isModalDeleteSongOpen, setModalDeleteSongOpen] = useState(false);
+  const navigate = useNavigate();
 
   useEffect(() => {
     setLiked(song?.liked);
@@ -98,8 +103,38 @@ export const SongPage = memo(() => {
     }
   };
 
+  const handleDeleteSong = () => {
+    setModalDeleteSongOpen(true);
+  };
+
+  const handleModalDeleteSongCancel = () => {
+    setModalDeleteSongOpen(false);
+  }
+
+  const handleModalDeleteSongConfirm = () => {
+    setModalDeleteSongOpen(false);
+    deleteSong(Number(id));
+    navigate("/home");
+  }
+
   return (
     <>
+      {isModalDeleteSongOpen && (
+        <Modal
+          title={language.deleteSong}
+          isOpen={isModalDeleteSongOpen}
+          setOpen={setModalDeleteSongOpen}
+          children={
+            <ModalConfirm
+              text={language.deleteSongText}
+              buttonOneTitle={language.cancel}
+              buttonTwoTitle={language.delete}
+              onButtonOneClick={handleModalDeleteSongCancel}
+              onButtonTwoClick={handleModalDeleteSongConfirm}
+            />
+          }
+        />
+      )}
       {isModalReviewOpen && (
         <Modal
           title={language.writeReview}
@@ -169,6 +204,14 @@ export const SongPage = memo(() => {
                   title={language.writeReview}
                   click={() => setModalReviewOpen(true)}
                 />
+                {authorizedUser.id === song?.artist_id && (
+                  <ButtonWithIcon
+                    size={60}
+                    icon="player/bin"
+                    title={language.delete}
+                    click={handleDeleteSong}
+                  />
+                )}
               </SongPageInfoButtonsWrapper>
 
               <SongPageRaitingWrapper>
@@ -183,13 +226,13 @@ export const SongPage = memo(() => {
                   <ButtonSeeAll linkTo={`/song/${id}/reviews`} />
                 </SongPageHeader>
 
-                  <Reviews
-                    key={reviews[0].id}
-                    review={reviews[0]}
-                    isLoading={isReviewLoading}
-                    song={song}
-                    isAccentColor={true}
-                  />
+                <Reviews
+                  key={reviews[0].id}
+                  review={reviews[0]}
+                  isLoading={isReviewLoading}
+                  song={song}
+                  isAccentColor={true}
+                />
               </SongPageContentSection>
             )}
           </SongPageSongsWrapper>

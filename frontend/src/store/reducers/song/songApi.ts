@@ -26,11 +26,10 @@ export const songApi = createApi({
       transformResponse: (response: Song) => response,
     }),
 
-    deleteSongById: build.mutation<Song, number>({
+    deleteSongById: build.mutation<void, number>({
       query: (songId) => ({
         url: `${SongServiceEndpoints.SONG}/${songId}`,
         method: "DELETE",
-        transformResponse: (response: Song) => response,
       }),
       invalidatesTags: ["Song"],
     }),

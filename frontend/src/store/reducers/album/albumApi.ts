@@ -26,7 +26,7 @@ export const albumApi = createApi({
       transformResponse: (response: AlbumFullInfo) => response,
     }),
 
-    deleteAlbumById: build.mutation<Album, number>({
+    deleteAlbumById: build.mutation<void, number>({
       query: (albumId) => ({
         url: `${AlbumServiceEndpoints.ALBUM}/${albumId}`,
         method: "DELETE",
