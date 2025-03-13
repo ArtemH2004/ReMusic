@@ -28,8 +28,11 @@ import { memo, useEffect, useState } from "react";
 import { Modal } from "@/common/components/modal/Modal";
 import { ModalReview } from "@/common/components/modal/ModalReview";
 import { getLanguage } from "@/common/helpers/getLanguage";
-import { useGetAlbumByIdQuery } from "@/store/reducers/album/albumApi";
-import { useParams } from "react-router-dom";
+import {
+  useDeleteAlbumByIdMutation,
+  useGetAlbumByIdQuery,
+} from "@/store/reducers/album/albumApi";
+import { useNavigate, useParams } from "react-router-dom";
 import { getImgByName } from "@/common/helpers/getImgByName";
 import { AlbumPageLoading } from "@/common/components/loading/AlbumPageLoading";
 import { getYearFromDate } from "@/common/helpers/getYearFromDate";
@@ -42,6 +45,7 @@ import {
 import { useGetAllAlbumReviewsByIdQuery } from "@/store/reducers/review/reviewApi";
 import { useDispatch } from "react-redux";
 import { songActions } from "@/store/reducers/song/songSlice";
+import { ModalConfirm } from "@/common/components/modal/ModalConfirm";
 
 const defaultAlbumImg = "/public/images/default-album.svg";
 
@@ -69,6 +73,10 @@ export const AlbumPage = memo(() => {
   const [isSongPlay, setSongPlay] = useState(false);
   const [setFavorite] = usePostFavoriteAlbumMutation();
   const [deleteFavorite] = useDeleteFavoriteAlbumMutation();
+  const [deleteAlbum] = useDeleteAlbumByIdMutation();
+
+  const [isModalDeleteAlbumOpen, setModalDeleteAlbumOpen] = useState(false);
+  const navigate = useNavigate();
 
   useEffect(() => {
     setLiked(album?.liked);
@@ -99,6 +107,20 @@ export const AlbumPage = memo(() => {
     }
   };
 
+  const handleDeleteAlbum = () => {
+    setModalDeleteAlbumOpen(true);
+  };
+
+  const handleModalDeleteAlbumCancel = () => {
+    setModalDeleteAlbumOpen(false);
+  };
+
+  const handleModalDeleteAlbumConfirm = () => {
+    setModalDeleteAlbumOpen(false);
+    deleteAlbum(Number(id));
+    navigate("/home");
+  };
+
   const language = getLanguage();
 
   useEffect(() => {
@@ -114,6 +136,22 @@ export const AlbumPage = memo(() => {
 
   return (
     <>
+      {isModalDeleteAlbumOpen && (
+        <Modal
+          title={language.deleteAlbum}
+          isOpen={isModalDeleteAlbumOpen}
+          setOpen={setModalDeleteAlbumOpen}
+          children={
+            <ModalConfirm
+              text={language.deleteAlbumText}
+              buttonOneTitle={language.cancel}
+              buttonTwoTitle={language.delete}
+              onButtonOneClick={handleModalDeleteAlbumCancel}
+              onButtonTwoClick={handleModalDeleteAlbumConfirm}
+            />
+          }
+        />
+      )}
       {isModalReviewOpen && (
         <Modal
           title={language.writeReview}
@@ -185,6 +223,14 @@ export const AlbumPage = memo(() => {
                   title={language.writeReview}
                   click={() => setModalReviewOpen(true)}
                 />
+                {authorizedUser.id === album?.artist_id && (
+                  <ButtonWithIcon
+                    size={60}
+                    icon="player/bin"
+                    title={language.delete}
+                    click={handleDeleteAlbum}
+                  />
+                )}
               </AlbumPageInfoButtonsWrapper>
 
               <AlbumPageRaitingWrapper>
@@ -210,13 +256,13 @@ export const AlbumPage = memo(() => {
                   <ButtonSeeAll linkTo={`/album/${id}/reviews`} />
                 </AlbumPageHeader>
 
-                  <Reviews
-                    key={reviews[0].id}
-                    isLoading={isReviewLoading}
-                    album={album}
-                    review={reviews[0]}
-                    isAccentColor={true}
-                  />
+                <Reviews
+                  key={reviews[0].id}
+                  isLoading={isReviewLoading}
+                  album={album}
+                  review={reviews[0]}
+                  isAccentColor={true}
+                />
               </AlbumPageContentSection>
             )}
           </AlbumPageSongsWrapper>

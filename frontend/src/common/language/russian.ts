@@ -75,7 +75,11 @@ export const RussianLanguage = {
   // Modal
   writeReview: "Написать Обзор",
   deleteReview: "Удалить Обзор",
+  deleteSong: "Удалить Песню",
+  deleteAlbum: "Удалить Альбом",
   deleteReviewText: "Вы действительно хотите удалить данный обзор?",
+  deleteSongText: "Вы действительно хотите удалить данную песню?",
+  deleteAlbumText: "Вы действительно хотите удалить данный альбом?",
   cancel: "Отмена",
   save: "Сохранить",
 

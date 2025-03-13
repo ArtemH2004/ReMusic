@@ -75,7 +75,12 @@ export const EnglishLanguage = {
   // Modal
   writeReview: "Write Review",
   deleteReview: "Delete Review",
+  deleteSong: "Delete Song",
+  deleteAlbum: "Delete Album",
+  deleteArtist: "Delete Artist",
   deleteReviewText: "Are you sure you want to delete this review?",
+  deleteSongText: "Are you sure you want to delete this song?",
+  deleteAlbumText: "Are you sure you want to delete this album?",
   cancel: "Cancel",
   save: "Save",
 
