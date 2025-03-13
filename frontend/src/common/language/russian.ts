@@ -19,6 +19,7 @@ export const RussianLanguage = {
   requiredFields: "Пропущены обязательные поля",
 
   //Profile
+  profile: "Профиль",
   setImg: "Выбрать фото",
   yourReviews: "Ваши обзоры",
   language: "Язык",
