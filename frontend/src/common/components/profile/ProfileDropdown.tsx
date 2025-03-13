@@ -9,8 +9,10 @@ import { useAppSelector } from "@/common/hooks/useAppSelector";
 import { useActions } from "@/store/actions";
 import { useUpdateUserPhotoByIdMutation } from "@/store/reducers/user/userApi";
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 export const ProfileDropdown = () => {
+  const navigate = useNavigate();
   const {authorizedUser} = useAppSelector((state) => state.userReducer)
   const lang = sessionStorage.getItem("language") || "Eng";
   const language = getLanguage();
@@ -72,6 +74,11 @@ export const ProfileDropdown = () => {
           <label htmlFor="file-input">{language.setImg}</label>
         </ProfileDropdownLink>
       </ProfileDropdownItem> */}
+      <ProfileDropdownItem>
+        <ProfileDropdownLink onClick={() => navigate(`/user/${authorizedUser.id}/reviews`)}>
+          {language.yourReviews}
+        </ProfileDropdownLink>
+      </ProfileDropdownItem>
       <ProfileDropdownItem>
         <ProfileDropdownLink
           onClick={() => handleChangeLanguage(lang === "Eng" ? "Рус" : "Eng")}

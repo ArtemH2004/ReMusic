@@ -20,6 +20,7 @@ export const RussianLanguage = {
 
   //Profile
   setImg: "Выбрать фото",
+  yourReviews: "Ваши обзоры",
   language: "Язык",
   lang: "(Рус)",
   logout: "Выйти",

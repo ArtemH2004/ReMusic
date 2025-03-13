@@ -17,6 +17,16 @@ export const reviewApi = createApi({
       transformResponse: (response: ReviewArtistAlbumSong[]) => response
     }),
 
+    getAllReviewsByUserId: build.query<ReviewArtistAlbumSong[], number>({
+      query: (userId) => ({
+        url: `${ReviewServiceEndpoints.USER}/${userId}`,
+        method: "GET",
+      }),
+      providesTags: ["Review"],
+      transformResponse: (response: ReviewArtistAlbumSong[]) => response
+    }),
+
+
     getAllArtistReviewsById: build.query<Review[], number>({
       query: (artistId) => ({
         url: `${ReviewServiceEndpoints.ARTIST}/${artistId}`,
@@ -93,6 +103,7 @@ export const reviewApi = createApi({
 
 export const {
   useGetAllReviewsQuery,
+  useGetAllReviewsByUserIdQuery,
   useGetAllArtistReviewsByIdQuery,
   useGetAllAlbumReviewsByIdQuery,
   useGetAllSongReviewsByIdQuery,

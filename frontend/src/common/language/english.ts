@@ -21,6 +21,7 @@ export const EnglishLanguage = {
   // Profile
   setImg: "Set Image",
   language: "Language",
+  yourReviews: "Your reviews",
   lang: "(Eng)",
   logout: "Log out",
 
