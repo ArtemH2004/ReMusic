@@ -21,10 +21,7 @@ import { getLanguage } from "@/common/helpers/getLanguage";
 import { getMusicByName } from "@/common/helpers/getMusicByName";
 import { useAppSelector } from "@/common/hooks/useAppSelector";
 import { ButtonWithIcon } from "@/common/styles/tags/button/ButtonWithIcon";
-import {
-  useDeleteFavoriteArtistMutation,
-  usePostFavoriteArtistMutation,
-} from "@/store/reducers/favorite/favoriteArtistApi";
+import { useDeleteFavoriteSongMutation, usePostFavoriteSongMutation } from "@/store/reducers/favorite/favoriteSongApi";
 import { useGetSongByIdQuery } from "@/store/reducers/song/songApi";
 import { songActions } from "@/store/reducers/song/songSlice";
 import { useEffect, useRef, useState } from "react";
@@ -47,8 +44,8 @@ export const Player = () => {
   const [currentTime, setCurrentTime] = useState(0);
   const [duration, setDuration] = useState(0);
   const [liked, setLiked] = useState(songPlayer.liked);
-  const [setFavorite] = usePostFavoriteArtistMutation();
-  const [deleteFavorite] = useDeleteFavoriteArtistMutation();
+  const [setFavorite] = usePostFavoriteSongMutation();
+  const [deleteFavorite] = useDeleteFavoriteSongMutation();
 
   const { data: currentSongData } = useGetSongByIdQuery(
     songList[currentSongIndex]
