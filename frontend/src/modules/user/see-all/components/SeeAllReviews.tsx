@@ -1,6 +1,7 @@
 import {
   useGetAllAlbumReviewsByIdQuery,
   useGetAllArtistReviewsByIdQuery,
+  useGetAllReviewsByUserIdQuery,
   useGetAllReviewsQuery,
   useGetAllSongReviewsByIdQuery,
 } from "@/store/reducers/review/reviewApi";
@@ -13,17 +14,20 @@ import { useParams } from "react-router-dom";
 import { useGetUserByIdQuery } from "@/store/reducers/user/userApi";
 import { useGetSongByIdQuery } from "@/store/reducers/song/songApi";
 import { useGetAlbumByIdQuery } from "@/store/reducers/album/albumApi";
+import { Review, ReviewArtistAlbumSong } from "@/store/reducers/review/types";
 
 export const SeeAllReviews = () => {
   const language = getLanguage();
   const { typeId, id } = useParams<{ typeId: string; id: string }>();
-  const { data: reviews, isLoading } =
+  const { data: reviewsData, isLoading } =
     typeId === "song"
       ? useGetAllSongReviewsByIdQuery(Number(id))
       : typeId === "album"
       ? useGetAllAlbumReviewsByIdQuery(Number(id))
       : typeId === "artist"
       ? useGetAllArtistReviewsByIdQuery(Number(id))
+      : typeId === "user"
+      ? useGetAllReviewsByUserIdQuery(Number(id))
       : useGetAllReviewsQuery();
 
   const { data: song } =
@@ -33,11 +37,16 @@ export const SeeAllReviews = () => {
   const { data: artist } =
     typeId === "artist" ? useGetUserByIdQuery(Number(id)) : { data: null };
 
+  const reviews =
+    typeId === "artist" || typeId === "album" || typeId === "song"
+      ? (reviewsData as Review[])
+      : (reviewsData as ReviewArtistAlbumSong[]);
+
   return (
     <>
       <SeeAllTitle>
-        {language.reviews}{" "}
-        <SeeAllCount>{`(${!!reviews ? reviews?.length : 0})`}</SeeAllCount>
+        {typeId === "user" ? language.yourReviews : language.reviews}{" "}
+        <SeeAllCount>{`(${!!reviews ? reviews.length : 0})`}</SeeAllCount>
       </SeeAllTitle>
 
       <ReviewList>
@@ -45,20 +54,35 @@ export const SeeAllReviews = () => {
           <ReviewLoading />
         ) : (
           reviews?.map((item) => {
-            if (!item) return null;
-
-            const review = "review" in item ? item.review : item;
-
-            return (
-              <Reviews
-                key={review.id}
-                review={review}
-                artist={artist?.artist ?? undefined}
-                album={album?.album ?? undefined}
-                song={song ?? undefined}
-                isLoading={isLoading}
-              />
-            );
+            if (
+              typeId === "artist" ||
+              typeId === "album" ||
+              typeId === "song"
+            ) {
+              const reviewItem = item as Review;
+              return (
+                <Reviews
+                  key={reviewItem.id}
+                  review={reviewItem}
+                  artist={artist?.artist ?? undefined}
+                  album={album?.album ?? undefined}
+                  song={song ?? undefined}
+                  isLoading={isLoading}
+                />
+              );
+            } else {
+              const reviewItem = item as ReviewArtistAlbumSong;
+              return (
+                <Reviews
+                  key={reviewItem.review.id}
+                  review={reviewItem.review}
+                  artist={reviewItem.artist ?? artist?.artist ?? undefined}
+                  album={reviewItem.album ?? album?.album ?? undefined}
+                  song={reviewItem.song ?? song ?? undefined}
+                  isLoading={isLoading}
+                />
+              );
+            }
           })
         )}
       </ReviewList>
