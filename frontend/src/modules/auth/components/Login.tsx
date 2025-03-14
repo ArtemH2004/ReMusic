@@ -16,6 +16,7 @@ import { useLoginMutation } from "@/store/reducers/authApi.ts";
 import { userActions } from "@/store/reducers/user/userSlice";
 import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
+import { useNavigate } from "react-router-dom";
 
 export const Login = () => {
   const language = getLanguage();
@@ -24,6 +25,7 @@ export const Login = () => {
   const [login, { isError }] = useLoginMutation();
   const [errorStatus, setErrorStatus] = useState({status: 0});
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   const handleSubmit = async (e: any) => {
     e.preventDefault();
@@ -32,6 +34,7 @@ export const Login = () => {
       const result = await login({ email, password }).unwrap();
 
       dispatch(userActions.setAuthorizedUser(result.user));
+      navigate("/home");
     } catch (error) {
       const apiError = error as {status: number};
       !!error && setErrorStatus({status: apiError.status});

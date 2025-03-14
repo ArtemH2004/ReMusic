@@ -16,6 +16,7 @@ import { useRegisterMutation } from "@/store/reducers/authApi.ts";
 import { userActions } from "@/store/reducers/user/userSlice";
 import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
+import { useNavigate } from "react-router-dom";
 
 export const Register = () => {
   const language = getLanguage();
@@ -27,6 +28,7 @@ export const Register = () => {
   const [errorStatus, setErrorStatus] = useState({ status: 0 });
   const [register, { isError }] = useRegisterMutation();
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   const handleSubmit = async (e: any) => {
     e.preventDefault();
@@ -47,6 +49,7 @@ export const Register = () => {
 
       if (result && result.id && result.username) {
         dispatch(userActions.setAuthorizedUser(result));
+        navigate("/home");
       } else {
         console.error("Invalid registration result:", result);
       }
