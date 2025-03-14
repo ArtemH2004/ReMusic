@@ -8,7 +8,8 @@ import { getLanguage } from "@/common/helpers/getLanguage";
 import { useAppSelector } from "@/common/hooks/useAppSelector";
 import { useActions } from "@/store/actions";
 import { useUpdateUserPhotoByIdMutation } from "@/store/reducers/user/userApi";
-import { useState } from "react";
+import { userActions } from "@/store/reducers/user/userSlice";
+import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 
 export const ProfileDropdown = () => {
@@ -16,12 +17,9 @@ export const ProfileDropdown = () => {
   const { authorizedUser } = useAppSelector((state) => state.userReducer);
   const lang = sessionStorage.getItem("language") || "Eng";
   const language = getLanguage();
-  const [selectedFile, setSelectedFile] = useState<string | null>(null); // Изменили тип на string | null
   const { clearAuthorizedUser } = useActions();
-  const [updateUserPhoto] = useUpdateUserPhotoByIdMutation<{
-    userId: number;
-    photo: string;
-  }>(); // Изменили тип на string
+  const [updateUserPhoto] = useUpdateUserPhotoByIdMutation();
+  const dispatch = useDispatch();
 
   const handleChangeLanguage = (language: string) => {
     sessionStorage.setItem("language", language);
@@ -32,33 +30,22 @@ export const ProfileDropdown = () => {
     clearAuthorizedUser();
   };
 
-  const handleUploadPhoto = async (event: any) => {
-    const file = event.target.files[0];
+  const handleUploadPhoto = async (event: React.ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0];
     if (file) {
-      // Проверка на допустимый тип файла
+
       if (!file.type.startsWith("image/")) {
-        alert("Пожалуйста, выберите изображение.");
         return;
       }
-
-      const reader = new FileReader();
-      reader.onloadend = () => {
-        setSelectedFile(reader.result as string);
-      };
-      reader.readAsDataURL(file);
-    }
-
-    // console.log(selectedFile)
-
-    if (selectedFile) {
+  
+      const formData = new FormData();
+      formData.append("photo", file);
+  
       try {
-        const userId = authorizedUser.id; // Замените на актуальный userId
-        await updateUserPhoto({ userId, photo: selectedFile });
-        console.log(userId, selectedFile);
-        alert("Фото успешно обновлено!");
-        setSelectedFile(null); // Сброс состояния после успешной загрузки
+        const userId = authorizedUser.id;
+        const result = await updateUserPhoto({ userId, formData });
+        dispatch(userActions.updateUserPhoto(result.data?.photo ?? ""))
       } catch (error) {
-        console.error("Ошибка при обновлении фото:", error);
         alert("Не удалось обновить фото.");
       }
     }
@@ -66,17 +53,18 @@ export const ProfileDropdown = () => {
 
   return (
     <ProfileDropdownList>
-      {/* <ProfileDropdownItem>
+      <ProfileDropdownItem>
         <ProfileDropdownLink>
           <input
             type="file"
             accept="image/*"
             onChange={handleUploadPhoto}
             id="file-input"
+            style={{ display: "none" }}
           />
           <label htmlFor="file-input">{language.setImg}</label>
         </ProfileDropdownLink>
-      </ProfileDropdownItem> */}
+      </ProfileDropdownItem>
       {authorizedUser.isartist && (
         <ProfileDropdownItem>
           <ProfileDropdownLink
