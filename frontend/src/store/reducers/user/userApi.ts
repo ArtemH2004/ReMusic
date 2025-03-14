@@ -26,15 +26,15 @@ export const userApi = createApi({
       transformResponse: (response: UserFullInfo) => response,
     }),
 
-    updateUserPhotoById: build.mutation<User, {userId: number, photo: string}>({
-      query: ({userId, photo}) => ({
+    updateUserPhotoById: build.mutation<User, { userId: number; formData: FormData }>({
+      query: ({ userId, formData }) => ({
         url: `${UserServiceEndpoints.USER_PHOTO}/${userId}`,
         method: "PUT",
-        body: { photo: photo },
+        body: formData,
       }),
-      invalidatesTags: ['User'],
+      invalidatesTags: ["User"],
       transformResponse: (response: User) => response,
-    })
+    }),
   }),
 });
 
