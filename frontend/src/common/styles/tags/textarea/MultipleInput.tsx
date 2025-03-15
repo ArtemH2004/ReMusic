@@ -66,6 +66,7 @@ interface MultipleInputProps {
   title?: string;
   height?: string;
   isRequired?: boolean;
+  value?: string;
   onChange?: (e: any) => void;
 }
 
@@ -74,6 +75,7 @@ export const MultipleInput = ({
   title,
   height,
   isRequired,
+  value,
   onChange,
 }: MultipleInputProps) => {
   const [isFocus, setFocus] = useState(false);
@@ -94,6 +96,7 @@ export const MultipleInput = ({
           placeholder={placeholder}
           onFocus={() => setFocus(true)}
           onBlur={() => setFocus(false)}
+          value={value}
           onChange={onChange}
         />
       </MultipleWrapper>

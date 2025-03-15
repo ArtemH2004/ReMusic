@@ -1,5 +1,5 @@
 import { createApi } from "@reduxjs/toolkit/query/react";
-import { Review, ReviewArtistAlbumSong } from "@/store/reducers/review/types";
+import { Review, ReviewArtistAlbumSong, ReviewContent } from "@/store/reducers/review/types";
 import { ReviewServiceEndpoints } from "@/api/api";
 import { baseQueryWithAuth } from "@/store/middleware/baseQueryWithAuth";
 
@@ -79,7 +79,7 @@ export const reviewApi = createApi({
       transformResponse: (response: Review) => response,
     }),
 
-    updateReviewById: build.mutation<Review, { reviewId: number; updatedReview: Partial<Review> }>({
+    updateReviewById: build.mutation<Review, { reviewId: number; updatedReview: ReviewContent }>({
       query: ({ reviewId, updatedReview }) => ({
         url: `${ReviewServiceEndpoints.REVIEW}/${reviewId}`,
         method: "PUT",
