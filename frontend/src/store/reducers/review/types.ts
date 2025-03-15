@@ -31,6 +31,16 @@ export interface ReviewStatistics {
   atmosphere: number;
 }
 
+export interface ReviewContent {
+  description: string;
+  rating?: number;
+  rhymes: number;
+  rhythm: number;
+  styles: number;
+  individuality: number;
+  atmosphere: number;
+}
+
 export interface ReviewArtistAlbumSong {
   review: Review;
   artist: User;

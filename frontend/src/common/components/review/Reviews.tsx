@@ -24,9 +24,12 @@ import { User } from "@/store/reducers/user/types";
 import { Album } from "@/store/reducers/album/types";
 import { Song } from "@/store/reducers/song/types";
 import { useAppSelector } from "@/common/hooks/useAppSelector";
-import { useDeleteReviewByIdMutation } from "@/store/reducers/review/reviewApi";
+import {
+  useDeleteReviewByIdMutation,
+} from "@/store/reducers/review/reviewApi";
 import { Modal } from "@/common/components/modal/Modal";
 import { ModalConfirm } from "@/common/components/modal/ModalConfirm";
+import { ModalEditReview } from "../modal/ModalEditReview";
 
 const defaultUserImg = "/public/images/default-user.svg";
 
@@ -59,7 +62,10 @@ export const Reviews = ({
   const [deleteFavorite] = useDeleteFavoriteReviewMutation();
   const [deleteReview] = useDeleteReviewByIdMutation();
 
+  const [isModalEditOpen, setModalEditOpen] = useState(false);
   const [isModalDeleteOpen, setModalDeleteOpen] = useState(false);
+
+  const rating = !!artist ? artist.rating : !!album ? album.rating : !!song ? song.rating : 0;
 
   useEffect(() => {
     setLiked(review.liked);
@@ -79,16 +85,35 @@ export const Reviews = ({
 
   const handleModalDeleteCancel = () => {
     setModalDeleteOpen(false);
-  }
+  };
 
   const handleModalDeleteConfirm = () => {
     setModalDeleteOpen(false);
     deleteReview(review.id);
     window.location.reload();
-  }
+  };
+
+  const handleModalEditReviewOpen = () => {
+    setModalEditOpen(true);
+  };
 
   return (
     <>
+      {isModalEditOpen && (
+        <Modal
+          title={language.editReview}
+          isOpen={isModalEditOpen}
+          setOpen={setModalEditOpen}
+          children={
+            <ModalEditReview
+              setOpen={setModalEditOpen}
+              id={review.id}
+              review={review}
+              rating={rating}
+            />
+          }
+        />
+      )}
       {isModalDeleteOpen && (
         <Modal
           title={language.deleteReview}
@@ -96,11 +121,11 @@ export const Reviews = ({
           setOpen={setModalDeleteOpen}
           children={
             <ModalConfirm
-            text={language.deleteReviewText}
-            buttonOneTitle={language.cancel}
-            buttonTwoTitle={language.delete}
-            onButtonOneClick={handleModalDeleteCancel}
-            onButtonTwoClick={handleModalDeleteConfirm}
+              text={language.deleteReviewText}
+              buttonOneTitle={language.cancel}
+              buttonTwoTitle={language.delete}
+              onButtonOneClick={handleModalDeleteCancel}
+              onButtonTwoClick={handleModalDeleteConfirm}
             />
           }
         />
@@ -122,7 +147,7 @@ export const Reviews = ({
                   size={45}
                   icon="player/edit"
                   title={language.edit}
-                  // click={handleFavoriteClick}
+                  click={handleModalEditReviewOpen}
                 />
                 <ButtonWithIcon
                   size={45}

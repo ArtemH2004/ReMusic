@@ -76,6 +76,7 @@ export const RussianLanguage = {
 
   // Modal
   writeReview: "Написать Обзор",
+  editReview: "Редактировать Обзор",
   deleteReview: "Удалить Обзор",
   deleteSong: "Удалить Песню",
   deleteAlbum: "Удалить Альбом",

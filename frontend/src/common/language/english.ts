@@ -76,6 +76,7 @@ export const EnglishLanguage = {
 
   // Modal
   writeReview: "Write Review",
+  editReview: "Edit Review",
   deleteReview: "Delete Review",
   deleteSong: "Delete Song",
   deleteAlbum: "Delete Album",
